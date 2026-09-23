@@ -144,4 +144,478 @@ body{background:var(--bg-body);min-height:100vh;display:flex;justify-content:cen
 .recover-section{display:none}
 .recover-section.visible{display:block}
 .recover-back-btn{background:transparent;border:none;color:var(--text-dim);font-size:.72rem;font-weight:600;margin-top:8px;padding:6px 4px;cursor:pointer;font-family:inherit}
-.receipt{display:none;background:#fff;color:#000;padding:25px;max-width:400px;margin:0 auto;font-family:'Courier New
+.receipt{display:none;background:#fff;color:#000;padding:25px;max-width:400px;margin:0 auto;font-family:'Courier New',
+.res-values{display:flex;flex-direction:column;gap:6px;width:100%}
+.res-line{display:flex;align-items:center;gap:8px;justify-content:flex-end;width:100%}
+.res-tag{font-size:.72rem;font-weight:900;padding:4px 10px;border-radius:8px;min-width:52px;text-align:center;background:#dc2626;color:#fff;display:inline-block;flex-shrink:0}
+.res-tag.sell-tag{background:#ea580c}
+</style>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+</head>
+<body>
+<div class="app-container">
+
+<div class="header">
+  <div class="brand-block" id="logoClickArea">
+    <div class="logo-letter" id="azazLogo">A</div>
+    <div class="brand-text">
+<span class="brand-name-ar">حميدو للصرافة</span>
+<span class="brand-name-en">HAMIDO EXCHANGE</span>
+    </div>
+  </div>
+  <div class="header-controls">
+    <button class="icon-btn" id="themeToggle" title="تبديل الوضع">🌙</button>
+    <div class="admin-badge" id="adminBadge">🕌 ادارة</div>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="status-item"><span class="status-dot"></span><span id="statusText">آخر تحديث: لم يتم بعد</span></div>
+  <div class="status-item" id="todayDate"></div>
+</div>
+
+<div class="main-tabs">
+  <button class="main-tab active" id="tabHome" data-page="home"><span class="tab-icon">🏠</span><span>الرئيسية</span></button>
+  <button class="main-tab" id="tabCalc" data-page="calc"><span class="tab-icon">🧮</span><span>الآلة الحاسبة</span></button>
+</div>
+
+<div class="page active" id="pageHome">
+  <div class="section-label">💱 أسعار العملات</div>
+
+  <div class="rates-grid">
+    <div class="rate-card" data-currency="usd">
+      <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇺🇸 → 🇹🇷</span><span>دولار / ليرة تركية</span></div></div>
+      <div class="rate-card-values">
+        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="d_try_buy">49.10</span><span class="trend-indicator" id="d_try_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="d_try_sell">49.50</span><span class="trend-indicator" id="d_try_sell_trend"></span></div></div>
+      </div>
+    </div>
+
+    <div class="rate-card" data-currency="usd">
+      <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇺🇸 → 🇸🇾</span><span>دولار / ليرة سورية</span></div></div>
+      <div class="rate-card-values">
+        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="d_syp_buy">13,500</span><span class="trend-indicator" id="d_syp_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="d_syp_sell">13,700</span><span class="trend-indicator" id="d_syp_sell_trend"></span></div></div>
+      </div>
+    </div>
+
+    <div class="rate-card" data-currency="try">
+      <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇹🇷 → 🇸🇾</span><span>ليرة تركية / ليرة سورية</span></div></div>
+      <div class="rate-card-values">
+        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="try_syp_buy">275</span><span class="trend-indicator" id="try_syp_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="try_syp_sell">285</span><span class="trend-indicator" id="try_syp_sell_trend"></span></div></div>
+      </div>
+    </div>
+
+    <div class="rate-card" data-currency="eur">
+      <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇪🇺 → 🇺🇸</span><span>يورو / دولار</span></div></div>
+      <div class="rate-card-values">
+        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="eur_usd_buy">1.08</span><span class="trend-indicator" id="eur_usd_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="eur_usd_sell">1.10</span><span class="trend-indicator" id="eur_usd_sell_trend"></span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">🥇 أسعار الذهب (عيار 21)</div>
+
+  <div class="rates-grid">
+    <div class="rate-card gold-card" data-currency="gold_syp">
+      <div class="rate-card-title"><div class="pair gold-title"><span class="flag-icons">🇸🇾</span><span>غرام ذهب سوري</span></div></div>
+      <div class="rate-card-values">
+        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="gold_syp_buy">850,000</span><span class="trend-indicator" id="gold_syp_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="gold_syp_sell">880,000</span><span class="trend-indicator" id="gold_syp_sell_trend"></span></div></div>
+      </div>
+    </div>
+
+    <div class="rate-card gold-card" data-currency="gold_usd">
+      <div class="rate-card-title"><div class="pair gold-title"><span class="flag-icons">💵</span><span>غرام ذهب دولار</span></div></div>
+      <div class="rate-card-values">
+        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="gold_usd_buy">65.50</span><span class="trend-indicator" id="gold_usd_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="gold_usd_sell">67.00</span><span class="trend-indicator" id="gold_usd_sell_trend"></span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tap-hint">👆 اضغط على أي سعر للانتقال إلى الحاسبة</div>
+
+  <div style="margin-top:16px;"></div>
+  <div class="action-buttons">
+    <button class="action-btn export-btn" id="exportBtn"><span>📤</span> تصدير نسخة</button>
+    <button class="action-btn import-btn" id="importBtn"><span>📥</span> استيراد نسخة</button>
+  </div>
+</div>
+
+<div class="page" id="pageCalc">
+  <div class="calc-box">
+    <div class="calc-title">🧮 الآلة الحاسبة الشاملة</div>
+
+    <div class="calc-input-row">
+      <div class="calc-input">
+        <input type="number" id="calcInput" placeholder="اكتب المبلغ..." value="100" step="any" min="0" inputmode="decimal">
+      </div>
+      <select class="currency-select" id="calcCurrency">
+        <option value="usd">💵 دولار</option>
+        <option value="try">🇹🇷 تركي</option>
+        <option value="syp">🇸🇾 سوري</option>
+        <option value="eur">🇪🇺 يورو</option>
+        <option value="gold_syp">🥇 ذهب سوري</option>
+        <option value="gold_usd">🥇 ذهب دولار</option>
+      </select>
+    </div>
+
+  <div class="results-box">
+  <div class="result-item" data-target="usd">
+    <div class="res-label"><span class="flag">🇺🇸</span> دولار أمريكي</div>
+    <div class="res-values">
+      <div class="res-line"><span class="res-tag buy-tag">💰 شراء</span><span class="res-value" id="res_usd_buy">-</span></div>
+      <div class="res-line"><span class="res-tag sell-tag">🏷️ بيع</span><span class="res-value" id="res_usd_sell">-</span></div>
+    </div>
+  </div>
+  <div class="result-item" data-target="try">
+    <div class="res-label"><span class="flag">🇹🇷</span> ليرة تركية</div>
+    <div class="res-values">
+      <div class="res-line"><span class="res-tag buy-tag">💰 شراء</span><span class="res-value" id="res_try_buy">-</span></div>
+      <div class="res-line"><span class="res-tag sell-tag">🏷️ بيع</span><span class="res-value" id="res_try_sell">-</span></div>
+    </div>
+  </div>
+  <div class="result-item" data-target="syp">
+    <div class="res-label"><span class="flag">🇸🇾</span> ليرة سورية</div>
+    <div class="res-values">
+      <div class="res-line"><span class="res-tag buy-tag">💰 شراء</span><span class="res-value" id="res_syp_buy">-</span></div>
+      <div class="res-line"><span class="res-tag sell-tag">🏷️ بيع</span><span class="res-value" id="res_syp_sell">-</span></div>
+    </div>
+  </div>
+  <div class="result-item" data-target="eur">
+    <div class="res-label"><span class="flag">🇪🇺</span> يورو</div>
+    <div class="res-values">
+      <div class="res-line"><span class="res-tag buy-tag">💰 شراء</span><span class="res-value" id="res_eur_buy">-</span></div>
+      <div class="res-line"><span class="res-tag sell-tag">🏷️ بيع</span><span class="res-value" id="res_eur_sell">-</span></div>
+    </div>
+  </div>
+  <div class="result-item gold-result" data-target="gold_syp">
+    <div class="res-label"><span class="flag">🥇</span> غرام ذهب سوري</div>
+    <div class="res-values">
+      <div class="res-line"><span class="res-tag buy-tag">💰 شراء</span><span class="res-value" id="res_gold_syp_buy">-</span></div>
+      <div class="res-line"><span class="res-tag sell-tag">🏷️ بيع</span><span class="res-value" id="res_gold_syp_sell">-</span></div>
+    </div>
+  </div>
+  <div class="result-item gold-result" data-target="gold_usd">
+    <div class="res-label"><span class="flag">🥇</span> غرام ذهب دولار</div>
+    <div class="res-values">
+      <div class="res-line"><span class="res-tag buy-tag">💰 شراء</span><span class="res-value" id="res_gold_usd_buy">-</span></div>
+      <div class="res-line"><span class="res-tag sell-tag">🏷️ بيع</span><span class="res-value" id="res_gold_usd_sell">-</span></div>
+    </div>
+  </div>
+</div>  
+
+    <div class="calc-actions">
+      <button class="calc-action-btn print-btn" id="printBtn"><span>🖨️</span> طباعة وصل</button>
+      <button class="calc-action-btn clear-btn" id="clearBtn"><span>🗑️</span> مسح</button>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="action-btn export-btn" id="exportBtn2"><span>📤</span> تصدير نسخة</button>
+    <button class="action-btn import-btn" id="importBtn2"><span>📥</span> استيراد نسخة</button>
+  </div>
+</div>
+
+<input type="file" id="importFile" accept=".json,application/json" style="display:none">
+
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-header">
+    <div class="admin-title">لوحة تحكم الأدمن</div>
+    <button class="logout-btn" id="logoutBtn"><span>🚪</span> خروج</button>
+  </div>
+
+  <div class="admin-section-title">تعديل أسعار العملات</div>
+
+  <div class="admin-rate-group">
+    <div class="admin-rate-group-title">🇺🇸 دولار / 🇹🇷 ليرة تركية</div>
+    <div class="adjust-row">
+      <div class="adjust-field buy-field"><label>شراء</label><input type="number" id="adm_d_try_buy" step="0.01" min="0.01"></div>
+      <div class="adjust-field sell-field"><label>بيع</label><input type="number" id="adm_d_try_sell" step="0.01" min="0.01"></div>
+    </div>
+  </div>
+
+  <div class="admin-rate-group">
+    <div class="admin-rate-group-title">🇺🇸 دولار / 🇸🇾 ليرة سورية</div>
+    <div class="adjust-row">
+      <div class="adjust-field buy-field"><label>شراء</label><input type="number" id="adm_d_syp_buy" step="1" min="1"></div>
+      <div class="adjust-field sell-field"><label>بيع</label><input type="number" id="adm_d_syp_sell" step="1" min="1"></div>
+    </div>
+  </div>
+
+  <div class="admin-rate-group">
+    <div class="admin-rate-group-title">🇹🇷 تركي / 🇸🇾 سوري</div>
+    <div class="adjust-row">
+      <div class="adjust-field buy-field"><label>شراء</label><input type="number" id="adm_try_syp_buy" step="0.01" min="0.01"></div>
+      <div class="adjust-field sell-field"><label>بيع</label><input type="number" id="adm_try_syp_sell" step="0.01" min="0.01"></div>
+    </div>
+  </div>
+
+  <div class="admin-rate-group">
+    <div class="admin-rate-group-title">🇪🇺 يورو / 🇺🇸 دولار</div>
+    <div class="adjust-row">
+      <div class="adjust-field buy-field"><label>شراء</label><input type="number" id="adm_eur_usd_buy" step="0.001" min="0.001"></div>
+      <div class="adjust-field sell-field"><label>بيع</label><input type="number" id="adm_eur_usd_sell" step="0.001" min="0.001"></div>
+    </div>
+  </div>
+
+  <div class="admin-section-title">تعديل أسعار الذهب</div>
+
+  <div class="admin-rate-group">
+    <div class="admin-rate-group-title">🥇 غرام ذهب سوري</div>
+    <div class="adjust-row">
+      <div class="adjust-field buy-field"><label>شراء</label><input type="number" id="adm_gold_syp_buy" step="1" min="1"></div>
+      <div class="adjust-field sell-field"><label>بيع</label><input type="number" id="adm_gold_syp_sell" step="1" min="1"></div>
+    </div>
+  </div>
+
+  <div class="admin-rate-group">
+    <div class="admin-rate-group-title">🥇 غرام ذهب دولار</div>
+    <div class="adjust-row">
+      <div class="adjust-field buy-field"><label>شراء</label><input type="number" id="adm_gold_usd_buy" step="0.01" min="0.01"></div>
+      <div class="adjust-field sell-field"><label>بيع</label><input type="number" id="adm_gold_usd_sell" step="0.01" min="0.01"></div>
+    </div>
+  </div>
+
+  <button class="save-btn" id="applyBtn"><span>💾</span> حفظ ونشر للجميع</button>
+  <div class="save-feedback" id="saveFeedback">✅ تم تحديث الأسعار</div>
+
+  <div class="divider"></div>
+
+  <div class="admin-section-title">🔑 تغيير كلمة المرور</div>
+  <div class="password-field"><label>كلمة السر الحالية</label><input type="password" id="currentPass" placeholder="أدخل كلمة السر الحالية"></div>
+  <div class="password-field"><label>كلمة السر الجديدة</label><input type="password" id="newPass" placeholder="أدخل كلمة السر الجديدة"></div>
+  <div class="password-field"><label>تأكيد كلمة السر</label><input type="password" id="confirmPass" placeholder="أعد كتابة كلمة السر"></div>
+  <button class="change-pass-btn" id="changePassBtn"><span>🔑</span> تغيير كلمة المرور</button>
+  <div class="pass-feedback" id="passFeedback"></div>
+
+  <div class="divider"></div>
+
+  <div class="admin-section-title">🔢 تغيير رمز PIN</div>
+  <div class="password-field"><label>PIN الحالي</label><input type="password" id="currentPin" placeholder="PIN الحالي" inputmode="numeric" maxlength="6"></div>
+  <div class="password-field"><label>PIN الجديد</label><input type="password" id="newPin" placeholder="PIN الجديد (أرقام فقط)" inputmode="numeric" maxlength="6"></div>
+  <button class="change-pass-btn" id="changePinBtn"><span>🔢</span> تغيير رمز PIN</button>
+  <div class="pass-feedback" id="pinFeedback"></div>
+
+  <div class="divider"></div>
+
+  <div class="admin-section-title">🛡️ تغيير رمز الأمان</div>
+  <div class="current-value-badge"><span class="label">الحالي:</span><span class="value" id="currentSecurityDisplay">••••••••</span></div>
+  <div class="password-field"><label>رمز الأمان الجديد</label><input type="text" id="newSecurity" placeholder="رمز الأمان الجديد"></div>
+  <div class="password-field"><label>تأكيد رمز الأمان</label><input type="text" id="confirmSecurity" placeholder="أعد كتابة رمز الأمان"></div>
+  <button class="change-pass-btn" id="changeSecurityBtn"><span>🛡️</span> تغيير رمز الأمان</button>
+  <div class="pass-feedback" id="securityFeedback"></div>
+</div>
+
+<div class="footer-note"><i>●</i> حميدو للصرافة — أسعار محدّثة يدوياً <i>●</i></div>
+<div class="creator-credit">تم الإنشاء بواسطة <strong>عمر عثمان حميدو</strong> ❤️ | حميدو للصرافة - HAMIDO EXCHANGE</div>
+
+</div>
+
+<div class="modal-overlay" id="passwordModal">
+  <div class="modal-box">
+    <div id="loginSection">
+      <div class="modal-icon">🔐</div>
+      <div class="modal-title">دخول الأدمن</div>
+      <div class="modal-sub">أدخل كلمة المرور ورمز PIN</div>
+      <div class="modal-field"><label>كلمة المرور</label><input type="password" id="passwordInput" placeholder="••••••••"></div>
+      <div class="modal-field"><label>رمز PIN</label><input type="password" id="pinLoginInput" placeholder="••••••" inputmode="numeric" maxlength="6"></div>
+      <div class="modal-error" id="passwordError"></div>
+      <div class="modal-actions">
+        <button class="modal-btn ghost" id="cancelModal">إلغاء</button>
+        <button class="modal-btn primary" id="confirmModal">دخول</button>
+      </div>
+      <button class="forgot-btn" id="forgotBtn">🔑 نسيت كلمة المرور؟ استرجاع برمز الأمان</button>
+    </div>
+
+    <div id="recoverSection" class="recover-section">
+      <div class="modal-icon">🛡️</div>
+      <div class="modal-title">استرجاع كلمة المرور</div>
+      <div class="modal-sub">أدخل رمز الأمان وكلمة المرور الجديدة</div>
+      <div class="modal-field"><label>رمز الأمان</label><input type="password" id="securityInput" placeholder="أدخل رمز الأمان"></div>
+      <div class="modal-field"><label>كلمة المرور الجديدة</label><input type="password" id="recoverNewPass" placeholder="كلمة المرور الجديدة"></div>
+      <div class="modal-error" id="recoverError"></div>
+      <div class="modal-actions">
+        <button class="modal-btn ghost" id="recoverBackBtn">رجوع</button>
+        <button class="modal-btn primary" id="recoverSubmitBtn">استرجاع</button>
+      </div>
+      <button class="recover-back-btn" id="recoverBackBtn2">← العودة لتسجيل الدخول</button>
+    </div>
+  </div>
+</div>
+
+<div class="receipt" id="receipt">
+  <div class="receipt-header">
+  <h1>حميدو للصرافة</h1>
+    <p>HAMIDO EXCHANGE</p>
+    <p>وصل تحويل</p>
+  </div>
+  <div class="receipt-info">
+    <div class="row"><strong>التاريخ:</strong><span id="rcptDate">-</span></div>
+    <div class="row"><strong>الوقت:</strong><span id="rcptTime">-</span></div>
+    <div class="row"><strong>رقم الوصل:</strong><span id="rcptNumber">-</span></div>
+  </div>
+  <div class="receipt-info" style="margin-top:15px;">
+    <div class="row"><strong>العملة الأساسية:</strong><span id="rcptBase">-</span></div>
+    <div class="row"><strong>المبلغ المُدخل:</strong><span id="rcptAmount">-</span></div>
+  </div>
+  <div style="margin:15px 0;border-top:2px dashed #000;padding-top:12px;">
+    <div style="text-align:center;font-weight:900;margin-bottom:10px;color:#0d5cb8;">التحويلات</div>
+    <div id="rcptResults"></div>
+  </div>
+  <div class="receipt-footer">
+    <p>شكراً لتعاملكم معنا</p>
+    <p>📞 للاستفسار: 000-000-0000</p>
+    <p style="margin-top:8px;font-size:0.7rem;">هذا الوصل صادر إلكترونياً</p>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var DEFAULT_PASSWORD='Azaz2026';
+var DEFAULT_PIN='200910';
+var DEFAULT_SECURITY='Azaz@2009#Sec';
+var DEFAULT_RATES={d_try:{buy:49.10,sell:49.50},d_syp:{buy:13500,sell:13700},try_syp:{buy:275,sell:285},eur_usd:{buy:1.08,sell:1.10},gold_syp:{buy:850000,sell:880000},gold_usd:{buy:65.50,sell:67.00}};
+var RATES_KEY='azaz_exchange_rates_v12';
+var PREV_RATES_KEY='azaz_prev_rates_v10';
+var LAST_UPDATE_KEY='azaz_last_update_v1';
+var PASSWORD_KEY='azaz_admin_password_v1';
+var PIN_KEY='azaz_admin_pin_v1';
+var SECURITY_KEY='azaz_admin_security_v1';
+var THEME_KEY='azaz_theme_v1';
+var ACTIVE_TAB_KEY='azaz_active_tab_v1';
+var $=function(id){return document.getElementById(id);};
+var rates=JSON.parse(JSON.stringify(DEFAULT_RATES));
+var prevRates=null;
+var isAdmin=false;
+var adminPassword=DEFAULT_PASSWORD;
+var adminPin=DEFAULT_PIN;
+var adminSecurity=DEFAULT_SECURITY;
+var firebaseConfig={apiKey:"AIzaSyAk6Y1lsTvFuG5QoVKc_fiL199P92C4C6I",authDomain:"azaz-exchange-db410.firebaseapp.com",databaseURL:"https://azaz-exchange-db410-default-rtdb.firebaseio.com",projectId:"azaz-exchange-db410",storageBucket:"azaz-exchange-db410.firebasestorage.app",messagingSenderId:"358926283407",appId:"1:358926283407:web:ad1b9f75a7c539d972b6fa"};
+var firebaseReady=false;
+var dbRef=null;
+try{firebase.initializeApp(firebaseConfig);dbRef=firebase.database().ref('rates');firebaseReady=true;}catch(e){console.warn('Firebase init failed:',e);firebaseReady=false;}
+function loadRatesFromStorage(){try{var saved=localStorage.getItem(RATES_KEY);if(saved){var data=JSON.parse(saved);for(var pair in DEFAULT_RATES){if(data[pair]&&typeof data[pair].buy==='number'&&typeof data[pair].sell==='number'){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};}}}var prev=localStorage.getItem(PREV_RATES_KEY);if(prev)prevRates=JSON.parse(prev);}catch(e){}}
+function loadRatesFromFirebase(callback){if(!firebaseReady||!dbRef){if(callback)callback();return;}dbRef.once('value').then(function(snap){var data=snap.val();if(data){for(var pair in DEFAULT_RATES){if(data[pair]&&typeof data[pair].buy==='number'&&typeof data[pair].sell==='number'){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};}}saveRatesToStorage();if(callback)callback();}else{dbRef.set(rates).catch(function(e){console.warn(e);});if(callback)callback();}}).catch(function(e){console.warn('Firebase read error:',e);if(callback)callback();});}
+function listenToFirebase(){if(!firebaseReady||!dbRef)return;dbRef.on('value',function(snap){var data=snap.val();if(data){var changed=false;for(var pair in DEFAULT_RATES){if(data[pair]){if(rates[pair].buy!==data[pair].buy||rates[pair].sell!==data[pair].sell){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};changed=true;}}}if(changed){saveRatesToStorage();updateRateCards();updateAdminFields();calculateAll();}}});}
+function saveRatesToStorage(){try{localStorage.setItem(RATES_KEY,JSON.stringify(rates));}catch(e){}}
+function savePrevRates(){try{prevRates=JSON.parse(JSON.stringify(rates));localStorage.setItem(PREV_RATES_KEY,JSON.stringify(prevRates));}catch(e){}}
+function saveLastUpdate(){try{var now=new Date();var str=now.toLocaleDateString('ar-EG',{year:'numeric',month:'2-digit',day:'2-digit'})+' - '+now.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});localStorage.setItem(LAST_UPDATE_KEY,str);$('statusText').textContent='آخر تحديث: '+str;}catch(e){}}
+function loadLastUpdate(){try{var s=localStorage.getItem(LAST_UPDATE_KEY);if(s)$('statusText').textContent='آخر تحديث: '+s;else $('statusText').textContent='آخر تحديث: لم يتم بعد';}catch(e){}}
+function loadCredentials(){try{var p=localStorage.getItem(PASSWORD_KEY);if(p)adminPassword=p;var pin=localStorage.getItem(PIN_KEY);if(pin)adminPin=pin;var sec=localStorage.getItem(SECURITY_KEY);if(sec)adminSecurity=sec;}catch(e){}}
+function loadTheme(){try{var t=localStorage.getItem(THEME_KEY)||'dark';document.documentElement.setAttribute('data-theme',t);$('themeToggle').textContent=t==='dark'?'🌙':'☀️';}catch(e){}}
+function loadActiveTab(){try{var t=localStorage.getItem(ACTIVE_TAB_KEY)||'home';switchTab(t);}catch(e){switchTab('home');}}
+function formatNumber(num,dec){if(num===0||isNaN(num)||!isFinite(num))return '0';if(dec===0)return Math.round(num).toLocaleString('en-US');return num.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});}
+function getTrend(key){if(!prevRates||!prevRates[key]||!rates[key])return 'flat';var prev=prevRates[key].buy;var curr=rates[key].buy;if(curr>prev)return 'up';if(curr<prev)return 'down';return 'flat';}
+function renderTrend(elId,trend){var el=$(elId);if(!el)return;if(trend==='up'){el.className='trend-indicator trend-up';el.textContent='▲';}else if(trend==='down'){el.className='trend-indicator trend-down';el.textContent='▼';}else{el.className='trend-indicator trend-flat';el.textContent='—';}}
+function updateTrends(){['d_try','d_syp','try_syp','eur_usd','gold_syp','gold_usd'].forEach(function(pair){var t=getTrend(pair);renderTrend(pair+'_buy_trend',t);renderTrend(pair+'_sell_trend',t);});}
+function updateRateCards(){$('d_try_buy').textContent=formatNumber(rates.d_try.buy,2);$('d_try_sell').textContent=formatNumber(rates.d_try.sell,2);$('d_syp_buy').textContent=formatNumber(rates.d_syp.buy,0);$('d_syp_sell').textContent=formatNumber(rates.d_syp.sell,0);$('try_syp_buy').textContent=formatNumber(rates.try_syp.buy,2);$('try_syp_sell').textContent=formatNumber(rates.try_syp.sell,2);$('eur_usd_buy').textContent=formatNumber(rates.eur_usd.buy,2);$('eur_usd_sell').textContent=formatNumber(rates.eur_usd.sell,2);$('gold_syp_buy').textContent=formatNumber(rates.gold_syp.buy,0);$('gold_syp_sell').textContent=formatNumber(rates.gold_syp.sell,0);$('gold_usd_buy').textContent=formatNumber(rates.gold_usd.buy,2);$('gold_usd_sell').textContent=formatNumber(rates.gold_usd.sell,2);updateTrends();}
+function updateAdminFields(){$('adm_d_try_buy').value=rates.d_try.buy;$('adm_d_try_sell').value=rates.d_try.sell;$('adm_d_syp_buy').value=rates.d_syp.buy;$('adm_d_syp_sell').value=rates.d_syp.sell;$('adm_try_syp_buy').value=rates.try_syp.buy;$('adm_try_syp_sell').value=rates.try_syp.sell;$('adm_eur_usd_buy').value=rates.eur_usd.buy;$('adm_eur_usd_sell').value=rates.eur_usd.sell;$('adm_gold_syp_buy').value=rates.gold_syp.buy;$('adm_gold_syp_sell').value=rates.gold_syp.sell;$('adm_gold_usd_buy').value=rates.gold_usd.buy;$('adm_gold_usd_sell').value=rates.gold_usd.sell;}
+function updateSecurityDisplay(){var sec=adminSecurity;$('currentSecurityDisplay').textContent=sec.length<=4?sec:sec.slice(0,2)+'•••'+sec.slice(-3);}
+function switchTab(name){if(name==='calc'){$('tabHome').classList.remove('active');$('tabCalc').classList.add('active');$('pageHome').classList.remove('active');$('pageCalc').classList.add('active');}else{$('tabCalc').classList.remove('active');$('tabHome').classList.add('active');$('pageCalc').classList.remove('active');$('pageHome').classList.add('active');}try{localStorage.setItem(ACTIVE_TAB_KEY,name);}catch(e){}}
+function getUsdValue(amount,currency){switch(currency){case'usd':return amount;case'try':return amount/rates.d_try.buy;case'syp':return amount/rates.d_syp.buy;case'eur':return amount/rates.eur_usd.buy;case'gold_syp':return(amount*rates.gold_syp.buy)/rates.d_syp.buy;case'gold_usd':return amount*rates.gold_usd.buy;default:return amount;}}
+function calculateAll(){
+var amount=parseFloat($('calcInput').value)||0;
+var cur=$('calcCurrency').value;
+var r={};
+var uBuy=0,uSell=0;
+if(cur==='usd'){uBuy=amount;uSell=amount;}
+else if(cur==='try'){uBuy=amount/rates.d_try.sell;uSell=amount/rates.d_try.buy;}
+else if(cur==='syp'){uBuy=amount/rates.d_syp.sell;uSell=amount/rates.d_syp.buy;}
+else if(cur==='eur'){uBuy=amount*rates.eur_usd.buy;uSell=amount*rates.eur_usd.sell;}
+else if(cur==='gold_syp'){uBuy=(amount*rates.gold_syp.buy)/rates.d_syp.sell;uSell=(amount*rates.gold_syp.sell)/rates.d_syp.buy;}
+else if(cur==='gold_usd'){uBuy=amount*rates.gold_usd.buy;uSell=amount*rates.gold_usd.sell;}
+r.usd_buy=uBuy;r.usd_sell=uSell;
+r.try_buy=uBuy*rates.d_try.buy;r.try_sell=uSell*rates.d_try.sell;
+r.syp_buy=uBuy*rates.d_syp.buy;r.syp_sell=uSell*rates.d_syp.sell;
+r.eur_buy=uBuy/rates.eur_usd.sell;r.eur_sell=uSell/rates.eur_usd.buy;
+r.gold_syp_buy=r.syp_buy/rates.gold_syp.sell;r.gold_syp_sell=r.syp_sell/rates.gold_syp.buy;
+r.gold_usd_buy=uBuy/rates.gold_usd.sell;r.gold_usd_sell=uSell/rates.gold_usd.buy;
+if(cur==='usd'){r.usd_buy=amount;r.usd_sell=amount;}
+else if(cur==='try'){r.try_buy=amount;r.try_sell=amount;}
+else if(cur==='syp'){r.syp_buy=amount;r.syp_sell=amount;}
+else if(cur==='eur'){r.eur_buy=amount;r.eur_sell=amount;}
+else if(cur==='gold_syp'){r.gold_syp_buy=amount;r.gold_syp_sell=amount;}
+else if(cur==='gold_usd'){r.gold_usd_buy=amount;r.gold_usd_sell=amount;}
+function sv(id,v,d){var el=$(id);if(el)el.textContent=formatNumber(v,d);}
+sv('res_usd_buy',r.usd_buy,2);sv('res_usd_sell',r.usd_sell,2);
+sv('res_try_buy',r.try_buy,2);sv('res_try_sell',r.try_sell,2);
+sv('res_syp_buy',r.syp_buy,0);sv('res_syp_sell',r.syp_sell,0);
+sv('res_eur_buy',r.eur_buy,2);sv('res_eur_sell',r.eur_sell,2);
+sv('res_gold_syp_buy',r.gold_syp_buy,3);sv('res_gold_syp_sell',r.gold_syp_sell,3);
+sv('res_gold_usd_buy',r.gold_usd_buy,3);sv('res_gold_usd_sell',r.gold_usd_sell,3);
+return r;
+}
+function getCurrencyLabel(cur){var labels={usd:'🇺🇸 دولار أمريكي',try:'🇹🇷 ليرة تركية',syp:'🇸🇾 ليرة سورية',eur:'🇪🇺 يورو',gold_syp:'🥇 غرام ذهب سوري',gold_usd:'🥇 غرام ذهب دولار'};return labels[cur]||cur;}
+function clearCalc(){$('calcInput').value='';['usd','try','syp','eur','gold_syp','gold_usd'].forEach(function(k){$('res_'+k).textContent='-';});$('calcInput').focus();}
+function applyNewRates(){if(!isAdmin)return;var newRates={};var keys=['d_try_buy','d_try_sell','d_syp_buy','d_syp_sell','try_syp_buy','try_syp_sell','eur_usd_buy','eur_usd_sell','gold_syp_buy','gold_syp_sell','gold_usd_buy','gold_usd_sell'];for(var i=0;i<keys.length;i++){var val=parseFloat($('adm_'+keys[i]).value);if(isNaN(val)||val<=0){alert('الرجاء إدخال جميع الأسعار بشكل صحيح');return;}newRates[keys[i]]=val;}savePrevRates();rates.d_try.buy=newRates.d_try_buy;rates.d_try.sell=newRates.d_try_sell;rates.d_syp.buy=newRates.d_syp_buy;rates.d_syp.sell=newRates.d_syp_sell;rates.try_syp.buy=newRates.try_syp_buy;rates.try_syp.sell=newRates.try_syp_sell;rates.eur_usd.buy=newRates.eur_usd_buy;rates.eur_usd.sell=newRates.eur_usd_sell;rates.gold_syp.buy=newRates.gold_syp_buy;rates.gold_syp.sell=newRates.gold_syp_sell;rates.gold_usd.buy=newRates.gold_usd_buy;rates.gold_usd.sell=newRates.gold_usd_sell;saveRatesToStorage();saveLastUpdate();updateRateCards();calculateAll();if(firebaseReady&&dbRef){dbRef.set(rates).then(function(){$('saveFeedback').textContent='✅ تم الحفظ والنشر لجميع الزوار';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);}).catch(function(e){alert('⚠️ تم الحفظ محلياً فقط — فشل الاتصال بالخادم');console.warn(e);$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');},2500);});}else{$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');},2500);}}
+function exportBackup(){try{var backup={version:12,exportedAt:new Date().toISOString(),rates:rates,prevRates:prevRates,lastUpdate:localStorage.getItem(LAST_UPDATE_KEY),credentials:{password:adminPassword,pin:adminPin,security:adminSecurity},theme:localStorage.getItem(THEME_KEY)};var dataStr=JSON.stringify(backup,null,2);var blob=new Blob([dataStr],{type:'application/json'});var url=URL.createObjectURL(blob);var now=new Date();var filename='azaz-backup-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+'.json';var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);alert('✅ تم تصدير النسخة الاحتياطية بنجاح');}catch(e){alert('❌ حدث خطأ أثناء التصدير');}}
+function importBackup(file){if(!file)return;var reader=new FileReader();reader.onload=function(e){try{var data=JSON.parse(e.target.result);if(!data||!data.rates)throw new Error('ملف غير صالح');if(!confirm('سيتم استبدال جميع البيانات الحالية. متابعة؟'))return;for(var pair in DEFAULT_RATES){if(data.rates[pair]){rates[pair]={buy:data.rates[pair].buy,sell:data.rates[pair].sell};}}if(data.prevRates)prevRates=data.prevRates;if(data.credentials){if(data.credentials.password){adminPassword=data.credentials.password;localStorage.setItem(PASSWORD_KEY,adminPassword);}if(data.credentials.pin){adminPin=data.credentials.pin;localStorage.setItem(PIN_KEY,adminPin);}if(data.credentials.security){adminSecurity=data.credentials.security;localStorage.setItem(SECURITY_KEY,adminSecurity);}}if(data.theme){document.documentElement.setAttribute('data-theme',data.theme);$('themeToggle').textContent=data.theme==='dark'?'🌙':'☀️';localStorage.setItem(THEME_KEY,data.theme);}saveRatesToStorage();if(prevRates)localStorage.setItem(PREV_RATES_KEY,JSON.stringify(prevRates));if(data.lastUpdate){localStorage.setItem(LAST_UPDATE_KEY,data.lastUpdate);$('statusText').textContent='آخر تحديث: '+data.lastUpdate;}updateRateCards();updateAdminFields();updateSecurityDisplay();calculateAll();alert('✅ تم استيراد النسخة بنجاح');}catch(err){alert('❌ فشل الاستيراد: '+err.message);}};reader.readAsText(file);}
+function printReceipt(){var amount=parseFloat($('calcInput').value)||0;if(amount===0){alert('الرجاء إدخال مبلغ للطباعة');return;}var currency=$('calcCurrency').value;var results=calculateAll();var now=new Date();var dateStr=now.toLocaleDateString('ar-EG',{year:'numeric',month:'2-digit',day:'2-digit'});var timeStr=now.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});var receiptNum='AZ-'+Date.now().toString().slice(-8);$('rcptDate').textContent=dateStr;$('rcptTime').textContent=timeStr;$('rcptNumber').textContent=receiptNum;$('rcptBase').textContent=getCurrencyLabel(currency);$('rcptAmount').textContent=formatNumber(amount,2);var html='';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇺🇸 دولار:</span><strong>'+formatNumber(results.usd,2)+' $</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇹🇷 ليرة تركية:</span><strong>'+formatNumber(results.try,2)+' ₺</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇸🇾 ليرة سورية:</span><strong>'+formatNumber(results.syp,0)+' £</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇪🇺 يورو:</span><strong>'+formatNumber(results.eur,2)+' €</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🥇 ذهب سوري:</span><strong>'+formatNumber(results.gold_syp,3)+' غرام</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;"><span>🥇 ذهب دولار:</span><strong>'+formatNumber(results.gold_usd,3)+' غرام</strong></div>';$('rcptResults').innerHTML=html;$('receipt').style.display='block';setTimeout(function(){window.print();setTimeout(function(){$('receipt').style.display='none';},500);},100);}
+function toggleTheme(){var current=document.documentElement.getAttribute('data-theme');var newTheme=current==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',newTheme);$('themeToggle').textContent=newTheme==='dark'?'🌙':'☀️';try{localStorage.setItem(THEME_KEY,newTheme);}catch(e){}}
+function showFeedback(el,msg,ok){el.textContent=msg;el.classList.remove('success','error');el.classList.add('show',ok?'success':'error');setTimeout(function(){el.classList.remove('show');},4000);}
+function changePassword(){var c=$('currentPass').value.trim(),n=$('newPass').value.trim(),cf=$('confirmPass').value.trim();if(!c||!n||!cf){showFeedback($('passFeedback'),'⚠️ املأ جميع الحقول',false);return;}if(c!==adminPassword){showFeedback($('passFeedback'),'❌ كلمة السر الحالية خاطئة',false);$('currentPass').value='';return;}if(n!==cf){showFeedback($('passFeedback'),'❌ الكلمتان غير متطابقتين',false);$('confirmPass').value='';return;}if(n.length<4){showFeedback($('passFeedback'),'⚠️ قصيرة جداً',false);return;}adminPassword=n;try{localStorage.setItem(PASSWORD_KEY,n);}catch(e){}$('currentPass').value='';$('newPass').value='';$('confirmPass').value='';showFeedback($('passFeedback'),'✅ تم تغيير كلمة المرور',true);}
+function changePin(){var c=$('currentPin').value.trim(),n=$('newPin').value.trim();if(!c||!n){showFeedback($('pinFeedback'),'⚠️ املأ الحقول',false);return;}if(c!==adminPin){showFeedback($('pinFeedback'),'❌ PIN الحالي خاطئ',false);$('currentPin').value='';return;}if(!/^\d{4,6}$/.test(n)){showFeedback($('pinFeedback'),'⚠️ 4-6 أرقام فقط',false);return;}adminPin=n;try{localStorage.setItem(PIN_KEY,n);}catch(e){}$('currentPin').value='';$('newPin').value='';showFeedback($('pinFeedback'),'✅ تم تغيير PIN',true);}
+function changeSecurity(){var n=$('newSecurity').value.trim(),cf=$('confirmSecurity').value.trim();if(!n||!cf){showFeedback($('securityFeedback'),'⚠️ املأ الحقول',false);return;}if(n!==cf){showFeedback($('securityFeedback'),'❌ غير متطابقين',false);$('confirmSecurity').value='';return;}if(n.length<6){showFeedback($('securityFeedback'),'⚠️ 6 أحرف على الأقل',false);return;}adminSecurity=n;try{localStorage.setItem(SECURITY_KEY,n);}catch(e){}updateSecurityDisplay();$('newSecurity').value='';$('confirmSecurity').value='';showFeedback($('securityFeedback'),'✅ تم تغيير رمز الأمان',true);}
+window.addEventListener('storage',function(e){if(e.key===RATES_KEY&&e.newValue){try{var data=JSON.parse(e.newValue);for(var pair in DEFAULT_RATES){if(data[pair])rates[pair]=data[pair];}updateRateCards();updateAdminFields();calculateAll();}catch(err){}}if(e.key===LAST_UPDATE_KEY&&e.newValue){$('statusText').textContent='آخر تحديث: '+e.newValue;}if(e.key===PASSWORD_KEY&&e.newValue)adminPassword=e.newValue;if(e.key===PIN_KEY&&e.newValue)adminPin=e.newValue;if(e.key===SECURITY_KEY&&e.newValue){adminSecurity=e.newValue;updateSecurityDisplay();}if(e.key===THEME_KEY&&e.newValue){document.documentElement.setAttribute('data-theme',e.newValue);$('themeToggle').textContent=e.newValue==='dark'?'🌙':'☀️';}});
+function openPasswordModal(){$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('securityInput').value='';$('recoverNewPass').value='';$('recoverError').textContent='';$('passwordModal').classList.add('open');setTimeout(function(){$('passwordInput').focus();},250);}
+function closePasswordModal(){$('passwordModal').classList.remove('open');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('securityInput').value='';$('recoverNewPass').value='';$('recoverError').textContent='';$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');}
+function tryLogin(){var p=$('passwordInput').value,pin=$('pinLoginInput').value.trim();if(!p||!pin){$('passwordError').textContent='⚠️ املأ الحقلين';return;}if(p===adminPassword&&pin===adminPin){isAdmin=true;closePasswordModal();$('adminPanel').classList.add('open');updateAdminFields();updateSecurityDisplay();}else{$('passwordError').textContent='❌ كلمة المرور أو PIN غلط';$('passwordInput').value='';$('pinLoginInput').value='';$('passwordInput').classList.add('shake');$('pinLoginInput').classList.add('shake');setTimeout(function(){$('passwordInput').classList.remove('shake');$('pinLoginInput').classList.remove('shake');},450);}}
+function tryRecover(){var sec=$('securityInput').value.trim(),np=$('recoverNewPass').value.trim();if(!sec){$('recoverError').textContent='⚠️ أدخل رمز الأمان';return;}if(sec!==adminSecurity){$('recoverError').textContent='❌ رمز الأمان غلط';$('securityInput').value='';$('securityInput').classList.add('shake');setTimeout(function(){$('securityInput').classList.remove('shake');},450);return;}if(!np){$('recoverError').textContent='⚠️ أدخل كلمة المرور الجديدة';return;}if(np.length<4){$('recoverError').textContent='⚠️ قصيرة جداً';return;}adminPassword=np;try{localStorage.setItem(PASSWORD_KEY,np);}catch(e){}$('recoverError').className='modal-success';$('recoverError').textContent='✅ تم الاسترجاع بنجاح';$('securityInput').value='';$('recoverNewPass').value='';setTimeout(function(){$('recoverError').className='modal-error';$('recoverError').textContent='';$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');},2000);}
+function logout(){isAdmin=false;$('adminPanel').classList.remove('open');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('currentPass').value='';$('newPass').value='';$('confirmPass').value='';$('currentPin').value='';$('newPin').value='';$('newSecurity').value='';$('confirmSecurity').value='';['passFeedback','pinFeedback','securityFeedback'].forEach(function(id){$(id).classList.remove('show');});}
+function bindRateCardClick(){document.querySelectorAll('.rate-card').forEach(function(card){card.addEventListener('click',function(){var currency=this.dataset.currency||'usd';$('calcCurrency').value=currency;calculateAll();switchTab('calc');var calcBox=document.querySelector('.calc-box');calcBox.style.transition='box-shadow 0.3s';calcBox.style.boxShadow='0 0 40px rgba(30,122,224,0.7)';setTimeout(function(){calcBox.style.boxShadow='';},800);});});document.querySelectorAll('.result-item').forEach(function(item){item.addEventListener('click',function(){var target=this.dataset.target;$('calcCurrency').value=target;calculateAll();});});}
+function init(){loadRatesFromStorage();loadCredentials();loadTheme();loadLastUpdate();updateRateCards();updateSecurityDisplay();updateAdminFields();calculateAll();bindRateCardClick();loadActiveTab();try{$('todayDate').textContent='📅 '+new Date().toLocaleDateString('ar-EG',{weekday:'long',month:'long',day:'numeric'});}catch(e){}
+loadRatesFromFirebase(function(){updateRateCards();updateAdminFields();calculateAll();});listenToFirebase();
+$('tabHome').addEventListener('click',function(){switchTab('home');});
+$('tabCalc').addEventListener('click',function(){switchTab('calc');});
+$('calcInput').addEventListener('input',calculateAll);
+$('calcCurrency').addEventListener('change',calculateAll);
+$('clearBtn').addEventListener('click',clearCalc);
+$('printBtn').addEventListener('click',printReceipt);
+function openAdmin(){if(isAdmin){$('adminPanel').classList.toggle('open');if($('adminPanel').classList.contains('open')){updateAdminFields();updateSecurityDisplay();}}else{openPasswordModal();}}
+$('azazLogo').addEventListener('click',openAdmin);
+$('logoClickArea').addEventListener('click',openAdmin);
+$('adminBadge').addEventListener('click',openAdmin);
+$('applyBtn').addEventListener('click',applyNewRates);
+$('changePassBtn').addEventListener('click',changePassword);
+$('changePinBtn').addEventListener('click',changePin);
+$('changeSecurityBtn').addEventListener('click',changeSecurity);
+$('logoutBtn').addEventListener('click',logout);
+$('themeToggle').addEventListener('click',toggleTheme);
+$('exportBtn').addEventListener('click',exportBackup);
+$('exportBtn2').addEventListener('click',exportBackup);
+$('importBtn').addEventListener('click',function(){$('importFile').click();});
+$('importBtn2').addEventListener('click',function(){$('importFile').click();});
+$('importFile').addEventListener('change',function(e){if(e.target.files&&e.target.files[0]){importBackup(e.target.files[0]);e.target.value='';}});
+['currentPass','newPass','confirmPass'].forEach(function(id){$(id).addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();changePassword();}});});
+['currentPin','newPin'].forEach(function(id){$(id).addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();changePin();}});});
+['newSecurity','confirmSecurity'].forEach(function(id){$(id).addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();changeSecurity();}});});
+$('confirmModal').addEventListener('click',tryLogin);
+$('cancelModal').addEventListener('click',closePasswordModal);
+$('passwordInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('pinLoginInput').focus();}});
+$('pinLoginInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tryLogin();}});
+$('passwordModal').addEventListener('click',function(e){if(e.target===$('passwordModal'))closePasswordModal();});
+$('forgotBtn').addEventListener('click',function(){$('loginSection').style.display='none';$('recoverSection').classList.add('visible');setTimeout(function(){$('securityInput').focus();},250);});
+$('recoverBackBtn').addEventListener('click',function(){$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');});
+$('recoverBackBtn2').addEventListener('click',function(){$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');});
+$('recoverSubmitBtn').addEventListener('click',tryRecover);
+$('securityInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('recoverNewPass').focus();}});
+$('recoverNewPass').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tryRecover();}});
+['pinLoginInput','currentPin','newPin'].forEach(function(id){$(id).addEventListener('input',function(){this.value=this.value.replace(/[^0-9]/g,'');});});
+$('calcInput').addEventListener('keydown',function(e){if(e.key==='-'||e.key==='e'||e.key==='E'||e.key==='+')e.preventDefault();});}
+init();
+})();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+</body>
+</html>
