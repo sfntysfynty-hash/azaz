@@ -402,6 +402,10 @@ input[type="number"]{-moz-appearance:textfield}
 .chart-stat-num.up{color:#22c55e;text-shadow:0 0 10px rgba(34,197,94,.5)}
 .chart-stat-num.down{color:#ef4444;text-shadow:0 0 10px rgba(239,68,68,.5)}
 .chart-note{text-align:center;color:#5a7a9a;font-size:.72rem;padding:10px;background:rgba(5,13,31,.4);border-radius:12px;border:1px dashed rgba(212,175,55,.2);line-height:1.5}
+.update-notification{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:linear-gradient(135deg,#0a2540,#0d2544);border:1.5px solid #d4af37;border-radius:16px;padding:14px 24px;color:#fff;font-weight:700;font-size:.85rem;z-index:999999;box-shadow:0 10px 30px rgba(212,175,55,.5),0 0 20px rgba(212,175,55,.2) inset;display:flex;align-items:center;gap:10px;transition:transform .4s cubic-bezier(.4,0,.2,1);font-family:'Cairo',sans-serif}
+.update-notification.show{transform:translateX(-50%) translateY(0)}
+.update-notification .spinner{width:16px;height:16px;border:2px solid rgba(212,175,55,.3);border-top-color:#d4af37;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -412,6 +416,10 @@ input[type="number"]{-moz-appearance:textfield}
 <script>eruda.init();</script>
 </head>
 <body>
+<div class="update-notification" id="updateNotification">
+  <div class="spinner"></div>
+  <span>جاري تحديث التطبيق...</span>
+</div>
 <div class="skeleton-overlay" id="skeletonOverlay">
   <div class="splash-stars">
     <span class="splash-star s1">✦</span>
@@ -1033,6 +1041,98 @@ $('recoverNewPass').addEventListener('keydown',function(e){if(e.key==='Enter'){e
 ['pinLoginInput','currentPin','newPin'].forEach(function(id){$(id).addEventListener('input',function(){this.value=this.value.replace(/[^0-9]/g,'');});});
 $('calcInput').addEventListener('keydown',function(e){if(e.key==='-'||e.key==='e'||e.key==='E'||e.key==='+')e.preventDefault();});}
 init();
+
+// ============================================================
+// 🔄 نظام التحديث التلقائي
+// ============================================================
+(function() {
+  if (!('serviceWorker' in navigator)) return;
+  
+  var swRegistration = null;
+  var currentVersion = null;
+  var updateCheckInterval = null;
+  var isReloading = false;
+  
+  // 1) تسجيل Service Worker
+  navigator.serviceWorker.register('sw.js').then(function(reg) {
+    swRegistration = reg;
+    console.log('✅ Service Worker مسجل');
+    
+    // فحص التحديثات كل 60 ثانية
+    updateCheckInterval = setInterval(function() {
+      reg.update().catch(function(e) { console.warn('فشل فحص التحديث:', e); });
+    }, 60000);
+    
+    // فحص عند عودة الاتصال
+    window.addEventListener('online', function() {
+      reg.update().catch(function() {});
+    });
+    
+    // فحص عند العودة للتطبيق
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        reg.update().catch(function() {});
+      }
+    });
+  }).catch(function(e) {
+    console.warn('فشل تسجيل Service Worker:', e);
+  });
+  
+  // 2) عندما يجد SW تحديثاً
+  navigator.serviceWorker.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'NEW_VERSION') {
+      console.log('🆕 نسخة جديدة متاحة!');
+      // أعد تحميل الصفحة تلقائياً
+      if (!isReloading) {
+        isReloading = true;
+        window.location.reload(true);
+      }
+    }
+  });
+  
+  // 3) عندما يجد SW جديداً في الانتظار
+  function checkForWaitingWorker(reg) {
+    if (reg && reg.waiting) {
+      console.log('⏳ SW جديد في الانتظار');
+      reg.waiting.postMessage('SKIP_WAITING');
+    }
+  }
+  
+  // ربط حدث updatefound
+  if (navigator.serviceWorker.controller) {
+    navigator.serviceWorker.ready.then(function(reg) {
+      checkForWaitingWorker(reg);
+      reg.addEventListener('updatefound', function() {
+        var newWorker = reg.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', function() {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('✅ نسخة جديدة جاهزة');
+              newWorker.postMessage('SKIP_WAITING');
+            }
+          });
+        }
+      });
+    });
+  } else {
+    // أول زيارة - أعد التحميل مرة واحدة فقط
+    navigator.serviceWorker.addEventListener('controllerchange', function() {
+      if (!isReloading) {
+        isReloading = true;
+        window.location.reload();
+      }
+    });
+  }
+  
+  // 4) فحص عند تحميل الصفحة
+  window.addEventListener('load', function() {
+    if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({ type: 'CHECK_VERSION' });
+    }
+  });
+  
+})();
+
 })();
 </script>
 
