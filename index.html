@@ -14,15 +14,84 @@ gtag('js', new Date());
 gtag('config', 'G-KRBJEBWLKW');
 </script>
 <style>
-:root{--brand-blue:#1e5ba8;--brand-blue-light:#3d8be0;--brand-blue-dark:#0a2540;--bg-body:#051428;--bg-container:#0a1a2e;--bg-panel:#0d2544;--bg-card:#0e2240;--bg-input:#051428;--bg-field:#051428;--bg-mini:#0a1a2e;--text-main:#ffffff;--text-sub:#a8c0dc;--text-dim:#5a7a9a;--text-title:#d0e0f0;--red-buy:#ff4444;--orange-sell:#ffaa33;--red-deep:#b30000;--orange-deep:#cc5500;--border-main:#1e4a80;--border-soft:#12264a;--border-panel:#1e5ba8;--border-buy:#a10000;--border-sell:#a04a00;--grad-header:linear-gradient(145deg,#0a2540,#051428);--grad-admin:linear-gradient(145deg,#0a2540,#0d2544);--shadow-main:0 25px 40px rgba(13,92,184,0.4);--shadow-panel:0 0 20px #0a1a30 inset,0 10px 20px #00000060;--shadow-card:0 0 18px #0a1a30 inset,0 4px 8px #00000080;--glow-red:0 0 15px #ff0000,0 0 30px #b30000;--glow-orange:0 0 15px #ff8800,0 0 30px #cc5500;--glow-blue:0 0 12px #3d8be0,0 0 24px #1e5ba8;--up-color:#22c55e;--down-color:#ef4444;--gold-color:#ffd700;--gold-shadow:0 0 12px #ffd70080,0 0 24px #b8860b40}
+:root{
+--navy-900:#050d1f;
+--navy-800:#0a1930;
+--navy-700:#0f2342;
+--navy-600:#152d54;
+--navy-500:#1e3a6b;
+--gold-100:#fef9e7;
+--gold-300:#f4e5a1;
+--gold-500:#d4af37;
+--gold-600:#b8941f;
+--gold-700:#8a6d0f;
+--brand-blue:#1e5ba8;
+--brand-blue-light:#3d8be0;
+--brand-blue-dark:#0a2540;
+--bg-body:#050d1f;
+--bg-container:#0a1930;
+--bg-panel:rgba(15,35,66,.7);
+--bg-card:rgba(20,45,84,.5);
+--bg-glass:rgba(30,58,107,.25);
+--bg-input:rgba(5,13,31,.6);
+--bg-field:rgba(5,13,31,.5);
+--bg-mini:rgba(15,35,66,.6);
+--text-main:#ffffff;
+--text-sub:#b8c8e0;
+--text-dim:#5a7a9a;
+--text-title:#e8f0ff;
+--text-gold:#d4af37;
+--red-buy:#ff4d4d;
+--orange-sell:#ffb347;
+--red-deep:#a10000;
+--orange-deep:#cc5500;
+--border-main:rgba(61,139,224,.25);
+--border-soft:rgba(61,139,224,.12);
+--border-panel:rgba(212,175,55,.3);
+--border-gold:rgba(212,175,55,.4);
+--border-buy:rgba(255,77,77,.4);
+--border-sell:rgba(255,179,71,.4);
+--grad-header:linear-gradient(135deg,rgba(10,25,48,.95),rgba(5,13,31,.95));
+--grad-admin:linear-gradient(135deg,rgba(10,25,48,.9),rgba(15,35,66,.9));
+--grad-gold:linear-gradient(135deg,#f4e5a1,#d4af37,#b8941f);
+--grad-gold-reverse:linear-gradient(135deg,#b8941f,#d4af37,#f4e5a1);
+--grad-glass:linear-gradient(135deg,rgba(30,58,107,.4),rgba(15,35,66,.2));
+--shadow-main:0 25px 60px rgba(5,13,31,.6),0 0 0 1px rgba(212,175,55,.15) inset;
+--shadow-panel:0 15px 40px rgba(0,0,0,.4),0 0 0 1px rgba(61,139,224,.15) inset;
+--shadow-card:0 10px 30px rgba(0,0,0,.35),0 0 0 1px rgba(212,175,55,.1) inset;
+--shadow-gold:0 10px 40px rgba(212,175,55,.25),0 0 0 1px rgba(212,175,55,.3) inset;
+--shadow-glass:0 8px 32px rgba(0,0,0,.37),0 0 0 1px rgba(255,255,255,.05) inset;
+--glow-gold:0 0 25px rgba(212,175,55,.5),0 0 50px rgba(212,175,55,.25);
+--glow-blue:0 0 25px rgba(61,139,224,.5),0 0 50px rgba(30,91,168,.25);
+--glow-red:0 0 20px rgba(255,0,0,.4),0 0 40px rgba(179,0,0,.3);
+--glow-orange:0 0 20px rgba(255,136,0,.4),0 0 40px rgba(204,85,0,.3);
+--up-color:#22c55e;
+--down-color:#ef4444;
+--gold-color:#d4af37;
+--gold-shadow:0 0 15px rgba(212,175,55,.6),0 0 30px rgba(184,148,31,.4);
+--radius-sm:14px;
+--radius-md:20px;
+--radius-lg:24px;
+--radius-xl:32px;
+--blur-glass:none
+--transition-smooth:cubic-bezier(.4,0,.2,1);
+}
 html[data-theme="light"]{--bg-body:#e8eef8;--bg-container:#fff;--bg-panel:#f4f7fb;--bg-card:#fff;--bg-input:#fff;--bg-field:#fff;--bg-mini:#f8fafc;--text-main:#0a1a2e;--text-sub:#3a4a5e;--text-dim:#7a8a9e;--text-title:#0a1a2e;--red-buy:#d10000;--orange-sell:#d97706;--red-deep:#a10000;--border-main:#c8d8e8;--border-soft:#dce6f0;--border-panel:#b8cce0;--border-buy:#d10000;--border-sell:#d97706;--grad-header:linear-gradient(145deg,#e8f0fc,#d8e6f8);--grad-admin:linear-gradient(145deg,#fff,#f0f6fc);--shadow-main:0 15px 30px rgba(13,92,184,0.15);--shadow-card:0 0 12px #e0ecf8 inset,0 4px 8px #00000010;--glow-red:0 0 10px #ff000050;--glow-orange:0 0 10px #ff880050;--glow-blue:0 0 10px #0d5cb850;--up-color:#16a34a;--down-color:#dc2626;--gold-color:#b8860b;--gold-shadow:0 0 10px #ffd70060}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,'Cairo',system-ui,sans-serif}
-body{background:var(--bg-body);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px 16px 40px;background-image:radial-gradient(circle at 20% 0%,rgba(30,91,168,.4) 0%,transparent 50%),radial-gradient(circle at 80% 100%,rgba(13,40,80,.35) 0%,transparent 50%);transition:background .4s,color .4s}
-.app-container{width:100%;max-width:480px;background:var(--bg-container);border-radius:42px;padding:22px 18px 30px;box-shadow:var(--shadow-main),0 0 0 1px var(--border-soft) inset;border:1px solid var(--border-main);position:relative;overflow:hidden}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:14px;border-bottom:2px solid var(--brand-blue);position:relative;z-index:2}
+body{background:#050d1f;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px 16px 40px;font-family:'Cairo','Segoe UI',Tahoma,sans-serif}
+input,select,button{font-family:inherit}
+input[type="number"],.num,.rate-value,.res-value,.stat-value{font-family:'Inter','Courier New',monospace;font-feature-settings:'tnum'}
+.app-container{width:100%;max-width:480px;background:#0a1930;border-radius:32px;padding:22px 18px 30px;box-shadow:0 25px 60px rgba(5,13,31,.6),0 0 0 1px rgba(212,175,55,.15) inset;border:1px solid rgba(212,175,55,.2);position:relative;overflow:hidden}
+
+
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(212,175,55,.25);position:relative;z-index:2}
+.header::after{content:'';position:absolute;bottom:-1px;right:0;width:100px;height:2px;background:var(--grad-gold);box-shadow:var(--glow-gold);border-radius:2px}
 .header::after{content:'';position:absolute;bottom:-2px;right:0;width:90px;height:2px;background:var(--brand-blue-light);box-shadow:0 0 12px var(--brand-blue-light)}
 .brand-block{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
-.logo-letter{width:64px;height:64px;border-radius:18px;border:2px solid #ff2222;background:linear-gradient(145deg,#1e5ba8,#0a2540);display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:900;color:#fff;text-shadow:0 0 15px rgba(255,255,255,.8),0 0 30px rgba(30,91,168,1);box-shadow:0 4px 15px rgba(255,34,34,.3),0 0 20px rgba(30,91,168,.5) inset;flex-shrink:0;transition:all .3s}
+.logo-letter{width:64px;height:64px;border-radius:var(--radius-md);border:1.5px solid rgba(212,175,55,.5);background:linear-gradient(145deg,#1e3a6b,#0a1930);display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:900;color:var(--gold-500);text-shadow:0 0 20px rgba(212,175,55,.7),0 0 40px rgba(212,175,55,.4);box-shadow:0 8px 25px rgba(212,175,55,.3),0 0 0 1px rgba(212,175,55,.2) inset,0 0 25px rgba(212,175,55,.2);flex-shrink:0;transition:all .4s var(--transition-smooth);position:relative;overflow:hidden}
+
+
+.brand-block:hover .logo-letter{box-shadow:0 10px 35px rgba(212,175,55,.5),0 0 30px rgba(212,175,55,.4) inset;transform:scale(1.05) rotate(-2deg)}
 .logo-letter::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.3),transparent 50%);pointer-events:none}
 .brand-block:hover .logo-letter{box-shadow:0 4px 25px rgba(255,34,34,.7),0 0 30px rgba(30,91,168,.6) inset;transform:scale(1.03)}
 .brand-text{display:flex;flex-direction:column;gap:2px;text-align:right}
@@ -37,8 +106,10 @@ body{background:var(--bg-body);min-height:100vh;display:flex;justify-content:cen
 .status-item{display:flex;align-items:center;gap:5px;color:var(--text-sub);font-weight:600}
 .status-dot{width:7px;height:7px;border-radius:50%;background:var(--up-color);box-shadow:0 0 8px var(--up-color);animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
-.main-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;position:relative;z-index:2}
-.main-tab{background:var(--bg-panel);border:2px solid var(--border-main);color:var(--text-sub);padding:16px 10px;border-radius:20px;cursor:pointer;font-family:inherit;font-weight:800;font-size:1rem;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;user-select:none}
+.main-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;position:relative;z-index:2}
+.main-tab{background:var(--bg-glass);backdrop-filter:var(--blur-glass);-webkit-backdrop-filter:var(--blur-glass);border:1.5px solid rgba(61,139,224,.25);color:var(--text-sub);padding:16px 10px;border-radius:var(--radius-md);cursor:pointer;font-family:inherit;font-weight:800;font-size:1rem;transition:all .4s var(--transition-smooth);display:flex;align-items:center;justify-content:center;gap:8px;user-select:none;position:relative;overflow:hidden}
+.main-tab:hover{border-color:rgba(212,175,55,.5);color:var(--gold-500);transform:translateY(-3px);box-shadow:0 10px 25px rgba(212,175,55,.2)}
+.main-tab.active{background:linear-gradient(135deg,rgba(212,175,55,.15),rgba(61,139,224,.1));border-color:var(--gold-500);color:#fff;box-shadow:var(--glow-gold),inset 0 0 20px rgba(212,175,55,.15);text-shadow:0 0 15px rgba(212,175,55,.7)}
 .main-tab .tab-icon{font-size:1.4rem}
 .main-tab:hover{border-color:var(--brand-blue-light);color:var(--brand-blue-light);transform:translateY(-2px)}
 .main-tab.active{background:linear-gradient(145deg,rgba(30,91,168,.3),rgba(10,37,64,.2));border-color:var(--brand-blue-light);color:#fff;box-shadow:var(--glow-blue),0 0 12px rgba(61,139,224,.3) inset;text-shadow:0 0 10px rgba(61,139,224,.8)}
@@ -48,7 +119,11 @@ body{background:var(--bg-body);min-height:100vh;display:flex;justify-content:cen
 .section-label{color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:2px;margin-bottom:8px;padding-right:6px;display:flex;align-items:center;gap:8px;position:relative;z-index:2}
 .section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to left,transparent,var(--brand-blue))}
 .rates-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px;position:relative;z-index:2}
-.rate-card{background:var(--bg-card);border-radius:20px;padding:12px 14px 10px;border:1px solid var(--border-soft);box-shadow:var(--shadow-card);transition:all .3s;cursor:pointer;user-select:none}
+.rate-card{background:rgba(20,45,84,.5);border-radius:20px;padding:14px 16px 12px;border:1px solid rgba(61,139,224,.2);box-shadow:0 10px 30px rgba(0,0,0,.35);transition:all .3s ease;cursor:pointer;user-select:none}
+.rate-card:hover{transform:translateY(-3px);border-color:rgba(212,175,55,.4);box-shadow:0 15px 40px rgba(212,175,55,.25)}
+.rate-card::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(212,175,55,.08),transparent);animation:shimmerPass 4s ease-in-out infinite}
+
+.rate-card:hover{transform:translateY(-3px) scale(1.01);border-color:rgba(212,175,55,.4);box-shadow:0 15px 40px rgba(212,175,55,.25),0 0 0 1px rgba(212,175,55,.2) inset}
 .rate-card:hover{transform:translateY(-2px);border-color:var(--brand-blue-light);box-shadow:0 0 25px rgba(30,91,168,.4)}
 .rate-card.gold-card{border-color:#8b6914;background:linear-gradient(145deg,var(--bg-card),rgba(255,215,0,.05))}
 .rate-card-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border-soft)}
@@ -71,7 +146,8 @@ body{background:var(--bg-body);min-height:100vh;display:flex;justify-content:cen
 .trend-down{color:var(--down-color)}
 .trend-flat{color:var(--text-dim);font-size:.65rem}
 .tap-hint{text-align:center;color:var(--text-dim);font-size:.68rem;margin-top:4px;opacity:.7}
-.calc-box{background:var(--bg-panel);border-radius:26px;padding:18px 16px;border:1px solid var(--border-panel);box-shadow:var(--shadow-panel);margin-bottom:14px;position:relative;z-index:2}
+.calc-box{background:rgba(15,35,66,.7);border-radius:24px;padding:20px 18px;border:1px solid rgba(61,139,224,.2);box-shadow:0 15px 40px rgba(0,0,0,.4);margin-bottom:14px;position:relative;z-index:2}
+.calc-box::before{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 30%,rgba(212,175,55,.05),transparent 50%);pointer-events:none}
 .calc-title{color:var(--brand-blue-light);font-size:.85rem;font-weight:800;text-align:center;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;text-shadow:0 0 10px rgba(61,139,224,.6)}
 .calc-title::before,.calc-title::after{content:'';height:1px;flex:1;background:linear-gradient(to right,transparent,var(--brand-blue),transparent)}
 .calc-input-row{display:flex;gap:8px;margin-bottom:12px}
@@ -167,7 +243,9 @@ body{background:var(--bg-body);min-height:100vh;display:flex;justify-content:cen
 .creator-credit strong{color:#ff4444;font-weight:900;text-shadow:0 0 8px rgba(255,68,68,.5)}
 input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 input[type="number"]{-moz-appearance:textfield}
-@media(max-width:380px){.rate-mini .mini-value{font-size:.85rem}.calc-input input{font-size:1.4rem}.logo-letter{width:54px;height:54px;font-size:1.9rem}.main-tab{font-size:.85rem}}
+.main-tab{background:rgba(30,58,107,.3);border:1.5px solid rgba(61,139,224,.25);color:var(--text-sub);padding:14px 6px;border-radius:20px;cursor:pointer;font-family:inherit;font-weight:800;font-size:.85rem;transition:all .3s ease;display:flex;align-items:center;justify-content:center;gap:8px;user-select:none}
+.main-tab:hover{border-color:rgba(212,175,55,.5);color:var(--gold-500);transform:translateY(-2px)}
+.main-tab.active{background:linear-gradient(135deg,rgba(212,175,55,.15),rgba(61,139,224,.1));border-color:var(--gold-500);color:#fff;box-shadow:0 0 25px rgba(212,175,55,.4)}
 @media print{body *{visibility:hidden}.receipt,.receipt *{visibility:visible}.receipt{position:absolute;left:0;top:0;display:block;width:100%}}
 .admin-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .stat-card{background:var(--bg-input);border:1px solid var(--border-soft);border-radius:14px;padding:12px 6px;text-align:center;transition:all .3s}
@@ -221,11 +299,159 @@ input[type="number"]{-moz-appearance:textfield}
 .notify-icon-btn{background:var(--bg-panel);border:1px solid var(--border-main);color:var(--text-sub);width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .25s;position:relative}
 .notify-icon-btn.on{border-color:#22c55e;color:#22c55e;box-shadow:0 0 12px rgba(34,197,94,.4)}
 .notify-icon-btn.on::after{content:'';position:absolute;top:2px;right:2px;width:8px;height:8px;background:#22c55e;border-radius:50%;box-shadow:0 0 8px #22c55e}
+.top-marquee{background:linear-gradient(90deg,#0a2540,#1e5ba8,#0a2540);border:1.5px solid var(--brand-blue-light);border-radius:16px;padding:12px 0;margin:0 0 14px 0;overflow:hidden;box-shadow:0 4px 15px rgba(61,139,224,.4)}
+.top-marquee-inner{animation:scrollLeft 30s linear infinite;white-space:nowrap;display:inline-block;padding-left:100%;transform:translateZ(0)}
+@keyframes scrollLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.top-marquee-text{color:#fff;font-size:.85rem;font-weight:700;padding:0 20px}
+.top-marquee-text .highlight{color:#ffd700;font-weight:900}
+.top-marquee-text .company{color:#5ba8ff;font-weight:900}
+.top-marquee-text .developer{color:#ff6b6b;font-weight:900}
+.gold-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0}
+.particle{position:absolute;width:6px;height:6px;background:radial-gradient(circle,#f4e5a1,#d4af37);border-radius:50%;opacity:.4;box-shadow:0 0 12px rgba(212,175,55,.8),0 0 24px rgba(212,175,55,.4);animation:floatUp 15s linear infinite}
+.p1{left:10%;animation-delay:0s;animation-duration:18s}
+.p2{left:25%;animation-delay:3s;animation-duration:22s;width:4px;height:4px}
+.p3{left:40%;animation-delay:6s;animation-duration:16s}
+.p4{left:55%;animation-delay:2s;animation-duration:20s;width:5px;height:5px}
+.p5{left:70%;animation-delay:8s;animation-duration:19s}
+.p6{left:85%;animation-delay:4s;animation-duration:24s;width:4px;height:4px}
+.p7{left:15%;animation-delay:10s;animation-duration:21s}
+.p8{left:90%;animation-delay:5s;animation-duration:17s;width:5px;height:5px}
+@keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.4}100%{transform:translateY(-20vh) scale(1);opacity:0}}
+.icon-wrap{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:radial-gradient(circle,rgba(30,58,107,.9),rgba(10,25,48,.9));border:1.5px solid rgba(212,175,55,.4);border-radius:50%;color:#d4af37;flex-shrink:0;box-shadow:0 0 12px rgba(212,175,55,.3),inset 0 0 8px rgba(212,175,55,.15);transition:all .3s ease}
+.icon-wrap svg{width:16px;height:16px;stroke:#d4af37;stroke-width:2.2;filter:drop-shadow(0 0 4px rgba(212,175,55,.6))}
+.icon-wrap.lg{width:42px;height:42px}
+.icon-wrap.lg svg{width:22px;height:22px}
+.brand-block:hover .icon-wrap{transform:scale(1.1) rotate(5deg);box-shadow:0 0 20px rgba(212,175,55,.6),inset 0 0 12px rgba(212,175,55,.25)}
+.
+.contact-panel{background:rgba(15,35,66,.7);border-radius:24px;padding:20px 18px;margin-bottom:14px;border:1px solid rgba(61,139,224,.2);box-shadow:0 15px 40px rgba(0,0,0,.4);position:relative;z-index:2;text-align:center}
+.contact-title{color:#d4af37;font-size:.95rem;font-weight:900;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;text-shadow:0 0 10px rgba(212,175,55,.5);letter-spacing:.3px}
+.contact-info{color:var(--text-sub);font-size:.8rem;line-height:1.7;margin-bottom:14px}
+.contact-info strong{color:#d4af37;font-weight:800;display:block;margin-bottom:4px}
+.contact-email{display:inline-flex;align-items:center;gap:8px;color:#3d8be0;font-family:'Inter',monospace;font-size:.85rem;font-weight:700;padding:12px 18px;background:rgba(5,13,31,.6);border:1px solid rgba(61,139,224,.3);border-radius:14px;margin-bottom:12px;direction:ltr;text-decoration:none;transition:all .3s ease;word-break:break-all;max-width:100%}
+.contact-email:hover{border-color:#d4af37;color:#d4af37;box-shadow:0 0 20px rgba(212,175,55,.3);transform:translateY(-2px)}
+.contact-email svg{flex-shrink:0;width:18px;height:18px}
+.contact-buttons{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+.contact-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 16px;border-radius:14px;font-weight:800;font-size:.85rem;cursor:pointer;font-family:inherit;transition:all .3s ease;border:none;text-decoration:none;color:#fff}
+.contact-btn.email-btn{background:linear-gradient(135deg,#1e5ba8,#0a2540);box-shadow:0 4px 0 #041e40,0 0 20px rgba(30,91,168,.5)}
+.contact-btn.email-btn:hover{transform:translateY(-3px);box-shadow:0 6px 0 #041e40,0 0 30px rgba(30,91,168,.7)}
+.contact-btn.email-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #041e40}
+.contact-btn.copy-email-btn{background:linear-gradient(135deg,#b8941f,#8a6d0f);box-shadow:0 4px 0 #5c4508,0 0 20px rgba(212,175,55,.5)}
+.contact-btn.copy-email-btn:hover{transform:translateY(-3px);box-shadow:0 6px 0 #5c4508,0 0 30px rgba(212,175,55,.7)}
+.contact-btn.copy-email-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #5c4508}
+
+
+
+
+
+
+
+.lang-btn:hover{color:#d4af37}
+
+
+.lang-btn:hover{color:#d4af37}
+.skeleton-overlay{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%,#0d2544 0%,#050d1f 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;animation:skeletonAutoHide 3s ease-in-out forwards;overflow:hidden}
+@keyframes skeletonAutoHide{0%,75%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
+.splash-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.splash-star{position:absolute;color:#d4af37;font-size:14px;opacity:0;animation:starTwinkle 3s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(212,175,55,.8))}
+.s1{top:10%;left:15%;animation-delay:0s}
+.s2{top:20%;right:12%;animation-delay:.5s}
+.s3{bottom:25%;left:10%;animation-delay:1s;font-size:10px}
+.s4{bottom:15%;right:18%;animation-delay:1.5s;font-size:12px}
+.s5{top:45%;left:8%;animation-delay:2s;font-size:8px}
+.s6{top:60%;right:8%;animation-delay:2.5s;font-size:10px}
+@keyframes starTwinkle{0%,100%{opacity:0;transform:scale(0.5) rotate(0deg)}50%{opacity:1;transform:scale(1.2) rotate(180deg)}}
+.splash-logo-wrap{position:relative;margin-bottom:24px;width:160px;height:160px;display:flex;align-items:center;justify-content:center}
+.splash-ring{position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:#d4af37;border-right-color:rgba(212,175,55,.5);animation:splashSpin 2s linear infinite;filter:drop-shadow(0 0 10px rgba(212,175,55,.6))}
+.splash-ring-2{inset:15px;border-top-color:rgba(61,139,224,.6);border-right-color:transparent;border-bottom-color:rgba(61,139,224,.3);animation-direction:reverse;animation-duration:3s}
+@keyframes splashSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.skeleton-logo{width:100px;height:100px;border-radius:28px;border:2px solid rgba(212,175,55,.6);background:linear-gradient(145deg,#1e3a6b,#0a1930);display:flex;align-items:center;justify-content:center;font-size:3.5rem;font-weight:900;color:#d4af37;text-shadow:0 0 25px rgba(212,175,55,.9),0 0 50px rgba(212,175,55,.5);box-shadow:0 0 50px rgba(212,175,55,.6),0 0 0 1px rgba(212,175,55,.3) inset,0 0 30px rgba(212,175,55,.4) inset;position:relative;z-index:2;animation:splashPulse 2s ease-in-out infinite}
+@keyframes splashPulse{0%,100%{transform:scale(1);box-shadow:0 0 50px rgba(212,175,55,.6),0 0 0 1px rgba(212,175,55,.3) inset}50%{transform:scale(1.05);box-shadow:0 0 80px rgba(212,175,55,.9),0 0 0 2px rgba(212,175,55,.5) inset}}
+.skeleton-title{color:#d4af37;font-size:1.6rem;font-weight:900;margin-bottom:8px;letter-spacing:1px;text-shadow:0 0 20px rgba(212,175,55,.8),0 0 40px rgba(212,175,55,.4);animation:titleGlow 2s ease-in-out infinite}
+@keyframes titleGlow{0%,100%{text-shadow:0 0 20px rgba(212,175,55,.8),0 0 40px rgba(212,175,55,.4)}50%{text-shadow:0 0 30px rgba(212,175,55,1),0 0 60px rgba(212,175,55,.6)}}
+.splash-divider{width:80px;height:1px;background:linear-gradient(to right,transparent,#d4af37,transparent);margin:8px 0;box-shadow:0 0 10px rgba(212,175,55,.6)}
+.skeleton-sub{color:#3d8be0;font-size:.75rem;letter-spacing:4px;font-weight:700;margin-bottom:40px;text-shadow:0 0 12px rgba(61,139,224,.6);font-family:'Courier New',monospace}
+.splash-progress{width:220px;height:4px;background:rgba(5,13,31,.8);border-radius:4px;overflow:hidden;border:1px solid rgba(212,175,55,.2);box-shadow:0 0 15px rgba(212,175,55,.2) inset}
+.splash-progress-bar{height:100%;width:40%;background:linear-gradient(90deg,transparent,#d4af37,#f4e5a1,#d4af37,transparent);border-radius:4px;animation:progressSlide 1.8s ease-in-out infinite;box-shadow:0 0 15px rgba(212,175,55,.8)}
+@keyframes progressSlide{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+.splash-loading-text{color:#5a7a9a;font-size:.7rem;margin-top:14px;letter-spacing:2px;font-weight:600;animation:loadingFade 2s ease-in-out infinite}
+@keyframes loadingFade{0%,100%{opacity:.4}50%{opacity:1}}
+.about-panel{background:linear-gradient(135deg,rgba(15,35,66,.85),rgba(10,25,48,.85));border-radius:24px;padding:22px 20px;margin-bottom:14px;border:1.5px solid rgba(212,175,55,.3);box-shadow:0 15px 40px rgba(0,0,0,.5),0 0 30px rgba(212,175,55,.1) inset;position:relative;z-index:2;overflow:hidden}
+.about-panel::before{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 30%,rgba(212,175,55,.08),transparent 50%);pointer-events:none}
+.about-title{color:#d4af37;font-size:1rem;font-weight:900;margin-bottom:14px;display:flex;align-items:center;gap:10px;text-shadow:0 0 12px rgba(212,175,55,.6);letter-spacing:.3px;position:relative;z-index:1}
+.about-content{color:#b8c8e0;font-size:.82rem;line-height:1.85;position:relative;z-index:1;text-align:right}
+.about-content p{margin-bottom:10px}
+.about-content strong{color:#d4af37;font-weight:800}
+.about-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;position:relative;z-index:1}
+.about-feature{background:rgba(5,13,31,.5);border:1px solid rgba(61,139,224,.2);border-radius:14px;padding:12px 10px;text-align:center;transition:all .3s ease}
+.about-feature:hover{border-color:rgba(212,175,55,.4);transform:translateY(-2px)}
+.about-feature-icon{margin-bottom:6px;display:flex;justify-content:center}
+.about-feature-label{color:#b8c8e0;font-size:.72rem;font-weight:700}
+.about-signature{margin-top:16px;padding-top:14px;border-top:1px dashed rgba(212,175,55,.3);text-align:center;position:relative;z-index:1}
+.about-signature-title{color:#d4af37;font-size:.78rem;font-weight:800;margin-bottom:4px}
+.about-signature-name{color:#fff;font-size:.95rem;font-weight:900;text-shadow:0 0 10px rgba(212,175,55,.5);letter-spacing:.3px}
+.about-signature-role{color:#5a7a9a;font-size:.68rem;margin-top:4px;letter-spacing:.5px}
+.price-chart{background:rgba(5,13,31,.6);border-radius:16px;padding:14px;margin-bottom:16px;border:1px solid rgba(61,139,224,.15);position:relative;overflow:hidden}
+.price-chart::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(212,175,55,.05),transparent);animation:chartShine 4s ease-in-out infinite}
+@keyframes chartShine{0%{left:-100%}50%{left:150%}100%{left:150%}}
+.chart-stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.chart-stat-card{background:rgba(5,13,31,.5);border:1px solid rgba(61,139,224,.2);border-radius:14px;padding:12px 8px;text-align:center;transition:all .3s ease}
+.chart-stat-card:hover{border-color:rgba(212,175,55,.4);transform:translateY(-2px);box-shadow:0 8px 20px rgba(212,175,55,.15)}
+.chart-stat-icon{font-size:1.2rem;margin-bottom:4px}
+.chart-stat-label{color:#5a7a9a;font-size:.65rem;font-weight:700;margin-bottom:6px;letter-spacing:.3px}
+.chart-stat-num{color:#d4af37;font-family:'Courier New',monospace;font-size:1rem;font-weight:900;direction:ltr;text-shadow:0 0 10px rgba(212,175,55,.5)}
+.chart-stat-num.up{color:#22c55e;text-shadow:0 0 10px rgba(34,197,94,.5)}
+.chart-stat-num.down{color:#ef4444;text-shadow:0 0 10px rgba(239,68,68,.5)}
+.chart-note{text-align:center;color:#5a7a9a;font-size:.72rem;padding:10px;background:rgba(5,13,31,.4);border-radius:12px;border:1px dashed rgba(212,175,55,.2);line-height:1.5}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
 </head>
 <body>
+<div class="skeleton-overlay" id="skeletonOverlay">
+  <div class="splash-stars">
+    <span class="splash-star s1">✦</span>
+    <span class="splash-star s2">✦</span>
+    <span class="splash-star s3">✦</span>
+    <span class="splash-star s4">✦</span>
+    <span class="splash-star s5">✦</span>
+    <span class="splash-star s6">✦</span>
+  </div>
+  <div class="splash-logo-wrap">
+    <div class="splash-ring"></div>
+    <div class="splash-ring splash-ring-2"></div>
+    <div class="skeleton-logo">ح</div>
+  </div>
+  <div class="skeleton-title">حميدو للصرافة</div>
+  <div class="splash-divider"></div>
+  <div class="skeleton-sub">HAMIDO EXCHANGE</div>
+  <div class="splash-progress">
+    <div class="splash-progress-bar"></div>
+  </div>
+  <div class="splash-loading-text">جاري التحميل...</div>
+</div>
+</div>
+</div>
 <div class="app-container">
-
+<div class="gold-particles" aria-hidden="true">
+  <span class="particle p1"></span>
+  <span class="particle p2"></span>
+  <span class="particle p3"></span>
+  <span class="particle p4"></span>
+  <span class="particle p5"></span>
+  <span class="particle p6"></span>
+  <span class="particle p7"></span>
+  <span class="particle p8"></span>
+</div>
+<div class="top-marquee">
+  <div class="top-marquee-inner">
+<span class="top-marquee-text">✨ أهلاً وسهلاً بكم ✨ <span class="highlight">حميدو للصرافة</span> ✨ تم تطويره من قبل <span class="company">شركة حميدو للبرمجة</span> 💻 تم إنشاؤه بواسطة <span class="developer">عمر عثمان حميدو</span> ❤️ نتمنى لكم تجربة ممتازة! 🌟 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="top-marquee-text">🎉 أهلاً وسهلاً بكم في <span class="highlight">حميدو للصرافة</span> ✨ تم تطويره من قبل <span class="company">شركة حميدو للبرمجة</span> 💻 تم إنشاؤه بواسطة <span class="developer">عمر عثمان حميدو</span> ❤️ نتمنى لكم تجربة ممتازة! 🌟 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+  </div>
+</div>
 <div class="header">
   <div class="brand-block" id="logoClickArea">
     <div class="logo-letter" id="azazLogo">A</div>
@@ -235,9 +461,9 @@ input[type="number"]{-moz-appearance:textfield}
     </div>
   </div>
   <div class="header-controls">
-    <button class="icon-btn" id="themeToggle" title="تبديل الوضع">🌙</button>
-    <button class="notify-icon-btn" id="notifyToggleBtn" title="تفعيل الإشعارات">🔕</button>
-    <div class="admin-badge" id="adminBadge">🕌 ادارة</div>
+<button class="icon-btn" id="themeToggle" title="تبديل الوضع"><span class="icon-wrap" style="width:28px;height:28px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span></span></button>
+<button class="notify-icon-btn" id="notifyToggleBtn" title="تفعيل الإشعارات"><span class="icon-wrap" style="width:28px;height:28px"></span><span class="icon-wrap" style="width:28px;height:28px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M8.7 3A6 6 0 0 1 18 8a21.3 21.3 0 0 0 .6 5"/><path d="M17 17H3s3-2 3-9a4.67 4.67 0 0 1 .3-1.7"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><line x1="2" x2="22" y1="2" y2="22"/></svg></span></button>
+<div class="admin-badge" id="adminBadge"><span class="icon-wrap" style="width:24px;height:24px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span> ادارة</div>
   </div>
 </div>
 
@@ -247,7 +473,7 @@ input[type="number"]{-moz-appearance:textfield}
 </div>
 <div class="notify-prompt" id="notifyPrompt">
   <div class="notify-prompt-title">
-    <span>🔔</span> فعّل الإشعارات
+<span class="icon-wrap" style="width:22px;height:22px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span> فعّل الإشعارات
     <span class="notify-badge">جديد</span>
   </div>
   <div class="notify-prompt-text">
@@ -259,43 +485,45 @@ input[type="number"]{-moz-appearance:textfield}
   </div>
 </div>
 <div class="main-tabs">
-  <button class="main-tab active" id="tabHome" data-page="home"><span class="tab-icon">🏠</span><span>الرئيسية</span></button>
-  <button class="main-tab" id="tabCalc" data-page="calc"><span class="tab-icon">🧮</span><span>الآلة الحاسبة</span></button>
+  <button class="main-tab active" id="tabHome" data-page="home"><span class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>الرئيسية</span></button>
+  <button class="main-tab" id="tabCalc" data-page="calc"><span class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg></span><span>الآلة الحاسبة</span></button>
+ <button class="main-tab" id="tabChart" data-page="chart"><span class="tab-icon">📈</span><span>الرسم البياني</span></button> 
 </div>
 
 <div class="page active" id="pageHome">
+
   <div class="section-label">💱 أسعار العملات</div>
 
   <div class="rates-grid">
     <div class="rate-card" data-currency="usd">
       <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇺🇸 → 🇹🇷</span><span>دولار / ليرة تركية</span></div></div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="d_try_buy">49.10</span><span class="trend-indicator" id="d_try_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="d_try_sell">49.50</span><span class="trend-indicator" id="d_try_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="d_try_buy">49.10</span><span class="trend-indicator" id="d_try_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="d_try_sell">49.50</span><span class="trend-indicator" id="d_try_sell_trend"></span></div></div>
       </div>
     </div>
 
     <div class="rate-card" data-currency="usd">
       <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇺🇸 → 🇸🇾</span><span>دولار / ليرة سورية</span></div></div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="d_syp_buy">13,500</span><span class="trend-indicator" id="d_syp_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="d_syp_sell">13,700</span><span class="trend-indicator" id="d_syp_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="d_syp_buy">13,500</span><span class="trend-indicator" id="d_syp_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="d_syp_sell">13,700</span><span class="trend-indicator" id="d_syp_sell_trend"></span></div></div>
       </div>
     </div>
 
     <div class="rate-card" data-currency="try">
       <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇹🇷 → 🇸🇾</span><span>ليرة تركية / ليرة سورية</span></div></div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="try_syp_buy">275</span><span class="trend-indicator" id="try_syp_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="try_syp_sell">285</span><span class="trend-indicator" id="try_syp_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="try_syp_buy">275</span><span class="trend-indicator" id="try_syp_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="try_syp_sell">285</span><span class="trend-indicator" id="try_syp_sell_trend"></span></div></div>
       </div>
     </div>
 
     <div class="rate-card" data-currency="eur">
       <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇪🇺 → 🇺🇸</span><span>يورو / دولار</span></div></div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="eur_usd_buy">1.08</span><span class="trend-indicator" id="eur_usd_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="eur_usd_sell">1.10</span><span class="trend-indicator" id="eur_usd_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="eur_usd_buy">1.08</span><span class="trend-indicator" id="eur_usd_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="eur_usd_sell">1.10</span><span class="trend-indicator" id="eur_usd_sell_trend"></span></div></div>
       </div>
     </div>
   </div>
@@ -306,21 +534,79 @@ input[type="number"]{-moz-appearance:textfield}
     <div class="rate-card gold-card" data-currency="gold_syp">
       <div class="rate-card-title"><div class="pair gold-title"><span class="flag-icons">🇸🇾</span><span>غرام ذهب سوري</span></div></div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="gold_syp_buy">850,000</span><span class="trend-indicator" id="gold_syp_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="gold_syp_sell">880,000</span><span class="trend-indicator" id="gold_syp_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="gold_syp_buy">850,000</span><span class="trend-indicator" id="gold_syp_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="gold_syp_sell">880,000</span><span class="trend-indicator" id="gold_syp_sell_trend"></span></div></div>
       </div>
     </div>
 
     <div class="rate-card gold-card" data-currency="gold_usd">
       <div class="rate-card-title"><div class="pair gold-title"><span class="flag-icons">💵</span><span>غرام ذهب دولار</span></div></div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label">💰 شراء</div><div class="mini-value"><span id="gold_usd_buy">65.50</span><span class="trend-indicator" id="gold_usd_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label">🏷️ بيع</div><div class="mini-value"><span id="gold_usd_sell">67.00</span><span class="trend-indicator" id="gold_usd_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="gold_usd_buy">65.50</span><span class="trend-indicator" id="gold_usd_buy_trend"></span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="gold_usd_sell">67.00</span><span class="trend-indicator" id="gold_usd_sell_trend"></span></div></div>
       </div>
     </div>
   </div>
 
   <div class="tap-hint">👆 اضغط على أي سعر للانتقال إلى الحاسبة</div>
+  <div class="about-panel">
+  <div class="about-title">
+    <span class="icon-wrap" style="width:28px;height:28px;border-width:1.5px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
+    من نحن
+  </div>
+  <div class="about-content">
+    <p>مرحباً بكم في <strong>حميدو للصرافة</strong> — وجهتكم الموثوقة لأسعار الصرف والعملات في مدينة اعزاز.</p>
+    <p>نقدم لكم <strong>أسعاراً محدّثة لحظياً</strong> لكل من الدولار الأمريكي، الليرة التركية، الليرة السورية، اليورو، والذهب عيار 21.</p>
+    <p>هدفنا أن نكون <strong>الأسرع والأدق</strong> في تقديم أسعار الصرف لعملائنا الكرام.</p>
+  </div>
+  <div class="about-features">
+    <div class="about-feature">
+      <div class="about-feature-icon"><span class="icon-wrap" style="width:32px;height:32px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span></div>
+      <div class="about-feature-label">أسعار مباشرة</div>
+    </div>
+    <div class="about-feature">
+      <div class="about-feature-icon"><span class="icon-wrap" style="width:32px;height:32px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></span></div>
+      <div class="about-feature-label">موثوقية عالية</div>
+    </div>
+    <div class="about-feature">
+      <div class="about-feature-icon"><span class="icon-wrap" style="width:32px;height:32px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></div>
+      <div class="about-feature-label">تحديث لحظي</div>
+    </div>
+    <div class="about-feature">
+      <div class="about-feature-icon"><span class="icon-wrap" style="width:32px;height:32px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span></div>
+      <div class="about-feature-label">أفضل الأسعار</div>
+    </div>
+  </div>
+  <div class="about-signature">
+    <div class="about-signature-title">تطوير وإدارة</div>
+    <div class="about-signature-name">شركة حميدو للبرمجة</div>
+    <div class="about-signature-role">عمر عثمان حميدو — المؤسس والمدير</div>
+  </div>
+</div>
+  <div class="contact-panel">
+  <div class="contact-title">
+    <span class="icon-wrap" style="width:26px;height:26px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+    تواصل معنا
+  </div>
+  <div class="contact-info">
+    <strong>📧 البريد الإلكتروني الرسمي</strong>
+    للاستفسارات والاقتراحات
+  </div>
+  <a href="mailto:sfntysfynty@gmail.com" class="contact-email">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+    sfntysfynty@gmail.com
+  </a>
+  <div class="contact-buttons">
+    <a href="mailtosfntysfynty@gmail.com?subject=استفسار من موقع حميدو للصرافة&body=السلام عليكم،%0A%0Aأريد الاستفسار عن:" class="contact-btn email-btn">
+      <span class="icon-wrap" style="width:24px;height:24px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg></span>
+      إرسال رسالة
+    </a>
+    <button class="contact-btn copy-email-btn" id="copyEmailBtn">
+      <span class="icon-wrap" style="width:24px;height:24px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></span>
+      نسخ البريد
+    </button>
+  </div>
+</div>
 <div class="share-panel">
   <div class="share-panel-title">📱 شارك التطبيق</div>
   <div class="share-app-name">حميدو للصرافة</div>
@@ -340,7 +626,44 @@ input[type="number"]{-moz-appearance:textfield}
     <button class="action-btn import-btn" id="importBtn"><span>📥</span> استيراد نسخة</button>
   </div>
 </div>
+<div class="page" id="pageChart">
+  <div class="calc-box">
+    <div class="calc-title">📈 اتجاه سعر الدولار</div>
+    
+    <div class="price-chart">
+      <svg id="priceChartSvg" viewBox="0 0 300 100" preserveAspectRatio="none" style="width:100%;height:180px;display:block">
+        <defs>
+          <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#d4af37" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path id="chartArea" d="M0,100 L0,50 L300,50 L300,100 Z" fill="url(#chartGradient)"/>
+        <path id="chartLine" d="M0,50 L300,50" fill="none" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round" filter="drop-shadow(0 0 4px rgba(212,175,55,.6))"/>
+      </svg>
+    </div>
 
+    <div class="chart-stats-grid">
+      <div class="chart-stat-card">
+        <div class="chart-stat-icon">📉</div>
+        <div class="chart-stat-label">أدنى سعر</div>
+        <div class="chart-stat-num" id="chartMin">-</div>
+      </div>
+      <div class="chart-stat-card">
+        <div class="chart-stat-icon">📈</div>
+        <div class="chart-stat-label">أعلى سعر</div>
+        <div class="chart-stat-num" id="chartMax">-</div>
+      </div>
+      <div class="chart-stat-card">
+        <div class="chart-stat-icon">📊</div>
+        <div class="chart-stat-label">التغير</div>
+        <div class="chart-stat-num" id="chartChange">-</div>
+      </div>
+    </div>
+
+    <div class="chart-note" id="chartNote">📅 يتم تسجيل سعر واحد لكل يوم — سيظهر المنحنى بعد أيام</div>
+  </div>
+</div>
 <div class="page" id="pageCalc">
   <div class="calc-box">
     <div class="calc-title">🧮 الآلة الحاسبة الشاملة</div>
@@ -580,6 +903,7 @@ var firebaseReady=false;
 var dbRef=null;
 try{firebase.initializeApp(firebaseConfig);dbRef=firebase.database().ref('rates');firebaseReady=true;}catch(e){console.warn('Firebase init failed:',e);firebaseReady=false;}
 
+
 function loadRatesFromStorage(){try{var saved=localStorage.getItem(RATES_KEY);if(saved){var data=JSON.parse(saved);for(var pair in DEFAULT_RATES){if(data[pair]&&typeof data[pair].buy==='number'&&typeof data[pair].sell==='number'){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};}}}var prev=localStorage.getItem(PREV_RATES_KEY);if(prev)prevRates=JSON.parse(prev);}catch(e){}}
 function loadRatesFromFirebase(callback){if(!firebaseReady||!dbRef){if(callback)callback();return;}dbRef.once('value').then(function(snap){var data=snap.val();if(data){for(var pair in DEFAULT_RATES){if(data[pair]&&typeof data[pair].buy==='number'&&typeof data[pair].sell==='number'){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};}}saveRatesToStorage();if(callback)callback();}else{dbRef.set(rates).catch(function(e){console.warn(e);});if(callback)callback();}}).catch(function(e){console.warn('Firebase read error:',e);if(callback)callback();});}
 function listenToFirebase(){if(!firebaseReady||!dbRef)return;dbRef.on('value',function(snap){var data=snap.val();if(data){var changed=false;for(var pair in DEFAULT_RATES){if(data[pair]){if(rates[pair].buy!==data[pair].buy||rates[pair].sell!==data[pair].sell){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};changed=true;}}}if(changed){saveRatesToStorage();updateRateCards();updateAdminFields();calculateAll();}}});}
@@ -597,7 +921,7 @@ function updateTrends(){['d_try','d_syp','try_syp','eur_usd','gold_syp','gold_us
 function updateRateCards(){$('d_try_buy').textContent=formatNumber(rates.d_try.buy,2);$('d_try_sell').textContent=formatNumber(rates.d_try.sell,2);$('d_syp_buy').textContent=formatNumber(rates.d_syp.buy,0);$('d_syp_sell').textContent=formatNumber(rates.d_syp.sell,0);$('try_syp_buy').textContent=formatNumber(rates.try_syp.buy,2);$('try_syp_sell').textContent=formatNumber(rates.try_syp.sell,2);$('eur_usd_buy').textContent=formatNumber(rates.eur_usd.buy,2);$('eur_usd_sell').textContent=formatNumber(rates.eur_usd.sell,2);$('gold_syp_buy').textContent=formatNumber(rates.gold_syp.buy,0);$('gold_syp_sell').textContent=formatNumber(rates.gold_syp.sell,0);$('gold_usd_buy').textContent=formatNumber(rates.gold_usd.buy,2);$('gold_usd_sell').textContent=formatNumber(rates.gold_usd.sell,2);updateTrends();}
 function updateAdminFields(){$('adm_d_try_buy').value=rates.d_try.buy;$('adm_d_try_sell').value=rates.d_try.sell;$('adm_d_syp_buy').value=rates.d_syp.buy;$('adm_d_syp_sell').value=rates.d_syp.sell;$('adm_try_syp_buy').value=rates.try_syp.buy;$('adm_try_syp_sell').value=rates.try_syp.sell;$('adm_eur_usd_buy').value=rates.eur_usd.buy;$('adm_eur_usd_sell').value=rates.eur_usd.sell;$('adm_gold_syp_buy').value=rates.gold_syp.buy;$('adm_gold_syp_sell').value=rates.gold_syp.sell;$('adm_gold_usd_buy').value=rates.gold_usd.buy;$('adm_gold_usd_sell').value=rates.gold_usd.sell;}
 function updateSecurityDisplay(){var sec=adminSecurity;$('currentSecurityDisplay').textContent=sec.length<=4?sec:sec.slice(0,2)+'•••'+sec.slice(-3);}
-function switchTab(name){if(name==='calc'){$('tabHome').classList.remove('active');$('tabCalc').classList.add('active');$('pageHome').classList.remove('active');$('pageCalc').classList.add('active');}else{$('tabCalc').classList.remove('active');$('tabHome').classList.add('active');$('pageCalc').classList.remove('active');$('pageHome').classList.add('active');}try{localStorage.setItem(ACTIVE_TAB_KEY,name);}catch(e){}}
+function switchTab(name){['tabHome','tabCalc','tabChart'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});['pageHome','pageCalc','pageChart'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});if(name==='calc'){$('tabCalc').classList.add('active');$('pageCalc').classList.add('active');}else if(name==='chart'){$('tabChart').classList.add('active');$('pageChart').classList.add('active');setTimeout(drawChart,100);}else{$('tabHome').classList.add('active');$('pageHome').classList.add('active');}try{localStorage.setItem(ACTIVE_TAB_KEY,name);}catch(e){}}
 function getUsdValue(amount,currency){switch(currency){case'usd':return amount;case'try':return amount/rates.d_try.buy;case'syp':return amount/rates.d_syp.buy;case'eur':return amount/rates.eur_usd.buy;case'gold_syp':return(amount*rates.gold_syp.buy)/rates.d_syp.buy;case'gold_usd':return amount*rates.gold_usd.buy;default:return amount;}}
 function calculateAll(){var amount=parseFloat($('calcInput').value)||0;var cur=$('calcCurrency').value;var r={};var uBuy=0,uSell=0;if(cur==='usd'){uBuy=amount;uSell=amount;}else if(cur==='try'){uBuy=amount/rates.d_try.sell;uSell=amount/rates.d_try.buy;}else if(cur==='syp'){uBuy=amount/rates.d_syp.sell;uSell=amount/rates.d_syp.buy;}else if(cur==='eur'){uBuy=amount*rates.eur_usd.buy;uSell=amount*rates.eur_usd.sell;}else if(cur==='gold_syp'){uBuy=(amount*rates.gold_syp.buy)/rates.d_syp.sell;uSell=(amount*rates.gold_syp.sell)/rates.d_syp.buy;}else if(cur==='gold_usd'){uBuy=amount*rates.gold_usd.buy;uSell=amount*rates.gold_usd.sell;}
 r.usd_buy=uBuy;r.usd_sell=uSell;r.try_buy=uBuy*rates.d_try.buy;r.try_sell=uSell*rates.d_try.sell;r.syp_buy=uBuy*rates.d_syp.buy;r.syp_sell=uSell*rates.d_syp.sell;r.eur_buy=uBuy/rates.eur_usd.sell;r.eur_sell=uSell/rates.eur_usd.buy;r.gold_syp_buy=r.syp_buy/rates.gold_syp.sell;r.gold_syp_sell=r.syp_sell/rates.gold_syp.buy;r.gold_usd_buy=uBuy/rates.gold_usd.sell;r.gold_usd_sell=uSell/rates.gold_usd.buy;
@@ -607,7 +931,7 @@ sv('res_usd_buy',r.usd_buy,2);sv('res_usd_sell',r.usd_sell,2);sv('res_try_buy',r
 return r;}
 function getCurrencyLabel(cur){var labels={usd:'🇺🇸 دولار أمريكي',try:'🇹🇷 ليرة تركية',syp:'🇸🇾 ليرة سورية',eur:'🇪🇺 يورو',gold_syp:'🥇 غرام ذهب سوري',gold_usd:'🥇 غرام ذهب دولار'};return labels[cur]||cur;}
 function clearCalc(){$('calcInput').value='';['usd','try','syp','eur','gold_syp','gold_usd'].forEach(function(k){['buy','sell'].forEach(function(t){var el=$('res_'+k+'_'+t);if(el)el.textContent='-';});});$('calcInput').focus();}
-function applyNewRates(){if(!isAdmin)return;var newRates={};var keys=['d_try_buy','d_try_sell','d_syp_buy','d_syp_sell','try_syp_buy','try_syp_sell','eur_usd_buy','eur_usd_sell','gold_syp_buy','gold_syp_sell','gold_usd_buy','gold_usd_sell'];for(var i=0;i<keys.length;i++){var val=parseFloat($('adm_'+keys[i]).value);if(isNaN(val)||val<=0){alert('الرجاء إدخال جميع الأسعار بشكل صحيح');return;}newRates[keys[i]]=val;}savePrevRates();rates.d_try.buy=newRates.d_try_buy;rates.d_try.sell=newRates.d_try_sell;rates.d_syp.buy=newRates.d_syp_buy;rates.d_syp.sell=newRates.d_syp_sell;rates.try_syp.buy=newRates.try_syp_buy;rates.try_syp.sell=newRates.try_syp_sell;rates.eur_usd.buy=newRates.eur_usd_buy;rates.eur_usd.sell=newRates.eur_usd_sell;rates.gold_syp.buy=newRates.gold_syp_buy;rates.gold_syp.sell=newRates.gold_syp_sell;rates.gold_usd.buy=newRates.gold_usd_buy;rates.gold_usd.sell=newRates.gold_usd_sell;saveRatesToStorage();saveLastUpdate();updateRateCards();calculateAll();if(firebaseReady&&dbRef){dbRef.set(rates).then(function(){$('saveFeedback').textContent='✅ تم الحفظ والنشر لجميع الزوار';sendRatesNotification(rates);$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);}).catch(function(e){alert('⚠️ تم الحفظ محلياً فقط');$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');},2500);});}else{$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');},2500);}}
+function applyNewRates(){if(!isAdmin)return;var newRates={};var keys=['d_try_buy','d_try_sell','d_syp_buy','d_syp_sell','try_syp_buy','try_syp_sell','eur_usd_buy','eur_usd_sell','gold_syp_buy','gold_syp_sell','gold_usd_buy','gold_usd_sell'];for(var i=0;i<keys.length;i++){var val=parseFloat($('adm_'+keys[i]).value);if(isNaN(val)||val<=0){alert('الرجاء إدخال جميع الأسعار بشكل صحيح');return;}newRates[keys[i]]=val;}savePrevRates();rates.d_try.buy=newRates.d_try_buy;rates.d_try.sell=newRates.d_try_sell;rates.d_syp.buy=newRates.d_syp_buy;rates.d_syp.sell=newRates.d_syp_sell;rates.try_syp.buy=newRates.try_syp_buy;rates.try_syp.sell=newRates.try_syp_sell;rates.eur_usd.buy=newRates.eur_usd_buy;rates.eur_usd.sell=newRates.eur_usd_sell;rates.gold_syp.buy=newRates.gold_syp_buy;rates.gold_syp.sell=newRates.gold_syp_sell;rates.gold_usd.buy=newRates.gold_usd_buy;rates.gold_usd.sell=newRates.gold_usd_sell;saveRatesToStorage();saveLastUpdate();updateRateCards();calculateAll();saveChartHistory();if(firebaseReady&&dbRef){dbRef.set(rates).then(function(){$('saveFeedback').textContent='✅ تم الحفظ والنشر لجميع الزوار';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);try{sendRatesNotification(rates);}catch(err){console.warn('Notification failed (silent):',err);}}).catch(function(e){console.warn('Firebase save failed:',e);$('saveFeedback').textContent='⚠️ تم الحفظ محلياً فقط';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);});}else{$('saveFeedback').textContent='✅ تم الحفظ محلياً';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);}}
 function exportBackup(){try{var backup={version:12,exportedAt:new Date().toISOString(),rates:rates,prevRates:prevRates,lastUpdate:localStorage.getItem(LAST_UPDATE_KEY),credentials:{password:adminPassword,pin:adminPin,security:adminSecurity},theme:localStorage.getItem(THEME_KEY)};var dataStr=JSON.stringify(backup,null,2);var blob=new Blob([dataStr],{type:'application/json'});var url=URL.createObjectURL(blob);var now=new Date();var filename='hamido-backup-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+'.json';var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);alert('✅ تم تصدير النسخة الاحتياطية');}catch(e){alert('❌ حدث خطأ');}}
 function importBackup(file){if(!file)return;var reader=new FileReader();reader.onload=function(e){try{var data=JSON.parse(e.target.result);if(!data||!data.rates)throw new Error('ملف غير صالح');if(!confirm('سيتم استبدال جميع البيانات. متابعة؟'))return;for(var pair in DEFAULT_RATES){if(data.rates[pair]){rates[pair]={buy:data.rates[pair].buy,sell:data.rates[pair].sell};}}if(data.prevRates)prevRates=data.prevRates;if(data.credentials){if(data.credentials.password){adminPassword=data.credentials.password;localStorage.setItem(PASSWORD_KEY,adminPassword);}if(data.credentials.pin){adminPin=data.credentials.pin;localStorage.setItem(PIN_KEY,adminPin);}if(data.credentials.security){adminSecurity=data.credentials.security;localStorage.setItem(SECURITY_KEY,adminSecurity);}}if(data.theme){document.documentElement.setAttribute('data-theme',data.theme);$('themeToggle').textContent=data.theme==='dark'?'🌙':'☀️';localStorage.setItem(THEME_KEY,data.theme);}saveRatesToStorage();if(prevRates)localStorage.setItem(PREV_RATES_KEY,JSON.stringify(prevRates));if(data.lastUpdate){localStorage.setItem(LAST_UPDATE_KEY,data.lastUpdate);$('statusText').textContent='آخر تحديث: '+data.lastUpdate;}updateRateCards();updateAdminFields();updateSecurityDisplay();calculateAll();alert('✅ تم استيراد النسخة');}catch(err){alert('❌ فشل: '+err.message);}};reader.readAsText(file);}
 function printReceipt(){var amount=parseFloat($('calcInput').value)||0;if(amount===0){alert('الرجاء إدخال مبلغ');return;}var currency=$('calcCurrency').value;var results=calculateAll();var now=new Date();var dateStr=now.toLocaleDateString('ar-EG',{year:'numeric',month:'2-digit',day:'2-digit'});var timeStr=now.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});var receiptNum='HMD-'+Date.now().toString().slice(-8);$('rcptDate').textContent=dateStr;$('rcptTime').textContent=timeStr;$('rcptNumber').textContent=receiptNum;$('rcptBase').textContent=getCurrencyLabel(currency);$('rcptAmount').textContent=formatNumber(amount,2);var html='';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇺🇸 دولار:</span><strong>'+formatNumber(results.usd_buy,2)+' $</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇹🇷 ليرة تركية:</span><strong>'+formatNumber(results.try_buy,2)+' ₺</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇸🇾 ليرة سورية:</span><strong>'+formatNumber(results.syp_buy,0)+' £</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇪🇺 يورو:</span><strong>'+formatNumber(results.eur_buy,2)+' €</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🥇 ذهب سوري:</span><strong>'+formatNumber(results.gold_syp_buy,3)+' غرام</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;"><span>🥇 ذهب دولار:</span><strong>'+formatNumber(results.gold_usd_buy,3)+' غرام</strong></div>';$('rcptResults').innerHTML=html;$('receipt').style.display='block';setTimeout(function(){window.print();setTimeout(function(){$('receipt').style.display='none';},500);},100);}
@@ -645,14 +969,28 @@ function dismissNotify(){localStorage.setItem(NOTIFY_KEY,'dismissed');var prompt
 function updateNotifyIcon(){var btn=$('notifyToggleBtn');if(!btn)return;if(Notification.permission==='granted'){btn.classList.add('on');btn.textContent='🔔';btn.title='الإشعارات مفعّلة';}else{btn.classList.remove('on');btn.textContent='🔕';btn.title='اضغط لتفعيل الإشعارات';}}
 function showWelcomeNotification(){if(Notification.permission!=='granted')return;try{var n=new Notification('🕌 حميدو للصرافة',{body:'✅ تم تفعيل الإشعارات!\n📱 ستصلك أسعار الصرف والذهب فور تحديثها',icon:'icon.png',badge:'icon.png',tag:'welcome',requireInteraction:false});setTimeout(function(){n.close();},5000);}catch(e){console.warn('Welcome notification failed:',e);}}
 function sendRatesNotification(newRates){if(Notification.permission!=='granted')return;var lastNotified=localStorage.getItem(NOTIFY_LAST_RATES);var newRatesStr=JSON.stringify(newRates);if(lastNotified===newRatesStr)return;var text='🇺🇸 دولار: '+newRates.d_try.buy.toFixed(2)+' ₺ (شراء) / '+newRates.d_try.sell.toFixed(2)+' ₺ (بيع)\n🇹🇷 تركي/سوري: '+newRates.try_syp.buy.toFixed(2)+'\n🥇 ذهب سوري: '+Math.round(newRates.gold_syp.buy);try{var n=new Notification('🔔 حميدو للصرافة — أسعار جديدة!',{body:text,icon:'icon.png',badge:'icon.png',tag:'rates-update',requireInteraction:false,vibrate:[200,100,200]});setTimeout(function(){n.close();},8000);n.onclick=function(){window.focus();n.close();};localStorage.setItem(NOTIFY_LAST_RATES,newRatesStr);}catch(e){console.warn('Rates notification failed:',e);}}
-function checkRatesChange(){if(Notification.permission!=='granted')return;if(!firebaseReady||!dbRef)return;dbRef.once('value').then(function(snap){var data=snap.val();if(!data)return;var lastRates=localStorage.getItem(NOTIFY_LAST_RATES);if(!lastRates){localStorage.setItem(NOTIFY_LAST_RATES,JSON.stringify(data));return;}var lastObj=JSON.parse(lastRates);if(lastObj.d_try&&data.d_try){var buyChanged=Math.abs((lastObj.d_try.buy||0)-data.d_try.buy)>0.001;var sellChanged=Math.abs((lastObj.d_try.sell||0)-data.d_try.sell)>0.001;if(buyChanged||sellChanged){sendRatesNotification(data);}}}).catch(function(e){console.warn('Check rates failed:',e);});}
+
+var priceChart=null;
+var currentChartPair='d_try';
+var chartHistoryKey='hamido_price_history';
+
+
+function updateChartStats(buy,sell){if(buy.length===0)return;var allVals=buy.concat(sell);var min=Math.min.apply(null,allVals);var max=Math.max.apply(null,allVals);var first=buy[0];var last=buy[buy.length-1];var change=((last-first)/first*100).toFixed(2);var minEl=document.getElementById('chartMin');var maxEl=document.getElementById('chartMax');var changeEl=document.getElementById('chartChange');if(minEl)minEl.textContent=min.toFixed(2);if(maxEl)maxEl.textContent=max.toFixed(2);if(changeEl){changeEl.textContent=(change>0?'+':'')+change+'%';changeEl.className='chart-stat-value '+(change>0?'up':change<0?'down':'');}}
+function refreshRatesFromFirebase(){if(!firebaseReady||!dbRef)return;dbRef.once('value').then(function(snap){var data=snap.val();if(data){for(var pair in DEFAULT_RATES){if(data[pair]&&typeof data[pair].buy==='number'&&typeof data[pair].sell==='number'){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};}}saveRatesToStorage();updateRateCards();updateAdminFields();calculateAll();console.log('✅ تم تحديث الأسعار من Firebase');}}).catch(function(e){console.warn('Refresh failed:',e);});}
+
 function init(){loadRatesFromStorage();loadCredentials();loadTheme();loadLastUpdate();updateRateCards();updateSecurityDisplay();updateAdminFields();calculateAll();bindRateCardClick();loadActiveTab();try{$('todayDate').textContent='📅 '+new Date().toLocaleDateString('ar-EG',{weekday:'long',month:'long',day:'numeric'});}catch(e){}
-loadRatesFromFirebase(function(){updateRateCards();updateAdminFields();calculateAll();});listenToFirebase();initStatsTracking(); setTimeout(checkRatesChange,3000);
+
 $('tabHome').addEventListener('click',function(){switchTab('home');});
 $('tabCalc').addEventListener('click',function(){switchTab('calc');});
+$('tabChart').addEventListener('click',function(){switchTab('chart');});
+saveChartHistory();
 $('calcInput').addEventListener('input',calculateAll);
 $('calcCurrency').addEventListener('change',calculateAll);
 $('clearBtn').addEventListener('click',clearCalc);
+function saveChartHistory(){try{var h=JSON.parse(localStorage.getItem('hamido_chart')||'[]');var today=new Date().toISOString().slice(0,10);var last=h[h.length-1];if(!last||last.d!==today){h.push({d:today,v:rates.d_try.buy});}else{last.v=rates.d_try.buy;}if(h.length>15)h=h.slice(-15);localStorage.setItem('hamido_chart',JSON.stringify(h));drawChart();}catch(e){console.warn('Save chart failed:',e);}}
+function drawChart(){try{var h=JSON.parse(localStorage.getItem('hamido_chart')||'[]');var line=document.getElementById('chartLine');var area=document.getElementById('chartArea');var note=document.getElementById('chartNote');if(!line||!area)return;if(h.length===0){line.setAttribute('d','M0,50 L300,50');area.setAttribute('d','M0,100 L0,50 L300,50 L300,100 Z');if(note)note.style.display='block';return;}if(h.length===1){line.setAttribute('d','M0,50 L300,50');area.setAttribute('d','M0,100 L0,50 L300,50 L300,100 Z');document.getElementById('chartMin').textContent=h[0].v.toFixed(2);document.getElementById('chartMax').textContent=h[0].v.toFixed(2);document.getElementById('chartChange').textContent='—';if(note)note.style.display='block';return;}if(note)note.style.display='none';var vals=h.map(function(x){return x.v;});var mn=Math.min.apply(null,vals);var mx=Math.max.apply(null,vals);var rng=(mx-mn)||1;var stp=300/(h.length-1);var path='';var areaPath='M0,100 ';vals.forEach(function(v,i){var x=i*stp;var y=100-((v-mn)/rng)*80-10;path+=(i===0?'M':'L')+x.toFixed(1)+','+y.toFixed(1)+' ';areaPath+='L'+x.toFixed(1)+','+y.toFixed(1)+' ';});areaPath+='L300,100 Z';line.setAttribute('d',path);area.setAttribute('d',areaPath);document.getElementById('chartMin').textContent=mn.toFixed(2);document.getElementById('chartMax').textContent=mx.toFixed(2);var first=vals[0];var last=vals[vals.length-1];var chg=((last-first)/first*100).toFixed(2);var chgEl=document.getElementById('chartChange');chgEl.textContent=(chg>0?'+':'')+chg+'%';chgEl.className='chart-stat-num '+(chg>0?'up':chg<0?'down':'');}catch(e){console.warn('Draw chart failed:',e);}}
+document.querySelectorAll('.chart-tab').forEach(function(tab){tab.addEventListener('click',function(){switchChartPair(this.dataset.chart);});});
+
 var enBtn=$('enableNotifyBtn');if(enBtn)enBtn.addEventListener('click',requestNotify);
 var disBtn=$('dismissNotifyBtn');if(disBtn)disBtn.addEventListener('click',dismissNotify);
 var notifBtn=$('notifyToggleBtn');if(notifBtn)notifBtn.addEventListener('click',function(){if(Notification.permission==='granted'){if(confirm('الإشعارات مفعّلة. هل تريد إيقافها؟')){Notification.permission='default';localStorage.removeItem(NOTIFY_KEY);updateNotifyIcon();}}else{requestNotify();}});
