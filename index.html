@@ -412,8 +412,7 @@ input[type="number"]{-moz-appearance:textfield}
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
+
 </head>
 <body>
 <div class="update-notification" id="updateNotification">
@@ -885,6 +884,68 @@ input[type="number"]{-moz-appearance:textfield}
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
 <script>
+/* ============================================================
+   ✅ كتلة الإشعارات الآمنة - HAMIDO EXCHANGE (النسخة الصحيحة)
+   ============================================================ */
+
+function notificationsSupported() {
+    return (
+        typeof window !== "undefined" &&
+        typeof window.Notification !== "undefined" &&
+        window.location.protocol !== "file:"
+    );
+}
+
+function sendRatesNotification(rates) {
+    if (!notificationsSupported()) {
+        console.warn("⚠️ الإشعارات غير مدعومة في هذه البيئة");
+        return;
+    }
+    if (window.Notification.permission !== "granted") {
+        console.warn("⚠️ لم يتم منح إذن الإشعارات");
+        return;
+    }
+    try {
+        var oldRates = {};
+        try { oldRates = JSON.parse(localStorage.getItem("hamido_rates") || "{}"); } catch(e){}
+        var labels = {
+            d_try_buy: "دولار/تركي شراء", d_try_sell: "دولار/تركي بيع",
+            d_syp_buy: "دولار/سوري شراء", d_syp_sell: "دولار/سوري بيع",
+            try_syp_buy: "تركي/سوري شراء", try_syp_sell: "تركي/سوري بيع",
+            eur_usd_buy: "يورو/دولار شراء", eur_usd_sell: "يورو/دولار بيع",
+            gold_syp_buy: "ذهب سوري شراء", gold_syp_sell: "ذهب سوري بيع",
+            gold_usd_buy: "ذهب دولار شراء", gold_usd_sell: "ذهب دولار بيع"
+        };
+        var changes = [];
+        for (var key in labels) {
+            if (rates && rates[key] != null && oldRates[key] != null && String(rates[key]) !== String(oldRates[key])) {
+                changes.push(labels[key] + ": " + oldRates[key] + " ← " + rates[key]);
+            }
+        }
+        if (changes.length > 0) {
+            new window.Notification("🏦 حميدو للصرافة — تحديث الأسعار", {
+                body: changes.slice(0, 5).join("\n"),
+                icon: "icon-192.png",
+                badge: "icon-192.png",
+                tag: "hamido-rates"
+            });
+        }
+        localStorage.setItem("hamido_rates", JSON.stringify(rates || {}));
+    } catch (e) {
+        console.warn("❌ فشل إرسال الإشعار:", e);
+    }
+}
+
+function safeRequestNotificationPermission() {
+    if (!notificationsSupported()) {
+        return Promise.resolve("denied");
+    }
+    try {
+        return window.Notification.requestPermission();
+    } catch (e) {
+        return Promise.resolve("denied");
+    }
+}
 (function(){
 'use strict';
 var DEFAULT_PASSWORD='Azaz2026';
@@ -906,10 +967,15 @@ var isAdmin=false;
 var adminPassword=DEFAULT_PASSWORD;
 var adminPin=DEFAULT_PIN;
 var adminSecurity=DEFAULT_SECURITY;
+
+
+
+
+
 var firebaseConfig={apiKey:"AIzaSyAk6Y1lsTvFuG5QoVKc_fiL199P92C4C6I",authDomain:"azaz-exchange-db410.firebaseapp.com",databaseURL:"https://azaz-exchange-db410-default-rtdb.firebaseio.com",projectId:"azaz-exchange-db410",storageBucket:"azaz-exchange-db410.firebasestorage.app",messagingSenderId:"358926283407",appId:"1:358926283407:web:ad1b9f75a7c539d972b6fa"};
 var firebaseReady=false;
 var dbRef=null;
-try{firebase.initializeApp(firebaseConfig);dbRef=firebase.database().ref('rates');firebaseReady=true;}catch(e){console.warn('Firebase init failed:',e);firebaseReady=false;}
+try{firebase.initializeApp(firebaseConfig);dbRef=firebase.database().ref('rates');firebaseReady=true;console.log('✅ Firebase جاهز');}catch(e){console.warn('❌ Firebase init failed:',e);firebaseReady=false;}
 
 
 function loadRatesFromStorage(){try{var saved=localStorage.getItem(RATES_KEY);if(saved){var data=JSON.parse(saved);for(var pair in DEFAULT_RATES){if(data[pair]&&typeof data[pair].buy==='number'&&typeof data[pair].sell==='number'){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};}}}var prev=localStorage.getItem(PREV_RATES_KEY);if(prev)prevRates=JSON.parse(prev);}catch(e){}}
@@ -939,7 +1005,7 @@ sv('res_usd_buy',r.usd_buy,2);sv('res_usd_sell',r.usd_sell,2);sv('res_try_buy',r
 return r;}
 function getCurrencyLabel(cur){var labels={usd:'🇺🇸 دولار أمريكي',try:'🇹🇷 ليرة تركية',syp:'🇸🇾 ليرة سورية',eur:'🇪🇺 يورو',gold_syp:'🥇 غرام ذهب سوري',gold_usd:'🥇 غرام ذهب دولار'};return labels[cur]||cur;}
 function clearCalc(){$('calcInput').value='';['usd','try','syp','eur','gold_syp','gold_usd'].forEach(function(k){['buy','sell'].forEach(function(t){var el=$('res_'+k+'_'+t);if(el)el.textContent='-';});});$('calcInput').focus();}
-function applyNewRates(){if(!isAdmin)return;var newRates={};var keys=['d_try_buy','d_try_sell','d_syp_buy','d_syp_sell','try_syp_buy','try_syp_sell','eur_usd_buy','eur_usd_sell','gold_syp_buy','gold_syp_sell','gold_usd_buy','gold_usd_sell'];for(var i=0;i<keys.length;i++){var val=parseFloat($('adm_'+keys[i]).value);if(isNaN(val)||val<=0){alert('الرجاء إدخال جميع الأسعار بشكل صحيح');return;}newRates[keys[i]]=val;}savePrevRates();rates.d_try.buy=newRates.d_try_buy;rates.d_try.sell=newRates.d_try_sell;rates.d_syp.buy=newRates.d_syp_buy;rates.d_syp.sell=newRates.d_syp_sell;rates.try_syp.buy=newRates.try_syp_buy;rates.try_syp.sell=newRates.try_syp_sell;rates.eur_usd.buy=newRates.eur_usd_buy;rates.eur_usd.sell=newRates.eur_usd_sell;rates.gold_syp.buy=newRates.gold_syp_buy;rates.gold_syp.sell=newRates.gold_syp_sell;rates.gold_usd.buy=newRates.gold_usd_buy;rates.gold_usd.sell=newRates.gold_usd_sell;saveRatesToStorage();saveLastUpdate();updateRateCards();calculateAll();saveChartHistory();if(firebaseReady&&dbRef){dbRef.set(rates).then(function(){$('saveFeedback').textContent='✅ تم الحفظ والنشر لجميع الزوار';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);try{sendRatesNotification(rates);}catch(err){console.warn('Notification failed (silent):',err);}}).catch(function(e){console.warn('Firebase save failed:',e);$('saveFeedback').textContent='⚠️ تم الحفظ محلياً فقط';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);});}else{$('saveFeedback').textContent='✅ تم الحفظ محلياً';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);}}
+function applyNewRates(){if(!isAdmin)return;var newRates={};var keys=['d_try_buy','d_try_sell','d_syp_buy','d_syp_sell','try_syp_buy','try_syp_sell','eur_usd_buy','eur_usd_sell','gold_syp_buy','gold_syp_sell','gold_usd_buy','gold_usd_sell'];for(var i=0;i<keys.length;i++){var val=parseFloat($('adm_'+keys[i]).value);if(isNaN(val)||val<=0){alert('الرجاء إدخال جميع الأسعار بشكل صحيح');return;}newRates[keys[i]]=val;}savePrevRates();rates.d_try.buy=newRates.d_try_buy;rates.d_try.sell=newRates.d_try_sell;rates.d_syp.buy=newRates.d_syp_buy;rates.d_syp.sell=newRates.d_syp_sell;rates.try_syp.buy=newRates.try_syp_buy;rates.try_syp.sell=newRates.try_syp_sell;rates.eur_usd.buy=newRates.eur_usd_buy;rates.eur_usd.sell=newRates.eur_usd_sell;rates.gold_syp.buy=newRates.gold_syp_buy;rates.gold_syp.sell=newRates.gold_syp_sell;rates.gold_usd.buy=newRates.gold_usd_buy;rates.gold_usd.sell=newRates.gold_usd_sell;saveRatesToStorage();saveLastUpdate();updateRateCards();calculateAll();saveChartHistory();if(firebaseReady&&dbRef){dbRef.set(rates).then(function(){$('saveFeedback').textContent='✅ تم الحفظ والنشر لجميع الزوار';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);try{if(typeof sendRatesNotification==='function')sendRatesNotification(rates);}catch(err){console.warn('Notification failed (silent):',err);}}).catch(function(e){console.warn('Firebase save failed:',e);$('saveFeedback').textContent='⚠️ تم الحفظ محلياً فقط';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);});}else{$('saveFeedback').textContent='✅ تم الحفظ محلياً';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);}}
 function exportBackup(){try{var backup={version:12,exportedAt:new Date().toISOString(),rates:rates,prevRates:prevRates,lastUpdate:localStorage.getItem(LAST_UPDATE_KEY),credentials:{password:adminPassword,pin:adminPin,security:adminSecurity},theme:localStorage.getItem(THEME_KEY)};var dataStr=JSON.stringify(backup,null,2);var blob=new Blob([dataStr],{type:'application/json'});var url=URL.createObjectURL(blob);var now=new Date();var filename='hamido-backup-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+'.json';var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);alert('✅ تم تصدير النسخة الاحتياطية');}catch(e){alert('❌ حدث خطأ');}}
 function importBackup(file){if(!file)return;var reader=new FileReader();reader.onload=function(e){try{var data=JSON.parse(e.target.result);if(!data||!data.rates)throw new Error('ملف غير صالح');if(!confirm('سيتم استبدال جميع البيانات. متابعة؟'))return;for(var pair in DEFAULT_RATES){if(data.rates[pair]){rates[pair]={buy:data.rates[pair].buy,sell:data.rates[pair].sell};}}if(data.prevRates)prevRates=data.prevRates;if(data.credentials){if(data.credentials.password){adminPassword=data.credentials.password;localStorage.setItem(PASSWORD_KEY,adminPassword);}if(data.credentials.pin){adminPin=data.credentials.pin;localStorage.setItem(PIN_KEY,adminPin);}if(data.credentials.security){adminSecurity=data.credentials.security;localStorage.setItem(SECURITY_KEY,adminSecurity);}}if(data.theme){document.documentElement.setAttribute('data-theme',data.theme);$('themeToggle').textContent=data.theme==='dark'?'🌙':'☀️';localStorage.setItem(THEME_KEY,data.theme);}saveRatesToStorage();if(prevRates)localStorage.setItem(PREV_RATES_KEY,JSON.stringify(prevRates));if(data.lastUpdate){localStorage.setItem(LAST_UPDATE_KEY,data.lastUpdate);$('statusText').textContent='آخر تحديث: '+data.lastUpdate;}updateRateCards();updateAdminFields();updateSecurityDisplay();calculateAll();alert('✅ تم استيراد النسخة');}catch(err){alert('❌ فشل: '+err.message);}};reader.readAsText(file);}
 function printReceipt(){var amount=parseFloat($('calcInput').value)||0;if(amount===0){alert('الرجاء إدخال مبلغ');return;}var currency=$('calcCurrency').value;var results=calculateAll();var now=new Date();var dateStr=now.toLocaleDateString('ar-EG',{year:'numeric',month:'2-digit',day:'2-digit'});var timeStr=now.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});var receiptNum='HMD-'+Date.now().toString().slice(-8);$('rcptDate').textContent=dateStr;$('rcptTime').textContent=timeStr;$('rcptNumber').textContent=receiptNum;$('rcptBase').textContent=getCurrencyLabel(currency);$('rcptAmount').textContent=formatNumber(amount,2);var html='';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇺🇸 دولار:</span><strong>'+formatNumber(results.usd_buy,2)+' $</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇹🇷 ليرة تركية:</span><strong>'+formatNumber(results.try_buy,2)+' ₺</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇸🇾 ليرة سورية:</span><strong>'+formatNumber(results.syp_buy,0)+' £</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇪🇺 يورو:</span><strong>'+formatNumber(results.eur_buy,2)+' €</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🥇 ذهب سوري:</span><strong>'+formatNumber(results.gold_syp_buy,3)+' غرام</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;"><span>🥇 ذهب دولار:</span><strong>'+formatNumber(results.gold_usd_buy,3)+' غرام</strong></div>';$('rcptResults').innerHTML=html;$('receipt').style.display='block';setTimeout(function(){window.print();setTimeout(function(){$('receipt').style.display='none';},500);},100);}
@@ -951,15 +1017,14 @@ function changeSecurity(){var n=$('newSecurity').value.trim(),cf=$('confirmSecur
 window.addEventListener('storage',function(e){if(e.key===RATES_KEY&&e.newValue){try{var data=JSON.parse(e.newValue);for(var pair in DEFAULT_RATES){if(data[pair])rates[pair]=data[pair];}updateRateCards();updateAdminFields();calculateAll();}catch(err){}}if(e.key===LAST_UPDATE_KEY&&e.newValue){$('statusText').textContent='آخر تحديث: '+e.newValue;}if(e.key===PASSWORD_KEY&&e.newValue)adminPassword=e.newValue;if(e.key===PIN_KEY&&e.newValue)adminPin=e.newValue;if(e.key===SECURITY_KEY&&e.newValue){adminSecurity=e.newValue;updateSecurityDisplay();}if(e.key===THEME_KEY&&e.newValue){document.documentElement.setAttribute('data-theme',e.newValue);$('themeToggle').textContent=e.newValue==='dark'?'🌙':'☀️';}});
 function openPasswordModal(){$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('securityInput').value='';$('recoverNewPass').value='';$('recoverError').textContent='';$('passwordModal').classList.add('open');setTimeout(function(){$('passwordInput').focus();},250);}
 function closePasswordModal(){$('passwordModal').classList.remove('open');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('securityInput').value='';$('recoverNewPass').value='';$('recoverError').textContent='';$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');}
-function tryLogin(){var p=$('passwordInput').value,pin=$('pinLoginInput').value.trim();if(!p||!pin){$('passwordError').textContent='⚠️ املأ الحقلين';return;}if(p===adminPassword&&pin===adminPin){isAdmin=true;closePasswordModal();$('adminPanel').classList.add('open');updateAdminFields();updateSecurityDisplay();listenToStats();}else{$('passwordError').textContent='❌ كلمة المرور أو PIN غلط';$('passwordInput').value='';$('pinLoginInput').value='';$('passwordInput').classList.add('shake');$('pinLoginInput').classList.add('shake');setTimeout(function(){$('passwordInput').classList.remove('shake');$('pinLoginInput').classList.remove('shake');},450);}}
+function tryLogin(){var p=$('passwordInput').value,pin=$('pinLoginInput').value.trim();if(!p||!pin){$('passwordError').textContent='⚠️ املأ الحقلين';return;}if(p===adminPassword&&pin===adminPin){if(p===adminPassword&&pin===adminPin){isAdmin=true;closePasswordModal();$('adminPanel').classList.add('open');updateAdminFields();updateSecurityDisplay();if(typeof startStatsTracking==='function')startStatsTracking();loadEruda();}}else{$('passwordError').textContent='❌ كلمة المرور أو PIN غلط';$('passwordInput').value='';$('pinLoginInput').value='';$('passwordInput').classList.add('shake');$('pinLoginInput').classList.add('shake');setTimeout(function(){$('passwordInput').classList.remove('shake');$('pinLoginInput').classList.remove('shake');},450);}}
 function tryRecover(){var sec=$('securityInput').value.trim(),np=$('recoverNewPass').value.trim();if(!sec){$('recoverError').textContent='⚠️ أدخل رمز الأمان';return;}if(sec!==adminSecurity){$('recoverError').textContent='❌ رمز الأمان غلط';$('securityInput').value='';$('securityInput').classList.add('shake');setTimeout(function(){$('securityInput').classList.remove('shake');},450);return;}if(!np){$('recoverError').textContent='⚠️ أدخل كلمة المرور';return;}if(np.length<4){$('recoverError').textContent='⚠️ قصيرة جداً';return;}adminPassword=np;try{localStorage.setItem(PASSWORD_KEY,np);}catch(e){}$('recoverError').className='modal-success';$('recoverError').textContent='✅ تم الاسترجاع بنجاح';$('securityInput').value='';$('recoverNewPass').value='';setTimeout(function(){$('recoverError').className='modal-error';$('recoverError').textContent='';$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');},2000);}
 function logout(){isAdmin=false;$('adminPanel').classList.remove('open');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('currentPass').value='';$('newPass').value='';$('confirmPass').value='';$('currentPin').value='';$('newPin').value='';$('newSecurity').value='';$('confirmSecurity').value='';['passFeedback','pinFeedback','securityFeedback'].forEach(function(id){$(id).classList.remove('show');});}
 function bindRateCardClick(){document.querySelectorAll('.rate-card').forEach(function(card){card.addEventListener('click',function(){var currency=this.dataset.currency||'usd';$('calcCurrency').value=currency;calculateAll();switchTab('calc');var calcBox=document.querySelector('.calc-box');calcBox.style.transition='box-shadow 0.3s';calcBox.style.boxShadow='0 0 40px rgba(61,139,224,0.7)';setTimeout(function(){calcBox.style.boxShadow='';},800);});});document.querySelectorAll('.result-item').forEach(function(item){item.addEventListener('click',function(){var target=this.dataset.target;$('calcCurrency').value=target;calculateAll();});});}
 var statsRef=null;
 var statsSessionId=null;
 var statsHeartbeat=null;
-function initStatsTracking(){if(!firebaseReady)return;try{statsRef=firebase.database().ref('stats');var visitorId=localStorage.getItem('hamido_visitor_id');var today=new Date().toISOString().slice(0,10);if(!visitorId){visitorId='v_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);localStorage.setItem('hamido_visitor_id',visitorId);statsRef.child('totalVisitors').transaction(function(c){return (c||0)+1;});}statsRef.child('visitsByDay/'+today).transaction(function(c){return (c||0)+1;});statsSessionId='s_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);var sessionRef=statsRef.child('activeSessions/'+statsSessionId);sessionRef.set({timestamp:Date.now()});statsHeartbeat=setInterval(function(){sessionRef.update({timestamp:Date.now()});},20000);window.addEventListener('beforeunload',function(){sessionRef.remove();});window.addEventListener('appinstalled',function(){statsRef.child('totalInstalls').transaction(function(c){return (c||0)+1;});statsRef.child('installsByDay/'+today).transaction(function(c){return (c||0)+1;});});}catch(e){console.warn('Stats error:',e);}}
-function listenToStats(){if(!firebaseReady||!statsRef)return;statsRef.child('activeSessions').on('value',function(snap){var now=Date.now();var count=0;snap.forEach(function(child){var d=child.val();if(d&&d.timestamp&&(now-d.timestamp)<90000){count++;}else if(d&&d.timestamp&&(now-d.timestamp)>=90000){child.ref.remove();}});var el=document.getElementById('statActive');if(el)el.textContent=count;});statsRef.child('totalVisitors').on('value',function(snap){var el=document.getElementById('statVisitors');if(el)el.textContent=snap.val()||0;});statsRef.child('totalInstalls').on('value',function(snap){var el=document.getElementById('statInstalls');if(el)el.textContent=snap.val()||0;});}
+
 var APP_URL='https://sfntysfynty-hash.github.io/azaz/';
 var APP_NAME='حميدو للصرافة';
 var deferredInstallPrompt=null;
@@ -971,27 +1036,78 @@ function showShareFeedback(msg,ok){var el=$('shareFeedback');if(!el)return;el.te
 function installApp(){if(deferredInstallPrompt){deferredInstallPrompt.prompt();deferredInstallPrompt.userChoice.then(function(choice){if(choice.outcome==='accepted'){showShareFeedback('✅ تم تثبيت التطبيق!');}else{showShareFeedback('⚠️ لم يتم التثبيت');}deferredInstallPrompt=null;});}else{var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent);var isAndroid=/Android/.test(navigator.userAgent);if(isIOS){showShareFeedback('📱 على iPhone: اضغط مشاركة ⤴️ ثم "إضافة إلى الشاشة الرئيسية"');}else if(isAndroid){showShareFeedback('📱 من قائمة Chrome: اضغط (⋮) ثم "تثبيت التطبيق"');}else{showShareFeedback('📱 التطبيق مثبّت بالفعل أو غير مدعوم');}}}
 var NOTIFY_KEY='hamido_notify_enabled';
 var NOTIFY_LAST_RATES='hamido_last_notified_rates';
-function showNotifyPrompt(){if(!('Notification' in window))return;if(Notification.permission==='granted')return;if(localStorage.getItem(NOTIFY_KEY)==='dismissed')return;var prompt=$('notifyPrompt');if(prompt)prompt.classList.add('show');}
-function requestNotify(){if(!('Notification' in window)){alert('❌ متصفحك لا يدعم الإشعارات');return;}Notification.requestPermission().then(function(permission){if(permission==='granted'){localStorage.setItem(NOTIFY_KEY,'enabled');var prompt=$('notifyPrompt');if(prompt)prompt.classList.remove('show');updateNotifyIcon();showWelcomeNotification();}else{localStorage.setItem(NOTIFY_KEY,'dismissed');var prompt=$('notifyPrompt');if(prompt)prompt.classList.remove('show');}});}
-function dismissNotify(){localStorage.setItem(NOTIFY_KEY,'dismissed');var prompt=$('notifyPrompt');if(prompt)prompt.classList.remove('show');}
-function updateNotifyIcon(){var btn=$('notifyToggleBtn');if(!btn)return;if(Notification.permission==='granted'){btn.classList.add('on');btn.textContent='🔔';btn.title='الإشعارات مفعّلة';}else{btn.classList.remove('on');btn.textContent='🔕';btn.title='اضغط لتفعيل الإشعارات';}}
-function showWelcomeNotification(){if(Notification.permission!=='granted')return;try{var n=new Notification('🕌 حميدو للصرافة',{body:'✅ تم تفعيل الإشعارات!\n📱 ستصلك أسعار الصرف والذهب فور تحديثها',icon:'icon.png',badge:'icon.png',tag:'welcome',requireInteraction:false});setTimeout(function(){n.close();},5000);}catch(e){console.warn('Welcome notification failed:',e);}}
-function sendRatesNotification(newRates){if(Notification.permission!=='granted')return;var lastNotified=localStorage.getItem(NOTIFY_LAST_RATES);var newRatesStr=JSON.stringify(newRates);if(lastNotified===newRatesStr)return;var text='🇺🇸 دولار: '+newRates.d_try.buy.toFixed(2)+' ₺ (شراء) / '+newRates.d_try.sell.toFixed(2)+' ₺ (بيع)\n🇹🇷 تركي/سوري: '+newRates.try_syp.buy.toFixed(2)+'\n🥇 ذهب سوري: '+Math.round(newRates.gold_syp.buy);try{var n=new Notification('🔔 حميدو للصرافة — أسعار جديدة!',{body:text,icon:'icon.png',badge:'icon.png',tag:'rates-update',requireInteraction:false,vibrate:[200,100,200]});setTimeout(function(){n.close();},8000);n.onclick=function(){window.focus();n.close();};localStorage.setItem(NOTIFY_LAST_RATES,newRatesStr);}catch(e){console.warn('Rates notification failed:',e);}}
+/* ============================================================
+   دوال الإشعارات الآمنة - HAMIDO EXCHANGE
+   ============================================================ */
+function requestNotify(){
+    if(typeof window.Notification === "undefined"){
+        alert('❌ متصفحك لا يدعم الإشعارات');
+        return;
+    }
+    window.Notification.requestPermission().then(function(permission){
+        if(permission==='granted'){
+            localStorage.setItem(NOTIFY_KEY,'enabled');
+            var prompt=$('notifyPrompt');
+            if(prompt)prompt.classList.remove('show');
+            updateNotifyIcon();
+            showWelcomeNotification();
+        } else {
+            localStorage.setItem(NOTIFY_KEY,'dismissed');
+            var prompt=$('notifyPrompt');
+            if(prompt)prompt.classList.remove('show');
+        }
+    });
+}
 
-var priceChart=null;
-var currentChartPair='d_try';
-var chartHistoryKey='hamido_price_history';
+function updateNotifyIcon(){
+    var btn=$('notifyToggleBtn');
+    if(!btn)return;
+    if(typeof window.Notification === "undefined"){
+        btn.classList.remove('on');
+        btn.textContent='🔕';
+        btn.title='متصفحك لا يدعم الإشعارات';
+        return;
+    }
+    if(typeof window.Notification !== 'undefined' && window.Notification.permission==='granted'){
+        btn.classList.add('on');
+        btn.textContent='🔔';
+        btn.title='الإشعارات مفعّلة';
+    } else {
+        btn.classList.remove('on');
+        btn.textContent='🔕';
+        btn.title='اضغط لتفعيل الإشعارات';
+    }
+}
+
+function showWelcomeNotification(){
+    if(typeof window.Notification === "undefined")return;
+    if(window.Notification.permission!=='granted')return;
+    try {
+        var n=new window.Notification('🕌 حميدو للصرافة',{
+            body:'✅ تم تفعيل الإشعارات!\n📱 ستصلك أسعار الصرف والذهب فور تحديثها',
+            icon:'icon.png',
+            badge:'icon.png',
+            tag:'welcome',
+            requireInteraction:false
+        });
+        setTimeout(function(){ n.close(); }, 5000);
+    } catch(e){
+        console.warn('Welcome notification failed:', e);
+    }
+}
 
 
-function updateChartStats(buy,sell){if(buy.length===0)return;var allVals=buy.concat(sell);var min=Math.min.apply(null,allVals);var max=Math.max.apply(null,allVals);var first=buy[0];var last=buy[buy.length-1];var change=((last-first)/first*100).toFixed(2);var minEl=document.getElementById('chartMin');var maxEl=document.getElementById('chartMax');var changeEl=document.getElementById('chartChange');if(minEl)minEl.textContent=min.toFixed(2);if(maxEl)maxEl.textContent=max.toFixed(2);if(changeEl){changeEl.textContent=(change>0?'+':'')+change+'%';changeEl.className='chart-stat-value '+(change>0?'up':change<0?'down':'');}}
+
+
+
 function refreshRatesFromFirebase(){if(!firebaseReady||!dbRef)return;dbRef.once('value').then(function(snap){var data=snap.val();if(data){for(var pair in DEFAULT_RATES){if(data[pair]&&typeof data[pair].buy==='number'&&typeof data[pair].sell==='number'){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};}}saveRatesToStorage();updateRateCards();updateAdminFields();calculateAll();console.log('✅ تم تحديث الأسعار من Firebase');}}).catch(function(e){console.warn('Refresh failed:',e);});}
 function startStatsTracking(){if(!firebaseReady||!dbRef)return;try{var statsRef=firebase.database().ref('stats');var visitorId=localStorage.getItem('hamido_vid');if(!visitorId){visitorId='v_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);localStorage.setItem('hamido_vid',visitorId);statsRef.child('totalVisitors').transaction(function(c){return (c||0)+1;});}var sid='s_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);var sRef=statsRef.child('active/'+sid);sRef.set({t:Date.now()});var hb=setInterval(function(){sRef.update({t:Date.now()});},25000);window.addEventListener('beforeunload',function(){sRef.remove();});statsRef.child('totalVisitors').on('value',function(s){var el=document.getElementById('statVisitors');if(el)el.textContent=s.val()||0;});statsRef.child('totalInstalls').on('value',function(s){var el=document.getElementById('statInstalls');if(el)el.textContent=s.val()||0;});statsRef.child('active').on('value',function(s){var now=Date.now();var c=0;s.forEach(function(ch){var d=ch.val();if(d&&d.t&&(now-d.t)<120000)c++;else if(d&&d.t)ch.ref.remove();});var el=document.getElementById('statActive');if(el)el.textContent=c;});window.addEventListener('appinstalled',function(){statsRef.child('totalInstalls').transaction(function(c){return (c||0)+1;});});}catch(e){console.warn('Stats tracking error:',e);}}
-function init(){loadRatesFromStorage();loadCredentials();loadTheme();loadLastUpdate();updateRateCards();updateSecurityDisplay();setTimeout(startStatsTracking,1500);updateAdminFields();calculateAll();bindRateCardClick();loadActiveTab();try{$('todayDate').textContent='📅 '+new Date().toLocaleDateString('ar-EG',{weekday:'long',month:'long',day:'numeric'});}catch(e){}
+function init(){loadRatesFromStorage();loadCredentials();loadTheme();loadLastUpdate();updateRateCards();updateSecurityDisplay();setTimeout(startStatsTracking,1500);updateAdminFields();calculateAll();bindRateCardClick();loadActiveTab();loadRatesFromFirebase(function(){listenToFirebase();});try{$('todayDate').textContent='📅 '+new Date().toLocaleDateString('ar-EG',{weekday:'long',month:'long',day:'numeric'});}catch(e){}
 
 $('tabHome').addEventListener('click',function(){switchTab('home');});
 $('tabCalc').addEventListener('click',function(){switchTab('calc');});
 $('tabChart').addEventListener('click',function(){switchTab('chart');});
-saveChartHistory();
+
 $('calcInput').addEventListener('input',calculateAll);
 $('calcCurrency').addEventListener('change',calculateAll);
 $('clearBtn').addEventListener('click',clearCalc);
@@ -1001,7 +1117,7 @@ document.querySelectorAll('.chart-tab').forEach(function(tab){tab.addEventListen
 
 var enBtn=$('enableNotifyBtn');if(enBtn)enBtn.addEventListener('click',requestNotify);
 var disBtn=$('dismissNotifyBtn');if(disBtn)disBtn.addEventListener('click',dismissNotify);
-var notifBtn=$('notifyToggleBtn');if(notifBtn)notifBtn.addEventListener('click',function(){if(Notification.permission==='granted'){if(confirm('الإشعارات مفعّلة. هل تريد إيقافها؟')){Notification.permission='default';localStorage.removeItem(NOTIFY_KEY);updateNotifyIcon();}}else{requestNotify();}});
+var notifBtn=$('notifyToggleBtn');if(notifBtn)notifBtn.addEventListener('click',function(){if(window.Notification.permission==='granted'){if(confirm('الإشعارات مفعّلة. هل تريد إيقافها؟')){localStorage.removeItem(NOTIFY_KEY);updateNotifyIcon();}}else{requestNotify();}});
 setTimeout(showNotifyPrompt,2000);
 setTimeout(updateNotifyIcon,500);
 $('installBtn').addEventListener('click',installApp);
@@ -1009,7 +1125,7 @@ $('shareMainBtn').addEventListener('click',function(){shareApp('native');});
 $('whatsappBtn').addEventListener('click',function(){shareApp('whatsapp');});
 $('copyLinkBtn').addEventListener('click',copyAppLink);
 $('printBtn').addEventListener('click',printReceipt);
-function openAdmin(){if(isAdmin){$('adminPanel').classList.toggle('open');if($('adminPanel').classList.contains('open')){updateAdminFields();updateSecurityDisplay();}}else{openPasswordModal();}}
+function openAdmin(){if(isAdmin){$('adminPanel').classList.toggle('open');if($('adminPanel').classList.contains('open')){updateAdminFields();updateSecurityDisplay();loadEruda();}}else{openPasswordModal();}}
 $('azazLogo').addEventListener('click',openAdmin);
 $('logoClickArea').addEventListener('click',openAdmin);
 $('adminBadge').addEventListener('click',openAdmin);
@@ -1039,7 +1155,126 @@ $('recoverSubmitBtn').addEventListener('click',tryRecover);
 $('securityInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('recoverNewPass').focus();}});
 $('recoverNewPass').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tryRecover();}});
 ['pinLoginInput','currentPin','newPin'].forEach(function(id){$(id).addEventListener('input',function(){this.value=this.value.replace(/[^0-9]/g,'');});});
-$('calcInput').addEventListener('keydown',function(e){if(e.key==='-'||e.key==='e'||e.key==='E'||e.key==='+')e.preventDefault();});}
+$('calcInput').addEventListener('keydown',function(e){if(e.key==='-'||e.key==='e'||e.key==='E'||e.key==='+')e.preventDefault();});
+}
+/* ============================================================
+   دوال مفقودة - HAMIDO EXCHANGE
+   ============================================================ */
+  /* تحميل Eruda عند دخول الأدمن فقط */
+function loadEruda() {
+  if (window.__erudaLoaded) return;
+  if (typeof eruda !== 'undefined') {
+    eruda.init();
+    window.__erudaLoaded = true;
+    return;
+  }
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/eruda';
+  s.onload = function() {
+    if (typeof eruda !== 'undefined') {
+      eruda.init();
+      window.__erudaLoaded = true;
+      console.log('✅ Eruda محمَّل (وضع الأدمن)');
+    }
+  };
+  s.onerror = function() {
+    console.warn('⚠️ فشل تحميل Eruda');
+  };
+  document.head.appendChild(s);
+} 
+function dismissNotify() {
+  var prompt = document.getElementById('notifyPrompt');
+  if (prompt) prompt.classList.remove('show');
+  try { localStorage.setItem('hamido_notify_dismissed', '1'); } catch(e) {}
+}
+
+function drawChart() {
+  try {
+    var h = [];
+    try { h = JSON.parse(localStorage.getItem('hamido_chart') || '[]'); } catch(e) {}
+    var line = document.getElementById('chartLine');
+    var area = document.getElementById('chartArea');
+    var note = document.getElementById('chartNote');
+    if (!line || !area) return;
+    if (h.length === 0) {
+      line.setAttribute('d', 'M0,50 L300,50');
+      area.setAttribute('d', 'M0,100 L0,50 L300,50 L300,100 Z');
+      if (note) note.style.display = 'block';
+      return;
+    }
+    if (h.length === 1) {
+      line.setAttribute('d', 'M0,50 L300,50');
+      area.setAttribute('d', 'M0,100 L0,50 L300,50 L300,100 Z');
+      var minEl = document.getElementById('chartMin');
+      var maxEl = document.getElementById('chartMax');
+      var chgEl = document.getElementById('chartChange');
+      if (minEl) minEl.textContent = h[0].v.toFixed(2);
+      if (maxEl) maxEl.textContent = h[0].v.toFixed(2);
+      if (chgEl) chgEl.textContent = '—';
+      if (note) note.style.display = 'block';
+      return;
+    }
+    if (note) note.style.display = 'none';
+    var vals = h.map(function(x) { return x.v; });
+    var mn = Math.min.apply(null, vals);
+    var mx = Math.max.apply(null, vals);
+    var rng = (mx - mn) || 1;
+    var stp = 300 / (h.length - 1);
+    var path = '';
+    var areaPath = 'M0,100 ';
+    vals.forEach(function(v, i) {
+      var x = i * stp;
+      var y = 100 - ((v - mn) / rng) * 80 - 10;
+      path += (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+      areaPath += 'L' + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+    });
+    areaPath += 'L300,100 Z';
+    line.setAttribute('d', path);
+    area.setAttribute('d', areaPath);
+    var minEl2 = document.getElementById('chartMin');
+    var maxEl2 = document.getElementById('chartMax');
+    var chgEl2 = document.getElementById('chartChange');
+    if (minEl2) minEl2.textContent = mn.toFixed(2);
+    if (maxEl2) maxEl2.textContent = mx.toFixed(2);
+    var first = vals[0];
+    var last = vals[vals.length - 1];
+    var chg = ((last - first) / first * 100).toFixed(2);
+    if (chgEl2) {
+      chgEl2.textContent = (chg > 0 ? '+' : '') + chg + '%';
+      chgEl2.className = 'chart-stat-num ' + (chg > 0 ? 'up' : chg < 0 ? 'down' : '');
+    }
+  } catch(e) {
+    console.warn('Draw chart failed:', e);
+  }
+}
+
+function saveChartHistory() {
+  try {
+    var h = JSON.parse(localStorage.getItem('hamido_chart') || '[]');
+    var today = new Date().toISOString().slice(0, 10);
+    var last = h[h.length - 1];
+    if (!last || last.d !== today) {
+      h.push({ d: today, v: rates.d_try.buy });
+    } else {
+      last.v = rates.d_try.buy;
+    }
+    if (h.length > 15) h = h.slice(-15);
+    localStorage.setItem('hamido_chart', JSON.stringify(h));
+    drawChart();
+  } catch(e) {
+    console.warn('Save chart failed:', e);
+  }
+}
+
+function showNotifyPrompt() {
+  try {
+    if (localStorage.getItem('hamido_notify_dismissed') === '1') return;
+    if (typeof window.Notification === 'undefined') return;
+    if (window.Notification.permission === 'granted') return;
+    var prompt = document.getElementById('notifyPrompt');
+    if (prompt) prompt.classList.add('show');
+  } catch(e) {}
+}
 init();
 
 // ============================================================
