@@ -78,10 +78,10 @@ gtag('config', 'G-KRBJEBWLKW');
 }
 html[data-theme="light"]{--bg-body:#e8eef8;--bg-container:#fff;--bg-panel:#f4f7fb;--bg-card:#fff;--bg-input:#fff;--bg-field:#fff;--bg-mini:#f8fafc;--text-main:#0a1a2e;--text-sub:#3a4a5e;--text-dim:#7a8a9e;--text-title:#0a1a2e;--red-buy:#d10000;--orange-sell:#d97706;--red-deep:#a10000;--border-main:#c8d8e8;--border-soft:#dce6f0;--border-panel:#b8cce0;--border-buy:#d10000;--border-sell:#d97706;--grad-header:linear-gradient(145deg,#e8f0fc,#d8e6f8);--grad-admin:linear-gradient(145deg,#fff,#f0f6fc);--shadow-main:0 15px 30px rgba(13,92,184,0.15);--shadow-card:0 0 12px #e0ecf8 inset,0 4px 8px #00000010;--glow-red:0 0 10px #ff000050;--glow-orange:0 0 10px #ff880050;--glow-blue:0 0 10px #0d5cb850;--up-color:#16a34a;--down-color:#dc2626;--gold-color:#b8860b;--gold-shadow:0 0 10px #ffd70060}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,'Cairo',system-ui,sans-serif}
-body{background:#050d1f;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px 16px 40px;font-family:'Cairo','Segoe UI',Tahoma,sans-serif}
+body{background:#050d1f;min-height:100vh;display:block;padding:20px 16px 40px;font-family:'Cairo','Segoe UI',Tahoma,sans-serif}
 input,select,button{font-family:inherit}
 input[type="number"],.num,.rate-value,.res-value,.stat-value{font-family:'Inter','Courier New',monospace;font-feature-settings:'tnum'}
-.app-container{width:100%;max-width:480px;background:#0a1930;border-radius:32px;padding:22px 18px 30px;box-shadow:0 25px 60px rgba(5,13,31,.6),0 0 0 1px rgba(212,175,55,.15) inset;border:1px solid rgba(212,175,55,.2);position:relative;overflow:hidden}
+.app-container{width:100%;max-width:480px;background:#0a1930;border-radius:32px;padding:22px 18px 30px;box-shadow:0 25px 60px rgba(5,13,31,.6),0 0 0 1px rgba(212,175,55,.15) inset;border:1px solid rgba(212,175,55,.2);position:relative;overflow:visible}
 
 
 .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(212,175,55,.25);position:relative;z-index:2}
@@ -165,8 +165,11 @@ input[type="number"],.num,.rate-value,.res-value,.stat-value{font-family:'Inter'
 .result-item .res-unit{color:var(--text-dim);font-size:.7rem;font-weight:700;margin-right:4px}
 .res-values{display:flex;flex-direction:column;gap:6px;width:100%;align-items:flex-end}
 .res-line{display:flex;align-items:center;gap:8px;justify-content:flex-end;width:100%}
-.res-tag{font-size:.72rem;font-weight:900;padding:4px 10px;border-radius:8px;min-width:52px;text-align:center;display:inline-block;flex-shrink:0;background:#dc2626;color:#fff}
+.res-tag{font-size:.72rem;font-weight:900;padding:4px 10px;border-radius:8px;min-width:52px;text-align:center;display:inline-block;flex-shrink:0;background:#dc2626;color:#fff;display:inline-flex;align-items:center;gap:4px;justify-content:center}
 .res-tag.sell-tag{background:#ea580c}
+.res-tag::before{content:'';display:inline-block;width:12px;height:12px;background-size:contain;background-repeat:no-repeat;background-position:center;margin-left:4px}
+.res-tag.buy-tag::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.2'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='M18.09 10.37A6 6 0 1 1 10.34 18'/%3E%3Cpath d='M7 6h1v4'/%3E%3Cpath d='m16.71 13.88.7.71-2.82 2.82'/%3E%3C/svg%3E")}
+.res-tag.sell-tag::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.2'%3E%3Cpath d='M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z'/%3E%3Ccircle cx='7.5' cy='7.5' r='.5' fill='%23ffffff'/%3E%3C/svg%3E")}
 .calc-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .calc-action-btn{background:var(--bg-input);border:1.5px solid var(--border-main);color:var(--text-sub);font-weight:800;font-size:.85rem;padding:14px 10px;border-radius:14px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px}
 .calc-action-btn.print-btn{border-color:rgba(255,170,51,.4);color:var(--orange-sell)}
@@ -406,6 +409,21 @@ input[type="number"]{-moz-appearance:textfield}
 .update-notification.show{transform:translateX(-50%) translateY(0)}
 .update-notification .spinner{width:16px;height:16px;border:2px solid rgba(212,175,55,.3);border-top-color:#d4af37;border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes swipeHint {
+  0%, 100% { opacity: 0.3; transform: translateY(-50%) translateX(0); }
+  50% { opacity: 1; transform: translateY(-50%) translateX(-8px); }
+}
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+.app-container {
+  overflow-x: hidden;
+}
+#chartCurrencyTabs {
+  max-width: 100%;
+}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -634,9 +652,32 @@ input[type="number"]{-moz-appearance:textfield}
   </div>
 </div>
 <div class="page" id="pageChart">
-  <div class="calc-box">
-    <div class="calc-title">📈 اتجاه سعر الدولار</div>
+<div class="calc-box">
+    <div class="calc-title">📈 اتجاه أسعار العملات</div>
     
+    <!-- أزرار اختيار العملة -->
+<div style="position:relative;margin-bottom:12px">
+<div id="chartCurrencyTabs" style="display:flex;gap:6px;overflow-x:auto;padding:4px 20px 4px 4px;scrollbar-width:none">
+        <button class="chart-curr-btn active" data-curr="d_try" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(212,175,55,.15);border:1.5px solid #d4af37;color:#fff;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🇺🇸→🇹🇷 دولار/تركي</button>
+        <button class="chart-curr-btn" data-curr="d_syp" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);color:#b8c8e0;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🇺🇸→🇸🇾 دولار/سوري</button>
+        <button class="chart-curr-btn" data-curr="try_syp" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);color:#b8c8e0;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🇹🇷→🇸🇾 تركي/سوري</button>
+        <button class="chart-curr-btn" data-curr="eur_usd" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);color:#b8c8e0;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🇪🇺→🇺🇸 يورو/دولار</button>
+        <button class="chart-curr-btn" data-curr="gold_syp" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);color:#b8c8e0;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🥇 ذهب سوري</button>
+    </div>
+       <div id="chartSwipeHint" style="position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:4px;color:#d4af37;font-size:.8rem;font-weight:900;pointer-events:none;text-shadow:0 0 10px rgba(212,175,55,.9);animation:swipeHint 1.5s ease-in-out infinite;z-index:10">
+      <span style="font-size:1.2rem">←</span>
+    </div> 
+      </div>
+  <p style="text-align:center;color:#5a7a9a;font-size:.7rem;margin-bottom:8px;font-weight:700">
+    👈 اسحب لترى باقي العملات
+  </p>
+    <div id="chartSwipeHint" style="position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:4px;color:#d4af37;font-size:.8rem;font-weight:900;pointer-events:none;text-shadow:0 0 10px rgba(212,175,55,.9);animation:swipeHint 1.5s ease-in-out infinite;z-index:10">
+    <span style="font-size:1.2rem">←</span>
+  </div>
+</div>
+<p style="text-align:center;color:#5a7a9a;font-size:.7rem;margin-bottom:8px;font-weight:700">
+  👈 اسحب لترى باقي العملات
+</p>
     <div class="price-chart">
       <svg id="priceChartSvg" viewBox="0 0 300 100" preserveAspectRatio="none" style="width:100%;height:180px;display:block">
         <defs>
@@ -668,8 +709,9 @@ input[type="number"]{-moz-appearance:textfield}
       </div>
     </div>
 
-    <div class="chart-note" id="chartNote">📅 يتم تسجيل سعر واحد لكل يوم — سيظهر المنحنى بعد أيام</div>
+        <div class="chart-note" id="chartNote">📅 يتم تسجيل سعر واحد لكل يوم — سيظهر المنحنى بعد أيام</div>
   </div>
+</div>
 </div>
 <div class="page" id="pageCalc">
   <div class="calc-box">
@@ -1111,8 +1153,7 @@ $('tabChart').addEventListener('click',function(){switchTab('chart');});
 $('calcInput').addEventListener('input',calculateAll);
 $('calcCurrency').addEventListener('change',calculateAll);
 $('clearBtn').addEventListener('click',clearCalc);
-function saveChartHistory(){try{var h=JSON.parse(localStorage.getItem('hamido_chart')||'[]');var today=new Date().toISOString().slice(0,10);var last=h[h.length-1];if(!last||last.d!==today){h.push({d:today,v:rates.d_try.buy});}else{last.v=rates.d_try.buy;}if(h.length>15)h=h.slice(-15);localStorage.setItem('hamido_chart',JSON.stringify(h));drawChart();}catch(e){console.warn('Save chart failed:',e);}}
-function drawChart(){try{var h=JSON.parse(localStorage.getItem('hamido_chart')||'[]');var line=document.getElementById('chartLine');var area=document.getElementById('chartArea');var note=document.getElementById('chartNote');if(!line||!area)return;if(h.length===0){line.setAttribute('d','M0,50 L300,50');area.setAttribute('d','M0,100 L0,50 L300,50 L300,100 Z');if(note)note.style.display='block';return;}if(h.length===1){line.setAttribute('d','M0,50 L300,50');area.setAttribute('d','M0,100 L0,50 L300,50 L300,100 Z');document.getElementById('chartMin').textContent=h[0].v.toFixed(2);document.getElementById('chartMax').textContent=h[0].v.toFixed(2);document.getElementById('chartChange').textContent='—';if(note)note.style.display='block';return;}if(note)note.style.display='none';var vals=h.map(function(x){return x.v;});var mn=Math.min.apply(null,vals);var mx=Math.max.apply(null,vals);var rng=(mx-mn)||1;var stp=300/(h.length-1);var path='';var areaPath='M0,100 ';vals.forEach(function(v,i){var x=i*stp;var y=100-((v-mn)/rng)*80-10;path+=(i===0?'M':'L')+x.toFixed(1)+','+y.toFixed(1)+' ';areaPath+='L'+x.toFixed(1)+','+y.toFixed(1)+' ';});areaPath+='L300,100 Z';line.setAttribute('d',path);area.setAttribute('d',areaPath);document.getElementById('chartMin').textContent=mn.toFixed(2);document.getElementById('chartMax').textContent=mx.toFixed(2);var first=vals[0];var last=vals[vals.length-1];var chg=((last-first)/first*100).toFixed(2);var chgEl=document.getElementById('chartChange');chgEl.textContent=(chg>0?'+':'')+chg+'%';chgEl.className='chart-stat-num '+(chg>0?'up':chg<0?'down':'');}catch(e){console.warn('Draw chart failed:',e);}}
+
 document.querySelectorAll('.chart-tab').forEach(function(tab){tab.addEventListener('click',function(){switchChartPair(this.dataset.chart);});});
 
 var enBtn=$('enableNotifyBtn');if(enBtn)enBtn.addEventListener('click',requestNotify);
@@ -1156,6 +1197,7 @@ $('securityInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.
 $('recoverNewPass').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tryRecover();}});
 ['pinLoginInput','currentPin','newPin'].forEach(function(id){$(id).addEventListener('input',function(){this.value=this.value.replace(/[^0-9]/g,'');});});
 $('calcInput').addEventListener('keydown',function(e){if(e.key==='-'||e.key==='e'||e.key==='E'||e.key==='+')e.preventDefault();});
+if (typeof setupChartTabs === 'function') setupChartTabs();
 }
 /* ============================================================
    دوال مفقودة - HAMIDO EXCHANGE
@@ -1188,32 +1230,69 @@ function dismissNotify() {
   try { localStorage.setItem('hamido_notify_dismissed', '1'); } catch(e) {}
 }
 
+var currentChartCurrency = 'd_try';
+
+function setupChartTabs() {
+  var tabs = document.querySelectorAll('.chart-curr-btn');
+  if (!tabs || tabs.length === 0) {
+    setTimeout(setupChartTabs, 300);
+    return;
+  }
+  tabs.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      tabs.forEach(function(b) {
+        b.style.background = 'rgba(5,13,31,.5)';
+        b.style.borderColor = 'rgba(61,139,224,.3)';
+        b.style.color = '#b8c8e0';
+        b.classList.remove('active');
+      });
+      this.style.background = 'rgba(212,175,55,.15)';
+      this.style.borderColor = '#d4af37';
+      this.style.color = '#fff';
+      this.classList.add('active');
+      currentChartCurrency = this.dataset.curr;
+      drawChart();
+    });
+  });
+}
+
 function drawChart() {
   try {
+    var currency = currentChartCurrency || 'd_try';
+    var historyKey = 'hamido_chart_' + currency;
     var h = [];
-    try { h = JSON.parse(localStorage.getItem('hamido_chart') || '[]'); } catch(e) {}
+    try { h = JSON.parse(localStorage.getItem(historyKey) || '[]'); } catch(e) {}
+    
     var line = document.getElementById('chartLine');
     var area = document.getElementById('chartArea');
     var note = document.getElementById('chartNote');
     if (!line || !area) return;
+    
+    var minEl = document.getElementById('chartMin');
+    var maxEl = document.getElementById('chartMax');
+    var chgEl = document.getElementById('chartChange');
+    
     if (h.length === 0) {
       line.setAttribute('d', 'M0,50 L300,50');
       area.setAttribute('d', 'M0,100 L0,50 L300,50 L300,100 Z');
+      var currentRate = rates[currency] ? rates[currency].buy : 0;
+      if (minEl) minEl.textContent = currentRate.toFixed(2);
+      if (maxEl) maxEl.textContent = currentRate.toFixed(2);
+      if (chgEl) { chgEl.textContent = '—'; chgEl.className = 'chart-stat-num'; }
       if (note) note.style.display = 'block';
       return;
     }
+    
     if (h.length === 1) {
       line.setAttribute('d', 'M0,50 L300,50');
       area.setAttribute('d', 'M0,100 L0,50 L300,50 L300,100 Z');
-      var minEl = document.getElementById('chartMin');
-      var maxEl = document.getElementById('chartMax');
-      var chgEl = document.getElementById('chartChange');
       if (minEl) minEl.textContent = h[0].v.toFixed(2);
       if (maxEl) maxEl.textContent = h[0].v.toFixed(2);
-      if (chgEl) chgEl.textContent = '—';
+      if (chgEl) { chgEl.textContent = '—'; chgEl.className = 'chart-stat-num'; }
       if (note) note.style.display = 'block';
       return;
     }
+    
     if (note) note.style.display = 'none';
     var vals = h.map(function(x) { return x.v; });
     var mn = Math.min.apply(null, vals);
@@ -1231,17 +1310,15 @@ function drawChart() {
     areaPath += 'L300,100 Z';
     line.setAttribute('d', path);
     area.setAttribute('d', areaPath);
-    var minEl2 = document.getElementById('chartMin');
-    var maxEl2 = document.getElementById('chartMax');
-    var chgEl2 = document.getElementById('chartChange');
-    if (minEl2) minEl2.textContent = mn.toFixed(2);
-    if (maxEl2) maxEl2.textContent = mx.toFixed(2);
+    
+    if (minEl) minEl.textContent = mn.toFixed(2);
+    if (maxEl) maxEl.textContent = mx.toFixed(2);
     var first = vals[0];
     var last = vals[vals.length - 1];
     var chg = ((last - first) / first * 100).toFixed(2);
-    if (chgEl2) {
-      chgEl2.textContent = (chg > 0 ? '+' : '') + chg + '%';
-      chgEl2.className = 'chart-stat-num ' + (chg > 0 ? 'up' : chg < 0 ? 'down' : '');
+    if (chgEl) {
+      chgEl.textContent = (chg > 0 ? '+' : '') + chg + '%';
+      chgEl.className = 'chart-stat-num ' + (chg > 0 ? 'up' : chg < 0 ? 'down' : '');
     }
   } catch(e) {
     console.warn('Draw chart failed:', e);
@@ -1250,16 +1327,19 @@ function drawChart() {
 
 function saveChartHistory() {
   try {
-    var h = JSON.parse(localStorage.getItem('hamido_chart') || '[]');
+    var currency = currentChartCurrency || 'd_try';
+    var historyKey = 'hamido_chart_' + currency;
+    var h = JSON.parse(localStorage.getItem(historyKey) || '[]');
     var today = new Date().toISOString().slice(0, 10);
     var last = h[h.length - 1];
+    var currentRate = rates[currency] ? rates[currency].buy : 0;
     if (!last || last.d !== today) {
-      h.push({ d: today, v: rates.d_try.buy });
+      h.push({ d: today, v: currentRate });
     } else {
-      last.v = rates.d_try.buy;
+      last.v = currentRate;
     }
     if (h.length > 15) h = h.slice(-15);
-    localStorage.setItem('hamido_chart', JSON.stringify(h));
+    localStorage.setItem(historyKey, JSON.stringify(h));
     drawChart();
   } catch(e) {
     console.warn('Save chart failed:', e);
@@ -1276,6 +1356,9 @@ function showNotifyPrompt() {
   } catch(e) {}
 }
 init();
+setTimeout(function(){
+  if (typeof setupChartTabs === 'function') setupChartTabs();
+}, 500);
 
 // ============================================================
 // 🔄 نظام التحديث التلقائي
