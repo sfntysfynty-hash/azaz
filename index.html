@@ -509,10 +509,11 @@ html, body {
     <button class="notify-btn secondary" id="dismissNotifyBtn">لاحقاً</button>
   </div>
 </div>
-<div class="main-tabs">
+<div class="main-tabs" style="grid-template-columns:1fr 1fr">
   <button class="main-tab active" id="tabHome" data-page="home"><span class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>الرئيسية</span></button>
   <button class="main-tab" id="tabCalc" data-page="calc"><span class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg></span><span>الآلة الحاسبة</span></button>
- <button class="main-tab" id="tabChart" data-page="chart"><span class="tab-icon">📈</span><span>الرسم البياني</span></button> 
+<button class="main-tab" id="tabChart" data-page="chart"><span class="tab-icon">📈</span><span>الرسم البياني</span></button>
+<button class="main-tab" id="tabInstall" data-page="install"><span class="tab-icon">📥</span><span>طريقة التحميل</span></button>
 </div>
 
 <div class="page active" id="pageHome">
@@ -712,6 +713,47 @@ html, body {
         <div class="chart-note" id="chartNote">📅 يتم تسجيل سعر واحد لكل يوم — سيظهر المنحنى بعد أيام</div>
   </div>
 </div>
+</div>
+<div class="page" id="pageInstall">
+  <div class="calc-box">
+    <div class="calc-title">📥 طريقة تحميل التطبيق</div>
+
+    <!-- زر التثبيت المباشر -->
+    <button class="save-btn" id="installAppBtn" style="background:linear-gradient(145deg,#d4af37,#b8941f);color:#0a1930;font-weight:900;margin-bottom:16px">
+      <span>📲</span> ثبّت التطبيق الآن
+    </button>
+
+    <!-- Android -->
+    <div style="background:rgba(5,13,31,.5);border:1.5px solid rgba(34,197,94,.3);border-radius:14px;padding:14px;margin-bottom:12px">
+      <div style="color:#22c55e;font-weight:900;font-size:.9rem;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+        <span>🤖</span> لأجهزة Android
+      </div>
+      <div style="color:#b8c8e0;font-size:.8rem;line-height:1.8">
+        <div style="margin-bottom:8px"><strong style="color:#d4af37">1.</strong> افتح التطبيق على متصفح <strong>Chrome</strong></div>
+        <div style="margin-bottom:8px"><strong style="color:#d4af37">2.</strong> اضغط على النقاط الثلاث <strong>(⋮)</strong> في الأعلى</div>
+        <div style="margin-bottom:8px"><strong style="color:#d4af37">3.</strong> اختر <strong>"تثبيت التطبيق"</strong> أو <strong>"إضافة إلى الشاشة الرئيسية"</strong></div>
+        <div><strong style="color:#d4af37">4.</strong> اضغط <strong>"تثبيت"</strong> ✅</div>
+      </div>
+    </div>
+
+    <!-- iPhone -->
+    <div style="background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);border-radius:14px;padding:14px;margin-bottom:12px">
+      <div style="color:#3d8be0;font-weight:900;font-size:.9rem;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+        <span>🍎</span> لأجهزة iPhone
+      </div>
+      <div style="color:#b8c8e0;font-size:.8rem;line-height:1.8">
+        <div style="margin-bottom:8px"><strong style="color:#d4af37">1.</strong> افتح التطبيق على متصفح <strong>Safari</strong></div>
+        <div style="margin-bottom:8px"><strong style="color:#d4af37">2.</strong> اضغط على زر المشاركة <strong>⤴️</strong> في الأسفل</div>
+        <div style="margin-bottom:8px"><strong style="color:#d4af37">3.</strong> اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong></div>
+        <div><strong style="color:#d4af37">4.</strong> اضغط <strong>"إضافة"</strong> ✅</div>
+      </div>
+    </div>
+
+    <!-- نصيحة -->
+    <div style="text-align:center;color:#5a7a9a;font-size:.72rem;padding:10px;background:rgba(5,13,31,.4);border-radius:12px;border:1px dashed rgba(212,175,55,.2);line-height:1.5">
+      💡 <strong>ملاحظة:</strong> بعد التثبيت، التطبيق يعمل مثل أي تطبيق عادي — بدون فتح المتصفح، وبدون استهلاك باقة الإنترنت.
+    </div>
+  </div>
 </div>
 <div class="page" id="pageCalc">
   <div class="calc-box">
@@ -1037,7 +1079,7 @@ function updateTrends(){['d_try','d_syp','try_syp','eur_usd','gold_syp','gold_us
 function updateRateCards(){$('d_try_buy').textContent=formatNumber(rates.d_try.buy,2);$('d_try_sell').textContent=formatNumber(rates.d_try.sell,2);$('d_syp_buy').textContent=formatNumber(rates.d_syp.buy,0);$('d_syp_sell').textContent=formatNumber(rates.d_syp.sell,0);$('try_syp_buy').textContent=formatNumber(rates.try_syp.buy,2);$('try_syp_sell').textContent=formatNumber(rates.try_syp.sell,2);$('eur_usd_buy').textContent=formatNumber(rates.eur_usd.buy,2);$('eur_usd_sell').textContent=formatNumber(rates.eur_usd.sell,2);$('gold_syp_buy').textContent=formatNumber(rates.gold_syp.buy,0);$('gold_syp_sell').textContent=formatNumber(rates.gold_syp.sell,0);$('gold_usd_buy').textContent=formatNumber(rates.gold_usd.buy,2);$('gold_usd_sell').textContent=formatNumber(rates.gold_usd.sell,2);updateTrends();}
 function updateAdminFields(){$('adm_d_try_buy').value=rates.d_try.buy;$('adm_d_try_sell').value=rates.d_try.sell;$('adm_d_syp_buy').value=rates.d_syp.buy;$('adm_d_syp_sell').value=rates.d_syp.sell;$('adm_try_syp_buy').value=rates.try_syp.buy;$('adm_try_syp_sell').value=rates.try_syp.sell;$('adm_eur_usd_buy').value=rates.eur_usd.buy;$('adm_eur_usd_sell').value=rates.eur_usd.sell;$('adm_gold_syp_buy').value=rates.gold_syp.buy;$('adm_gold_syp_sell').value=rates.gold_syp.sell;$('adm_gold_usd_buy').value=rates.gold_usd.buy;$('adm_gold_usd_sell').value=rates.gold_usd.sell;}
 function updateSecurityDisplay(){var sec=adminSecurity;$('currentSecurityDisplay').textContent=sec.length<=4?sec:sec.slice(0,2)+'•••'+sec.slice(-3);}
-function switchTab(name){['tabHome','tabCalc','tabChart'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});['pageHome','pageCalc','pageChart'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});if(name==='calc'){$('tabCalc').classList.add('active');$('pageCalc').classList.add('active');}else if(name==='chart'){$('tabChart').classList.add('active');$('pageChart').classList.add('active');setTimeout(drawChart,100);}else{$('tabHome').classList.add('active');$('pageHome').classList.add('active');}try{localStorage.setItem(ACTIVE_TAB_KEY,name);}catch(e){}}
+function switchTab(name){['tabHome','tabCalc','tabChart','tabInstall'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});['pageHome','pageCalc','pageChart','pageInstall'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});if(name==='calc'){$('tabCalc').classList.add('active');$('pageCalc').classList.add('active');}else if(name==='chart'){$('tabChart').classList.add('active');$('pageChart').classList.add('active');setTimeout(drawChart,100);}else if(name==='install'){$('tabInstall').classList.add('active');$('pageInstall').classList.add('active');}else{$('tabHome').classList.add('active');$('pageHome').classList.add('active');}try{localStorage.setItem(ACTIVE_TAB_KEY,name);}catch(e){}}
 function getUsdValue(amount,currency){switch(currency){case'usd':return amount;case'try':return amount/rates.d_try.buy;case'syp':return amount/rates.d_syp.buy;case'eur':return amount/rates.eur_usd.buy;case'gold_syp':return(amount*rates.gold_syp.buy)/rates.d_syp.buy;case'gold_usd':return amount*rates.gold_usd.buy;default:return amount;}}
 function calculateAll(){var amount=parseFloat($('calcInput').value)||0;var cur=$('calcCurrency').value;var r={};var uBuy=0,uSell=0;if(cur==='usd'){uBuy=amount;uSell=amount;}else if(cur==='try'){uBuy=amount/rates.d_try.sell;uSell=amount/rates.d_try.buy;}else if(cur==='syp'){uBuy=amount/rates.d_syp.sell;uSell=amount/rates.d_syp.buy;}else if(cur==='eur'){uBuy=amount*rates.eur_usd.buy;uSell=amount*rates.eur_usd.sell;}else if(cur==='gold_syp'){uBuy=(amount*rates.gold_syp.buy)/rates.d_syp.sell;uSell=(amount*rates.gold_syp.sell)/rates.d_syp.buy;}else if(cur==='gold_usd'){uBuy=amount*rates.gold_usd.buy;uSell=amount*rates.gold_usd.sell;}
 r.usd_buy=uBuy;r.usd_sell=uSell;r.try_buy=uBuy*rates.d_try.buy;r.try_sell=uSell*rates.d_try.sell;r.syp_buy=uBuy*rates.d_syp.buy;r.syp_sell=uSell*rates.d_syp.sell;r.eur_buy=uBuy/rates.eur_usd.sell;r.eur_sell=uSell/rates.eur_usd.buy;r.gold_syp_buy=r.syp_buy/rates.gold_syp.sell;r.gold_syp_sell=r.syp_sell/rates.gold_syp.buy;r.gold_usd_buy=uBuy/rates.gold_usd.sell;r.gold_usd_sell=uSell/rates.gold_usd.buy;
@@ -1149,6 +1191,7 @@ function init(){loadRatesFromStorage();loadCredentials();loadTheme();loadLastUpd
 $('tabHome').addEventListener('click',function(){switchTab('home');});
 $('tabCalc').addEventListener('click',function(){switchTab('calc');});
 $('tabChart').addEventListener('click',function(){switchTab('chart');});
+$('tabInstall').addEventListener('click',function(){switchTab('install');});
 
 $('calcInput').addEventListener('input',calculateAll);
 $('calcCurrency').addEventListener('change',calculateAll);
@@ -1162,6 +1205,8 @@ var notifBtn=$('notifyToggleBtn');if(notifBtn)notifBtn.addEventListener('click',
 setTimeout(showNotifyPrompt,2000);
 setTimeout(updateNotifyIcon,500);
 $('installBtn').addEventListener('click',installApp);
+var installBtn2 = $('installAppBtn');
+if(installBtn2) installBtn2.addEventListener('click', installApp);
 $('shareMainBtn').addEventListener('click',function(){shareApp('native');});
 $('whatsappBtn').addEventListener('click',function(){shareApp('whatsapp');});
 $('copyLinkBtn').addEventListener('click',copyAppLink);
