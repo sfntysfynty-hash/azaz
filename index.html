@@ -1179,7 +1179,7 @@ function showWelcomeNotification(){
         console.warn('Welcome notification failed:', e);
     }
 }
-window.__setAdmin = function(v){ isAdmin = !!v; };
+
 
 
 
@@ -1212,9 +1212,7 @@ $('whatsappBtn').addEventListener('click',function(){shareApp('whatsapp');});
 $('copyLinkBtn').addEventListener('click',copyAppLink);
 $('printBtn').addEventListener('click',printReceipt);
 function openAdmin(){if(isAdmin){$('adminPanel').classList.toggle('open');if($('adminPanel').classList.contains('open')){updateAdminFields();updateSecurityDisplay();loadEruda();}}else{openPasswordModal();}}
-$('azazLogo').addEventListener('click',openAdmin);
-$('logoClickArea').addEventListener('click',openAdmin);
-$('adminBadge').addEventListener('click',openAdmin);
+/* تم تعطيلها — يستخدم Firebase Auth الآن */
 $('applyBtn').addEventListener('click',applyNewRates);
 $('changePassBtn').addEventListener('click',changePassword);
 $('changePinBtn').addEventListener('click',changePin);
@@ -1400,6 +1398,7 @@ function showNotifyPrompt() {
     if (prompt) prompt.classList.add('show');
   } catch(e) {}
 }
+window.__setAdmin = function(v){ isAdmin = !!v; };
 init();
 setTimeout(function(){
   if (typeof setupChartTabs === 'function') setupChartTabs();
@@ -1499,9 +1498,6 @@ setTimeout(function(){
 })();
 </script>
 
-<script>
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
-</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -1526,15 +1522,56 @@ onAuthStateChanged(fbAuth, function(user) {
   console.log(user ? "✅ الأدمن: " + user.email : "⚠️ غير مسجل");
 });
 
-document.addEventListener('click', function(e) {
-  var t = e.target.closest('#adminBadge, #azazLogo, #logoClickArea');
-  if (!t) return;
-  if (userIsAdmin) return;
-  e.preventDefault();
-  e.stopImmediatePropagation();
-  window.location.href = 'login.html';
-}, true);
-  </script>
-  </script>
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){
+    var a = document.getElementById('adminBadge');
+    var b = document.getElementById('azazLogo');
+    var c = document.getElementById('logoClickArea');
+    var adminPanel = document.getElementById('adminPanel');
+
+    function handleAdminClick(e) {
+      if (e) e.preventDefault();
+      if (userIsAdmin) {
+        if (adminPanel) adminPanel.classList.toggle('open');
+        if (typeof updateAdminFields === 'function') updateAdminFields();
+        if (typeof startStatsTracking === 'function') startStatsTracking();
+      } else {
+        window.location.href = 'login.html';
+      }
+    }
+
+    if (a) { a.onclick = null; a.onclick = handleAdminClick; }
+    if (b) { b.onclick = null; b.onclick = handleAdminClick; }
+    if (c) { c.onclick = null; c.onclick = handleAdminClick; }
+
+    if (window.location.hash === '#admin' && userIsAdmin) {
+      if (adminPanel) adminPanel.classList.add('open');
+    }
+  }, 1500);
+});
+
+/* تسجيل Service Worker */
+if ('serviceWorker' in navigator) {
+  var refreshing = false;
+  navigator.serviceWorker.register('sw.js').then(function(reg) {
+    console.log('✅ SW مسجل');
+    setInterval(function() { reg.update().catch(function(){}); }, 60000);
+    window.addEventListener('online', function() { reg.update().catch(function(){}); });
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) reg.update().catch(function(){});
+    });
+  }).catch(function(e) { console.warn('فشل SW:', e); });
+
+  navigator.serviceWorker.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'NEW_VERSION') {
+      if (!refreshing) { refreshing = true; setTimeout(function(){ window.location.reload(true); }, 1500); }
+    }
+  });
+  navigator.serviceWorker.addEventListener('controllerchange', function() {
+    if (!refreshing) { refreshing = true; window.location.reload(); }
+  });
+}
+</script>
+
 </body>
 </html>
