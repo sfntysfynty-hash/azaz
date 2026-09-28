@@ -1502,17 +1502,58 @@ setTimeout(function(){
 <script>
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 </script>
-  <script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const fbConfig = {
+  apiKey: "AIzaSyAk6Y1lsTvFuG5QoVKc_fiL199P92C4C6I",
+  authDomain: "azaz-exchange-db410.firebaseapp.com",
+  databaseURL: "https://azaz-exchange-db410-default-rtdb.firebaseio.com",
+  projectId: "azaz-exchange-db410",
+  storageBucket: "azaz-exchange-db410.firebasestorage.app",
+  messagingSenderId: "358926283407",
+  appId: "1:358926283407:web:ad1b9f75a7c539d972b6fa"
+};
+
+const fbApp = initializeApp(fbConfig);
+const fbAuth = getAuth(fbApp);
+
+let userIsAdmin = false;
+
+onAuthStateChanged(fbAuth, function(user) {
+  userIsAdmin = !!user;
+  console.log(user ? "✅ الأدمن مسجل: " + user.email : "⚠️ غير مسجل");
+});
+
 document.addEventListener('DOMContentLoaded', function(){
   setTimeout(function(){
     var a = document.getElementById('adminBadge');
     var b = document.getElementById('azazLogo');
     var c = document.getElementById('logoClickArea');
-    if(a) a.onclick = function(){ window.location.href='login.html'; };
-    if(b) b.onclick = function(){ window.location.href='login.html'; };
-    if(c) c.onclick = function(){ window.location.href='login.html'; };
-  }, 1000);
+    var adminPanel = document.getElementById('adminPanel');
+
+    function handleAdminClick() {
+      if (userIsAdmin) {
+        if (adminPanel) adminPanel.classList.add('open');
+        if (typeof updateAdminFields === 'function') updateAdminFields();
+        if (typeof startStatsTracking === 'function') startStatsTracking();
+      } else {
+        window.location.href = 'login.html';
+      }
+    }
+
+    if(a) a.onclick = handleAdminClick;
+    if(b) b.onclick = handleAdminClick;
+    if(c) c.onclick = handleAdminClick;
+
+    // فتح تلقائي إذا كان الرابط فيه #admin
+    if (window.location.hash === '#admin' && userIsAdmin) {
+      if (adminPanel) adminPanel.classList.add('open');
+    }
+  }, 1500);
 });
+</script>
   </script>
 </body>
 </html>
