@@ -1,7 +1,8 @@
 // ============================================================
 // Service Worker - نظام التحديث التلقائي
 // ============================================================
-const CACHE_VERSION = 'hamido-v5'; // ⚠️ غيّر الرقم في كل تحديث!
+const today = new Date();
+const CACHE_VERSION = 'hamido-v' + today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 const CACHE_NAME = 'hamido-cache-' + CACHE_VERSION;
 
 // عند تثبيت Service Worker جديد
