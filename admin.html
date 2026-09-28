@@ -119,7 +119,7 @@ body{background:radial-gradient(circle at 50% 0%,#0d2544 0%,#050d1f 70%);min-hei
       </a>
     </div>
     <div class="note-box">
-      💡 <strong>ملاحظة:</strong> للوصول إلى لوحة الأسعار الكاملة، اضغط "التطبيق الرئيسي" ثم زر "إدارة" — سيتم الدخول تلقائياً لأنك مسجل دخول.
+      💡 <strong>ملاحظة:</strong> للوصول إلى لوحة الأسعار الكاملة، اضغط "تعديل الأسعار" — سيتم فتح اللوحة تلقائياً.
     </div>
   </div>
 
@@ -149,14 +149,35 @@ const loadingScreen = document.getElementById("loadingScreen");
 const userEmail = document.getElementById("userEmail");
 const logoutBtn = document.getElementById("logoutBtn");
 
+/* ⚠️ مهم: ننتظر ثانية قبل التحقق لتجنب الحلقة */
+let checkCount = 0;
+const maxChecks = 5;
+
 onAuthStateChanged(auth, function(user) {
-  if (!user) {
-    window.location.replace("login.html");
-    return;
+  if (user) {
+    /* المستخدم موجود ✅ */
+    userEmail.textContent = user.email || "—";
+    loadingScreen.classList.add("hide");
+    setTimeout(function() { loadingScreen.style.display = "none"; }, 400);
+    console.log("✅ الأدمن مسجل:", user.email);
+  } else {
+    /* المستخدم غير موجود — ننتظر قليلاً قبل التحويل */
+    checkCount++;
+    console.warn("⚠️ محاولة " + checkCount + " — لا مستخدم");
+    
+    if (checkCount >= 3) {
+      /* بعد 3 محاولات — نحوّل لـ login */
+      console.warn("🚪 جاري التحويل لصفحة الدخول...");
+      window.location.replace("login.html");
+    } else {
+      /* انتظر ثانية وحاول مرة أخرى */
+      setTimeout(function() {
+        if (!auth.currentUser) {
+          window.location.replace("login.html");
+        }
+      }, 1500);
+    }
   }
-  userEmail.textContent = user.email || "—";
-  loadingScreen.classList.add("hide");
-  setTimeout(function() { loadingScreen.style.display = "none"; }, 400);
 });
 
 logoutBtn.addEventListener("click", async function() {
@@ -175,4 +196,4 @@ logoutBtn.addEventListener("click", async function() {
 </script>
 
 </body>
-</html>
+  </html>
