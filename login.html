@@ -107,7 +107,7 @@ function showMsg(text, type) {
 onAuthStateChanged(auth, function(user) {
   if (user) {
     showMsg("✅ مرحباً بك — جاري التحويل...", "success");
-    setTimeout(function() { window.location.href = "admin.html"; }, 600);
+    setTimeout(function() { window.location.replace("admin.html"); }, 800);
   }
 });
 loginForm.addEventListener("submit", async function(e) {
@@ -119,9 +119,9 @@ loginForm.addEventListener("submit", async function(e) {
   loginBtn.classList.add("loading");
   showMsg("");
   try {
-    const uc = await signInWithEmailAndPassword(auth, email, password);
+    await signInWithEmailAndPassword(auth, email, password);
     showMsg("✅ تم الدخول بنجاح — جاري التحويل...", "success");
-    setTimeout(function() { window.location.href = "admin.html"; }, 700);
+    setTimeout(function() { window.location.replace("admin.html"); }, 900);
   } catch (error) {
     let errorText = "❌ فشل تسجيل الدخول";
     switch (error.code) {
@@ -144,4 +144,4 @@ loginForm.addEventListener("submit", async function(e) {
 setTimeout(function() { emailInput.focus(); }, 400);
 </script>
 </body>
-  </html>
+</html>
