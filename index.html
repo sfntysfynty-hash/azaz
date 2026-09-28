@@ -1502,6 +1502,17 @@ setTimeout(function(){
 <script>
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
 </script>
-
+  <script>
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){
+    var a = document.getElementById('adminBadge');
+    var b = document.getElementById('azazLogo');
+    var c = document.getElementById('logoClickArea');
+    if(a) a.onclick = function(){ window.location.href='login.html'; };
+    if(b) b.onclick = function(){ window.location.href='login.html'; };
+    if(c) c.onclick = function(){ window.location.href='login.html'; };
+  }, 1000);
+});
+  </script>
 </body>
 </html>
