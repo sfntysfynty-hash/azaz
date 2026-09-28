@@ -911,9 +911,9 @@ html, body {
     <div id="loginSection">
       <div class="modal-icon">🔐</div>
       <div class="modal-title">دخول الأدمن</div>
-      <div class="modal-sub">أدخل كلمة المرور ورمز PIN</div>
-      <div class="modal-field"><label>كلمة المرور</label><input type="password" id="passwordInput" placeholder="••••••••"></div>
-      <div class="modal-field"><label>رمز PIN</label><input type="password" id="pinLoginInput" placeholder="••••••" inputmode="numeric" maxlength="6"></div>
+      <div class="modal-sub">أدخل البريد الإلكتروني وكلمة المرور</div>
+      <div class="modal-field"><label>📧 البريد الإلكتروني</label><input type="email" id="passwordInput" placeholder="admin@example.com"></div>
+<div class="modal-field"><label>🔑 كلمة المرور</label><input type="password" id="pinLoginInput" placeholder="••••••••"></div>
       <div class="modal-error" id="passwordError"></div>
       <div class="modal-actions">
         <button class="modal-btn ghost" id="cancelModal">إلغاء</button>
@@ -1101,9 +1101,25 @@ function changeSecurity(){var n=$('newSecurity').value.trim(),cf=$('confirmSecur
 window.addEventListener('storage',function(e){if(e.key===RATES_KEY&&e.newValue){try{var data=JSON.parse(e.newValue);for(var pair in DEFAULT_RATES){if(data[pair])rates[pair]=data[pair];}updateRateCards();updateAdminFields();calculateAll();}catch(err){}}if(e.key===LAST_UPDATE_KEY&&e.newValue){$('statusText').textContent='آخر تحديث: '+e.newValue;}if(e.key===PASSWORD_KEY&&e.newValue)adminPassword=e.newValue;if(e.key===PIN_KEY&&e.newValue)adminPin=e.newValue;if(e.key===SECURITY_KEY&&e.newValue){adminSecurity=e.newValue;updateSecurityDisplay();}if(e.key===THEME_KEY&&e.newValue){document.documentElement.setAttribute('data-theme',e.newValue);$('themeToggle').textContent=e.newValue==='dark'?'🌙':'☀️';}});
 function openPasswordModal(){$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('securityInput').value='';$('recoverNewPass').value='';$('recoverError').textContent='';$('passwordModal').classList.add('open');setTimeout(function(){$('passwordInput').focus();},250);}
 function closePasswordModal(){$('passwordModal').classList.remove('open');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('securityInput').value='';$('recoverNewPass').value='';$('recoverError').textContent='';$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');}
-function tryLogin(){var p=$('passwordInput').value,pin=$('pinLoginInput').value.trim();if(!p||!pin){$('passwordError').textContent='⚠️ املأ الحقلين';return;}if(p===adminPassword&&pin===adminPin){if(p===adminPassword&&pin===adminPin){isAdmin=true;closePasswordModal();$('adminPanel').classList.add('open');updateAdminFields();updateSecurityDisplay();if(typeof startStatsTracking==='function')startStatsTracking();loadEruda();}}else{$('passwordError').textContent='❌ كلمة المرور أو PIN غلط';$('passwordInput').value='';$('pinLoginInput').value='';$('passwordInput').classList.add('shake');$('pinLoginInput').classList.add('shake');setTimeout(function(){$('passwordInput').classList.remove('shake');$('pinLoginInput').classList.remove('shake');},450);}}
+async function tryLogin(){
+  var email=$('passwordInput').value.trim();
+  var password=$('pinLoginInput').value;
+  if(!email||!password){$('passwordError').textContent='⚠️ املأ الحقلين';return;}
+  $('passwordError').textContent='⏳ جاري التحقق...';
+  try{
+  await window.__signIn(email, password);  
+    window.sessionAdmin = true;
+isAdmin=true;closePasswordModal();$('adminPanel').classList.add('open');
+    updateAdminFields();updateSecurityDisplay();
+    if(typeof startStatsTracking==='function')startStatsTracking();
+    $('passwordError').textContent='';
+  }catch(e){
+    $('passwordError').textContent='❌ '+(e.message||'فشل الدخول');
+    $('passwordInput').value='';$('pinLoginInput').value='';
+  }
+}
 function tryRecover(){var sec=$('securityInput').value.trim(),np=$('recoverNewPass').value.trim();if(!sec){$('recoverError').textContent='⚠️ أدخل رمز الأمان';return;}if(sec!==adminSecurity){$('recoverError').textContent='❌ رمز الأمان غلط';$('securityInput').value='';$('securityInput').classList.add('shake');setTimeout(function(){$('securityInput').classList.remove('shake');},450);return;}if(!np){$('recoverError').textContent='⚠️ أدخل كلمة المرور';return;}if(np.length<4){$('recoverError').textContent='⚠️ قصيرة جداً';return;}adminPassword=np;try{localStorage.setItem(PASSWORD_KEY,np);}catch(e){}$('recoverError').className='modal-success';$('recoverError').textContent='✅ تم الاسترجاع بنجاح';$('securityInput').value='';$('recoverNewPass').value='';setTimeout(function(){$('recoverError').className='modal-error';$('recoverError').textContent='';$('loginSection').style.display='block';$('recoverSection').classList.remove('visible');},2000);}
-function logout(){isAdmin=false;$('adminPanel').classList.remove('open');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('currentPass').value='';$('newPass').value='';$('confirmPass').value='';$('currentPin').value='';$('newPin').value='';$('newSecurity').value='';$('confirmSecurity').value='';['passFeedback','pinFeedback','securityFeedback'].forEach(function(id){$(id).classList.remove('show');});}
+function logout(){isAdmin=false;window.sessionAdmin=false;$('adminPanel').classList.remove('open');$('passwordInput').value='';$('pinLoginInput').value='';$('passwordError').textContent='';$('currentPass').value='';$('newPass').value='';$('confirmPass').value='';$('currentPin').value='';$('newPin').value='';$('newSecurity').value='';$('confirmSecurity').value='';['passFeedback','pinFeedback','securityFeedback'].forEach(function(id){$(id).classList.remove('show');});}
 function bindRateCardClick(){document.querySelectorAll('.rate-card').forEach(function(card){card.addEventListener('click',function(){var currency=this.dataset.currency||'usd';$('calcCurrency').value=currency;calculateAll();switchTab('calc');var calcBox=document.querySelector('.calc-box');calcBox.style.transition='box-shadow 0.3s';calcBox.style.boxShadow='0 0 40px rgba(61,139,224,0.7)';setTimeout(function(){calcBox.style.boxShadow='';},800);});});document.querySelectorAll('.result-item').forEach(function(item){item.addEventListener('click',function(){var target=this.dataset.target;$('calcCurrency').value=target;calculateAll();});});}
 var statsRef=null;
 var statsSessionId=null;
@@ -1238,7 +1254,7 @@ $('recoverBackBtn2').addEventListener('click',function(){$('loginSection').style
 $('recoverSubmitBtn').addEventListener('click',tryRecover);
 $('securityInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('recoverNewPass').focus();}});
 $('recoverNewPass').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tryRecover();}});
-['pinLoginInput','currentPin','newPin'].forEach(function(id){$(id).addEventListener('input',function(){this.value=this.value.replace(/[^0-9]/g,'');});});
+['currentPin','newPin'].forEach(function(id){$(id).addEventListener('input',function(){this.value=this.value.replace(/[^0-9]/g,'');});});
 $('calcInput').addEventListener('keydown',function(e){if(e.key==='-'||e.key==='e'||e.key==='E'||e.key==='+')e.preventDefault();});
 if (typeof setupChartTabs === 'function') setupChartTabs();
 }
@@ -1404,102 +1420,13 @@ setTimeout(function(){
   if (typeof setupChartTabs === 'function') setupChartTabs();
 }, 500);
 
-// ============================================================
-// 🔄 نظام التحديث التلقائي
-// ============================================================
-(function() {
-  if (!('serviceWorker' in navigator)) return;
-  
-  var swRegistration = null;
-  var currentVersion = null;
-  var updateCheckInterval = null;
-  var isReloading = false;
-  
-  // 1) تسجيل Service Worker
-  navigator.serviceWorker.register('sw.js').then(function(reg) {
-    swRegistration = reg;
-    console.log('✅ Service Worker مسجل');
-    
-    // فحص التحديثات كل 60 ثانية
-    updateCheckInterval = setInterval(function() {
-      reg.update().catch(function(e) { console.warn('فشل فحص التحديث:', e); });
-    }, 60000);
-    
-    // فحص عند عودة الاتصال
-    window.addEventListener('online', function() {
-      reg.update().catch(function() {});
-    });
-    
-    // فحص عند العودة للتطبيق
-    document.addEventListener('visibilitychange', function() {
-      if (!document.hidden) {
-        reg.update().catch(function() {});
-      }
-    });
-  }).catch(function(e) {
-    console.warn('فشل تسجيل Service Worker:', e);
-  });
-  
-  // 2) عندما يجد SW تحديثاً
-  navigator.serviceWorker.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'NEW_VERSION') {
-      console.log('🆕 نسخة جديدة متاحة!');
-      // أعد تحميل الصفحة تلقائياً
-      if (!isReloading) {
-        isReloading = true;
-        window.location.reload(true);
-      }
-    }
-  });
-  
-  // 3) عندما يجد SW جديداً في الانتظار
-  function checkForWaitingWorker(reg) {
-    if (reg && reg.waiting) {
-      console.log('⏳ SW جديد في الانتظار');
-      reg.waiting.postMessage('SKIP_WAITING');
-    }
-  }
-  
-  // ربط حدث updatefound
-  if (navigator.serviceWorker.controller) {
-    navigator.serviceWorker.ready.then(function(reg) {
-      checkForWaitingWorker(reg);
-      reg.addEventListener('updatefound', function() {
-        var newWorker = reg.installing;
-        if (newWorker) {
-          newWorker.addEventListener('statechange', function() {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              console.log('✅ نسخة جديدة جاهزة');
-              newWorker.postMessage('SKIP_WAITING');
-            }
-          });
-        }
-      });
-    });
-  } else {
-    // أول زيارة - أعد التحميل مرة واحدة فقط
-    navigator.serviceWorker.addEventListener('controllerchange', function() {
-      if (!isReloading) {
-        isReloading = true;
-        window.location.reload();
-      }
-    });
-  }
-  
-  // 4) فحص عند تحميل الصفحة
-  window.addEventListener('load', function() {
-    if (navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: 'CHECK_VERSION' });
-    }
-  });
-  
-})();
+
 
 })();
 </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const fbConfig = {
   apiKey: "AIzaSyAk6Y1lsTvFuG5QoVKc_fiL199P92C4C6I",
@@ -1514,40 +1441,91 @@ const fbConfig = {
 const fbApp = initializeApp(fbConfig);
 const fbAuth = getAuth(fbApp);
 
+/* اجعلها متاحة عالمياً لاستخدام tryLogin */
+/* ⚠️ استخدم دالة مساعدة صحيحة */
+window.__signIn = function(email, password) {
+  return signInWithEmailAndPassword(fbAuth, email, password);
+};
+window.__fbAuth = fbAuth;
+
+/* إذا كان المستخدم مسجل — اجعل isAdmin = true */
+window.__isAdminUser = false;
 onAuthStateChanged(fbAuth, function(user) {
-  if (window.__setAdmin) window.__setAdmin(!!user);
-  console.log(user ? "✅ الأدمن مسجل: " + user.email : "⚠️ غير مسجل");
+  if (user) {
+    console.log("✅ الأدمن مسجل:", user.email);
+    window.__isAdminUser = true;
+    if (window.__setAdmin) window.__setAdmin(true);
+  } else {
+    console.log("⚠️ غير مسجل");
+    window.__isAdminUser = false;
+    if (window.__setAdmin) window.__setAdmin(false);
+  }
 });
 
-/* إعادة توجيه أزرار الإدارة */
-document.addEventListener('DOMContentLoaded', function(){
-  setTimeout(function(){
-    var a = document.getElementById('adminBadge');
-    var b = document.getElementById('azazLogo');
-    var c = document.getElementById('logoClickArea');
-    if (a) a.onclick = function(e){ e.preventDefault(); window.location.href='login.html'; };
-    if (b) b.onclick = function(e){ e.preventDefault(); window.location.href='login.html'; };
-    if (c) c.onclick = function(e){ e.preventDefault(); window.location.href='login.html'; };
-  }, 1000);
-});
-
-/* Service Worker */
-if ('serviceWorker' in navigator) {
-  var refreshing = false;
-  navigator.serviceWorker.register('sw.js').then(function(reg) {
-    setInterval(function() { reg.update().catch(function(){}); }, 60000);
-  }).catch(function(e) { console.warn('SW:', e); });
-  navigator.serviceWorker.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'NEW_VERSION') {
-      if (!refreshing) { refreshing = true; setTimeout(function(){ window.location.reload(true); }, 1500); }
+/* ⚠️ لا تفتح اللوحة تلقائياً — فقط عند الضغط على زر الإدارة */
+/* فقط احذف #admin من الرابط إذا كان موجوداً */
+setTimeout(function() {
+  if (window.location.hash === '#admin') {
+    if (history.replaceState) {
+      history.replaceState(null, null, window.location.pathname + window.location.search);
     }
-  });
-}
+  }
+}, 500);
+/* ⚠️ جلسة مؤقتة — تنتهي عند إعادة تحميل الصفحة */
+window.sessionAdmin = false;
+console.log("✅ Firebase Auth جاهز");
 </script>
-
+</script>
+<script>
+/* ✅ معالج أزرار الإدارة — يحل مشكلة الدخول */
+(function(){
+  function handleAdminClick(e){
+    if(e){e.preventDefault();e.stopImmediatePropagation();}
+    console.log("🖱️ زر الإدارة");
+    console.log("👤 isAdminUser:", window.__isAdminUser);
+    
+ if(window.sessionAdmin){   
+      /* مسجل → افتح اللوحة مباشرة */
+      var panel = document.getElementById('adminPanel');
+      if(panel){
+        panel.classList.add('open');
+        if(typeof updateAdminFields === 'function') updateAdminFields();
+        if(typeof updateSecurityDisplay === 'function') updateSecurityDisplay();
+        if(typeof startStatsTracking === 'function') startStatsTracking();
+      }
+      console.log("✅ لوحة الأدمن مفتوحة");
+    } else {
+      /* غير مسجل → افتح نافذة الدخول */
+      var modal = document.getElementById('passwordModal');
+      if(modal){
+        modal.classList.add('open');
+        var loginSection = document.getElementById('loginSection');
+        var recoverSection = document.getElementById('recoverSection');
+        if(loginSection) loginSection.style.display = 'block';
+        if(recoverSection) recoverSection.classList.remove('visible');
+      }
+      console.log("🔐 نافذة الدخول مفتوحة");
+    }
+  }
+  
+  /* انتظر حتى تحميل الصفحة */
+  setTimeout(function(){
+    var ids = ['adminBadge', 'azazLogo', 'logoClickArea'];
+    for(var i = 0; i < ids.length; i++){
+      var el = document.getElementById(ids[i]);
+      if(el){
+        /* أزل كل المستمعين القديمة */
+        var clone = el.cloneNode(true);
+        el.parentNode.replaceChild(clone, el);
+        /* أضف المستمع الجديد */
+        clone.addEventListener('click', handleAdminClick, true);
+        console.log("✅ تم ربط:", ids[i]);
+      }
+    }
+  }, 2000);
+})();
+</script>
 </body>
 </html>
 
 
-</body>
-</html>
