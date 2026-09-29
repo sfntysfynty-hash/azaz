@@ -1241,7 +1241,7 @@ html, body {
 
     <div class="chart-note" id="chartNote">📅 يتم تسجيل سعر واحد لكل يوم — سيظهر المنحنى بعد أيام</div>
   </div>
-</div>
+
 
 
     <!-- نصيحة -->
@@ -2219,47 +2219,7 @@ console.log("✅ Firebase Auth جاهز");
     }
 })();
 </script>
-<script>
-(function(){
-  'use strict';
-  function getVal(id){
-    var el = document.getElementById(id);
-    if(!el) return '—';
-    var t = (el.textContent||'').trim().replace(/,/g,'').replace(/[^\d.]/g,'');
-    return t || '—';
-  }
-  function fmt(v){
-    if(v==='—' || isNaN(Number(v))) return v;
-    return Number(v).toLocaleString('en-US');
-  }
-  function buildRatesMessage(){
-    var d = new Date().toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    var msg = '💰 *أسعار حميدو للصرافة - ' + d + '*\n';
-    msg += '━━━━━━━━━━━━━━\n';
-    msg += '💵 دولار / تركي\n';
-    msg += 'شراء: ' + fmt(getVal('d_try_buy')) + '\n';
-    msg += 'بيع: ' + fmt(getVal('d_try_sell')) + '\n';
-    msg += '━━━━━━━━━━━━━━\n';
-    msg += '💵 دولار / سوري\n';
-    msg += 'شراء: ' + fmt(getVal('d_syp_buy')) + '\n';
-    msg += 'بيع: ' + fmt(getVal('d_syp_sell')) + '\n';
-    msg += '━━━━━━━━━━━━━━\n';
-    msg += '🇹🇷 تركي / سوري\n';
-    msg += 'شراء: ' + fmt(getVal('try_syp_buy')) + '\n';
-    msg += 'بيع: ' + fmt(getVal('try_syp_sell')) + '\n';
-    msg += '━━━━━━━━━━━━━━\n';
-    msg += '🏦 حميدو للصرافة';
-    return msg;
-  }
-  var shareBtn = document.getElementById('shareRatesBtn');
-  if(shareBtn){
-    shareBtn.addEventListener('click', function(){
-      var url = 'https://wa.me/?text=' + encodeURIComponent(buildRatesMessage());
-      window.open(url,'_blank');
-    });
-    console.log('✅ زر واتساب جاهز');
-  }
-})();
+
 </script>
 </body>
 </html>
