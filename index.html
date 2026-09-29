@@ -424,6 +424,33 @@ html, body {
 #chartCurrencyTabs {
   max-width: 100%;
 }
+.whatsapp-share-btn {
+    width: 100%;
+    background-color: #25D366;
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    padding: 16px 10px;
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: 'Cairo', Tahoma, sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 0 #0d5c4a, 0 0 20px rgba(37, 211, 102, 0.3);
+    transition: all 0.25s ease;
+    margin-top: 12px;
+}
+.whatsapp-share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #0d5c4a, 0 0 30px rgba(37, 211, 102, 0.5);
+}
+.whatsapp-share-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #0d5c4a;
+}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -645,6 +672,7 @@ html, body {
   </div>
   <div class="share-feedback" id="shareFeedback"></div>
   <div class="share-install-hint">💡 اضغط "تحميل التطبيق" لتثبيت التطبيق على جوالك</div>
+ <button id="shareRatesBtn" class="whatsapp-share-btn">📱 مشاركة الأسعار على واتساب</button> 
 </div>
   <div style="margin-top:16px;"></div>
   <div class="action-buttons">
@@ -1386,19 +1414,28 @@ function drawChart() {
 
 function saveChartHistory() {
   try {
-    var currency = currentChartCurrency || 'd_try';
-    var historyKey = 'hamido_chart_' + currency;
-    var h = JSON.parse(localStorage.getItem(historyKey) || '[]');
+    /* ✅ احفظ كل العملات — ليس فقط الحالية */
+    var currencies = ['d_try', 'd_syp', 'try_syp', 'eur_usd', 'gold_syp', 'gold_usd'];
     var today = new Date().toISOString().slice(0, 10);
-    var last = h[h.length - 1];
-    var currentRate = rates[currency] ? rates[currency].buy : 0;
-    if (!last || last.d !== today) {
-      h.push({ d: today, v: currentRate });
-    } else {
-      last.v = currentRate;
+    
+    for (var i = 0; i < currencies.length; i++) {
+      var currency = currencies[i];
+      var historyKey = 'hamido_chart_' + currency;
+      var h = JSON.parse(localStorage.getItem(historyKey) || '[]');
+      var last = h[h.length - 1];
+      var currentRate = rates[currency] ? rates[currency].buy : 0;
+      
+      if (!last || last.d !== today) {
+        h.push({ d: today, v: currentRate });
+      } else {
+        last.v = currentRate;
+      }
+      
+      if (h.length > 15) h = h.slice(-15);
+      localStorage.setItem(historyKey, JSON.stringify(h));
     }
-    if (h.length > 15) h = h.slice(-15);
-    localStorage.setItem(historyKey, JSON.stringify(h));
+    
+    /* حدّث الرسم البياني للعملة الحالية */
     drawChart();
   } catch(e) {
     console.warn('Save chart failed:', e);
@@ -1523,6 +1560,81 @@ console.log("✅ Firebase Auth جاهز");
       }
     }
   }, 2000);
+})();
+</script>
+<script>
+/* ============================================================
+   📱 زر مشاركة الأسعار على واتساب
+   ============================================================ */
+(function() {
+    'use strict';
+
+    function getValue(id) {
+        var el = document.getElementById(id);
+        if (!el) return '—';
+        var txt = (el.textContent || '').trim();
+        var clean = txt.replace(/,/g, '').replace(/[^\d.]/g, '');
+        return clean || '—';
+    }
+
+    function formatNum(val) {
+        if (val === '—' || val === '' || isNaN(Number(val))) return val;
+        return Number(val).toLocaleString('en-US');
+    }
+
+    function buildMessage() {
+        var today = new Date();
+        var dateStr = today.toLocaleDateString('ar-EG', {
+            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+        });
+
+        var pairs = [
+            { title: '💵 دولار / ليرة تركية',  buy: getValue('d_try_buy'),   sell: getValue('d_try_sell')   },
+            { title: '💵 دولار / ليرة سورية',  buy: getValue('d_syp_buy'),   sell: getValue('d_syp_sell')   },
+            { title: '🇹🇷 تركي / سوري',       buy: getValue('try_syp_buy'), sell: getValue('try_syp_sell') },
+            { title: '🇪🇺 يورو / دولار',      buy: getValue('eur_usd_buy'), sell: getValue('eur_usd_sell') },
+            { title: '🥇 ذهب سوري',           buy: getValue('gold_syp_buy'), sell: getValue('gold_syp_sell')},
+            { title: '🥇 ذهب دولار',          buy: getValue('gold_usd_buy'), sell: getValue('gold_usd_sell')}
+        ];
+
+        var msg = '';
+        msg += '💰 *أسعار اليوم* - ' + dateStr + '\n';
+        msg += '━━━━━━━━━━━━━━━━━━\n';
+
+        for (var i = 0; i < pairs.length; i++) {
+            var p = pairs[i];
+            msg += p.title + '\n';
+            msg += '   🔴 شراء: ' + formatNum(p.buy) + '\n';
+            msg += '   🟢 بيع: '  + formatNum(p.sell) + '\n';
+            if (i < pairs.length - 1) msg += '\n';
+        }
+
+        msg += '━━━━━━━━━━━━━━━━━━\n';
+        msg += '🏦 حميدو للصرافة - HAMIDO EXCHANGE';
+        return msg;
+    }
+
+    function shareOnWhatsApp() {
+        var msg = buildMessage();
+        var url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+        window.open(url, '_blank');
+    }
+
+    function initWhatsAppShare() {
+        var btn = document.getElementById('shareRatesBtn');
+        if (btn) {
+            btn.addEventListener('click', shareOnWhatsApp);
+            console.log('✅ زر واتساب جاهز');
+        } else {
+            console.warn('⚠️ لم يتم العثور على زر واتساب');
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initWhatsAppShare);
+    } else {
+        initWhatsAppShare();
+    }
 })();
 </script>
 </body>
