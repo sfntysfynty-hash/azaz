@@ -451,6 +451,536 @@ html, body {
     transform: translateY(3px);
     box-shadow: 0 1px 0 #0d5c4a;
 }
+/* ---------- زر QR ---------- */
+.qr-show-btn {
+    width: 100%;
+    background: linear-gradient(145deg, #1e3a6b, #0a1930);
+    color: #d4af37;
+    border: 1.5px solid #d4af37;
+    border-radius: 14px;
+    padding: 16px 10px;
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: 'Cairo', Tahoma, sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 0 #041e40, 0 0 20px rgba(212, 175, 55, 0.3);
+    transition: all 0.25s ease;
+    margin-top: 12px;
+}
+.qr-show-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #041e40, 0 0 30px rgba(212, 175, 55, 0.5);
+}
+.qr-show-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #041e40;
+}
+
+/* ---------- نافذة QR ---------- */
+.qr-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    padding: 16px;
+}
+.qr-modal.open {
+    opacity: 1;
+    visibility: visible;
+}
+.qr-modal-content {
+    background: linear-gradient(145deg, rgba(15, 35, 66, 0.98), rgba(10, 25, 48, 0.98));
+    border: 1.5px solid #d4af37;
+    border-radius: 26px;
+    padding: 20px 18px 18px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+    max-height: 92vh;
+    overflow-y: auto;
+}
+.qr-modal.open .qr-modal-content {
+    transform: scale(1);
+}
+.qr-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
+}
+.qr-modal-header h3 {
+    color: #d4af37;
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin: 0;
+    font-family: 'Cairo', Tahoma, sans-serif;
+}
+.qr-close-btn {
+    background: rgba(255, 77, 77, 0.15);
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+}
+.qr-close-btn:hover {
+    background: rgba(255, 77, 77, 0.3);
+}
+.qr-image-wrap {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 12px;
+    margin-bottom: 12px;
+    display: inline-block;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+}
+.qr-image-wrap img {
+    width: 220px;
+    height: 220px;
+    display: block;
+}
+.qr-url-text {
+    color: #3d8be0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    direction: ltr;
+    letter-spacing: 0.5px;
+    word-break: break-all;
+}
+.qr-app-name {
+    color: #ff4444;
+    font-size: 1rem;
+    font-weight: 900;
+    margin-bottom: 12px;
+    text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+}
+.qr-instructions {
+    background: rgba(5, 13, 31, 0.5);
+    border: 1px solid rgba(61, 139, 224, 0.2);
+    border-radius: 14px;
+    padding: 12px;
+    margin-bottom: 10px;
+    text-align: right;
+}
+.qr-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #b8c8e0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 0;
+}
+.qr-step:not(:last-child) {
+    border-bottom: 1px dashed rgba(61, 139, 224, 0.15);
+}
+.qr-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #d4af37;
+    color: #0a1930;
+    font-size: 0.75rem;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+.qr-step b {
+    color: #d4af37;
+}
+.qr-hint {
+    color: #5a7a9a;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+/* شريط التنقل الجديد */
+.main-tabs{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 2;
+}
+.main-tab{
+  background: #0e2346;
+  border: 1.5px solid rgba(61,139,224,.25);
+  color: #b8c8e0;
+  padding: 16px 10px;
+  border-radius: 18px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: .95rem;
+  transition: all .3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  user-select: none;
+}
+.main-tab:hover{
+  border-color: #f0c040;
+  color: #f0c040;
+  transform: translateY(-2px);
+}
+.main-tab.active{
+  background: #1a3a6a;
+  border-color: #f0c040;
+  color: #fff;
+  box-shadow: 0 0 25px rgba(240,192,64,.4);
+}
+#tabAbout{
+  grid-column: 1 / span 2;
+  width: 55%;
+  justify-self: center;
+}
+.tab-icon{ font-size: 1.2rem; }
+
+/* زر واتساب الكبير */
+.btn-whats{
+  width: 100%;
+  background: #25D366;
+  color: #000;
+  border: none;
+  border-radius: 16px;
+  padding: 18px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 16px;
+  box-shadow: 0 4px 0 #0d5c4a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-whats:active{ transform: translateY(3px); box-shadow: 0 1px 0 #0d5c4a; }
+
+/* صفحة التحميل */
+.dl-buttons{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.dl-btn{
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: .95rem;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.dl-btn.blue{ background: #1e5bd1; box-shadow: 0 4px 0 #0a2554; }
+.dl-btn.red{ background: #b91c2c; box-shadow: 0 4px 0 #4a0a12; }
+.dl-btn.green{ background: #0f8a5f; box-shadow: 0 4px 0 #063d29; }
+.dl-btn.navy{ background: #0a2540; border: 1px solid #3d8be0; box-shadow: 0 4px 0 #020c1c; }
+.dl-btn-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* بطاقة QR */
+.qr-card{
+  background: #0e2346;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 14px;
+  border: 1px solid rgba(240,192,64,.25);
+}
+.qr-card h3{
+  color: #f0c040;
+  font-size: .95rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+.qr-card img{
+  width: 220px;
+  height: 220px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* صفحة من نحن */
+.about-card{
+  background: #0e2346;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(61,139,224,.2);
+}
+.about-card h3{
+  color: #f0c040;
+  font-size: 1rem;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+.about-card p{
+  color: #b8c8e0;
+  font-size: .85rem;
+  line-height: 1.9;
+  margin-bottom: 10px;
+}
+.about-card ul{
+  list-style: none;
+  padding: 0;
+}
+.about-card ul li{
+  color: #b8c8e0;
+  font-size: .85rem;
+  line-height: 1.9;
+  padding-right: 22px;
+  position: relative;
+  margin-bottom: 6px;
+}
+.about-card ul li::before{
+  content: '✓';
+  position: absolute;
+  right: 0;
+  color: #f0c040;
+  font-weight: 900;
+}
+.about-btns{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+.about-btn{
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: .85rem;
+}
+.about-btn.mail{ background: #f0c040; color: #0a1930; box-shadow: 0 4px 0 #8a6d0f; }
+.about-btn.wa{ background: #25D366; color: #000; box-shadow: 0 4px 0 #0d5c4a; }
+/* شريط التنقل الجديد */
+.main-tabs{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 2;
+}
+.main-tab{
+  background: #0e2346;
+  border: 1.5px solid rgba(61,139,224,.25);
+  color: #b8c8e0;
+  padding: 16px 10px;
+  border-radius: 18px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: .95rem;
+  transition: all .3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  user-select: none;
+}
+.main-tab:hover{
+  border-color: #f0c040;
+  color: #f0c040;
+  transform: translateY(-2px);
+}
+.main-tab.active{
+  background: #1a3a6a;
+  border-color: #f0c040;
+  color: #fff;
+  box-shadow: 0 0 25px rgba(240,192,64,.4);
+}
+#tabAbout{
+  grid-column: 1 / span 2;
+  width: 55%;
+  justify-self: center;
+}
+.tab-icon{ font-size: 1.2rem; }
+
+/* زر واتساب الكبير */
+.btn-whats{
+  width: 100%;
+  background: #25D366;
+  color: #000;
+  border: none;
+  border-radius: 16px;
+  padding: 18px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 16px;
+  box-shadow: 0 4px 0 #0d5c4a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-whats:active{ transform: translateY(3px); box-shadow: 0 1px 0 #0d5c4a; }
+
+/* صفحة التحميل */
+.dl-buttons{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.dl-btn{
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: .95rem;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.dl-btn.blue{ background: #1e5bd1; box-shadow: 0 4px 0 #0a2554; }
+.dl-btn.red{ background: #b91c2c; box-shadow: 0 4px 0 #4a0a12; }
+.dl-btn.green{ background: #0f8a5f; box-shadow: 0 4px 0 #063d29; }
+.dl-btn.navy{ background: #0a2540; border: 1px solid #3d8be0; box-shadow: 0 4px 0 #020c1c; }
+.dl-btn-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* بطاقة QR */
+.qr-card{
+  background: #0e2346;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 14px;
+  border: 1px solid rgba(240,192,64,.25);
+}
+.qr-card h3{
+  color: #f0c040;
+  font-size: .95rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+.qr-card img{
+  width: 220px;
+  height: 220px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* صفحة من نحن */
+.about-card{
+  background: #0e2346;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(61,139,224,.2);
+}
+.about-card h3{
+  color: #f0c040;
+  font-size: 1rem;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+.about-card p{
+  color: #b8c8e0;
+  font-size: .85rem;
+  line-height: 1.9;
+  margin-bottom: 10px;
+}
+.about-card ul{
+  list-style: none;
+  padding: 0;
+}
+.about-card ul li{
+  color: #b8c8e0;
+  font-size: .85rem;
+  line-height: 1.9;
+  padding-right: 22px;
+  position: relative;
+  margin-bottom: 6px;
+}
+.about-card ul li::before{
+  content: '✓';
+  position: absolute;
+  right: 0;
+  color: #f0c040;
+  font-weight: 900;
+}
+.about-btns{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+.about-btn{
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: .85rem;
+}
+.about-btn.mail{ background: #f0c040; color: #0a1930; box-shadow: 0 4px 0 #8a6d0f; }
+.about-btn.wa{ background: #25D366; color: #000; box-shadow: 0 4px 0 #0d5c4a; }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -536,177 +1066,148 @@ html, body {
     <button class="notify-btn secondary" id="dismissNotifyBtn">لاحقاً</button>
   </div>
 </div>
-<div class="main-tabs" style="grid-template-columns:1fr 1fr">
-  <button class="main-tab active" id="tabHome" data-page="home"><span class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>الرئيسية</span></button>
-  <button class="main-tab" id="tabCalc" data-page="calc"><span class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg></span><span>الآلة الحاسبة</span></button>
-<button class="main-tab" id="tabChart" data-page="chart"><span class="tab-icon">📈</span><span>الرسم البياني</span></button>
-<button class="main-tab" id="tabInstall" data-page="install"><span class="tab-icon">📥</span><span>طريقة التحميل</span></button>
+<div class="main-tabs">
+  <button class="main-tab active" id="tabHome" data-page="home"><span class="tab-icon">🏠</span><span>الصفحة الرئيسية</span></button>
+  <button class="main-tab" id="tabCalc" data-page="calc"><span class="tab-icon">🧮</span><span>الآلة الحاسبة</span></button>
+  <button class="main-tab" id="tabChart" data-page="chart"><span class="tab-icon">📈</span><span>الرسم البياني</span></button>
+  <button class="main-tab" id="tabDownload" data-page="download"><span class="tab-icon">📥</span><span>طريقة تحميل التطبيق</span></button>
+  <button class="main-tab" id="tabAbout" data-page="about"><span class="tab-icon">ℹ️</span><span>من نحن</span></button>
 </div>
 
 <div class="page active" id="pageHome">
-
   <div class="section-label">💱 أسعار العملات</div>
-
+  
+  <!-- ⚠️ جميع البطاقات يجب أن تكون داخل هذه الحاوية -->
   <div class="rates-grid">
+    
+    <!-- 1. بطاقة دولار / تركي -->
     <div class="rate-card" data-currency="usd">
       <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇺🇸 → 🇹🇷</span><span>دولار / ليرة تركية</span></div></div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="d_try_buy">49.10</span><span class="trend-indicator" id="d_try_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="d_try_sell">49.50</span><span class="trend-indicator" id="d_try_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label">شراء</div><div class="mini-value"><span id="d_try_buy">49.10</span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">بيع</div><div class="mini-value"><span id="d_try_sell">49.50</span></div></div>
       </div>
     </div>
 
+    <!-- 2. بطاقة دولار / سوري -->
     <div class="rate-card" data-currency="usd">
       <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇺🇸 → 🇸🇾</span><span>دولار / ليرة سورية</span></div></div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="d_syp_buy">13,500</span><span class="trend-indicator" id="d_syp_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="d_syp_sell">13,700</span><span class="trend-indicator" id="d_syp_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label">شراء</div><div class="mini-value"><span id="d_syp_buy">13,500</span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">بيع</div><div class="mini-value"><span id="d_syp_sell">13,700</span></div></div>
       </div>
     </div>
 
+    <!-- 3. بطاقة تركي / سوري -->
     <div class="rate-card" data-currency="try">
       <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇹🇷 → 🇸🇾</span><span>ليرة تركية / ليرة سورية</span></div></div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="try_syp_buy">275</span><span class="trend-indicator" id="try_syp_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="try_syp_sell">285</span><span class="trend-indicator" id="try_syp_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label">شراء</div><div class="mini-value"><span id="try_syp_buy">275</span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">بيع</div><div class="mini-value"><span id="try_syp_sell">285</span></div></div>
       </div>
     </div>
 
+    <!-- 4. بطاقة اليورو / دولار (الجديدة) -->
     <div class="rate-card" data-currency="eur">
-      <div class="rate-card-title"><div class="pair"><span class="flag-icons">🇪🇺 → 🇺🇸</span><span>يورو / دولار</span></div></div>
+      <div class="rate-card-title">
+        <div class="pair"><span class="flag-icons">🇪🇺 → 🇺🇸</span><span>يورو / دولار</span></div>
+      </div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="eur_usd_buy">1.08</span><span class="trend-indicator" id="eur_usd_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="eur_usd_sell">1.10</span><span class="trend-indicator" id="eur_usd_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label">شراء</div><div class="mini-value"><span id="eur_usd_buy">1.12</span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">بيع</div><div class="mini-value"><span id="eur_usd_sell">1.14</span></div></div>
       </div>
     </div>
-  </div>
 
-  <div class="section-label">🥇 أسعار الذهب (عيار 21)</div>
-
-  <div class="rates-grid">
+    <!-- 5. بطاقة غرام ذهب سوري (الجديدة) -->
     <div class="rate-card gold-card" data-currency="gold_syp">
-      <div class="rate-card-title"><div class="pair gold-title"><span class="flag-icons">🇸🇾</span><span>غرام ذهب سوري</span></div></div>
+      <div class="rate-card-title">
+        <div class="pair gold-title"><span class="flag-icons">🥇</span><span>غرام ذهب سوري</span></div>
+      </div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="gold_syp_buy">850,000</span><span class="trend-indicator" id="gold_syp_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="gold_syp_sell">880,000</span><span class="trend-indicator" id="gold_syp_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label">شراء</div><div class="mini-value"><span id="gold_syp_buy">1,562,925</span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">بيع</div><div class="mini-value"><span id="gold_syp_sell">1,619,350</span></div></div>
       </div>
     </div>
 
+    <!-- 6. بطاقة غرام ذهب دولار (الجديدة) -->
     <div class="rate-card gold-card" data-currency="gold_usd">
-      <div class="rate-card-title"><div class="pair gold-title"><span class="flag-icons">💵</span><span>غرام ذهب دولار</span></div></div>
+      <div class="rate-card-title">
+        <div class="pair gold-title"><span class="flag-icons">🥇</span><span>غرام ذهب دولار</span></div>
+      </div>
       <div class="rate-card-values">
-        <div class="rate-mini buy-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span> شراء</div><div class="mini-value"><span id="gold_usd_buy">65.50</span><span class="trend-indicator" id="gold_usd_buy_trend"></span></div></div>
-        <div class="rate-mini sell-mini"><div class="mini-label"><span class="icon-wrap" style="width:18px;height:18px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#ffb347" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="9" height="9"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="#ffb347"/></svg></span> بيع</div><div class="mini-value"><span id="gold_usd_sell">67.00</span><span class="trend-indicator" id="gold_usd_sell_trend"></span></div></div>
+        <div class="rate-mini buy-mini"><div class="mini-label">شراء</div><div class="mini-value"><span id="gold_usd_buy">114.5</span></div></div>
+        <div class="rate-mini sell-mini"><div class="mini-label">بيع</div><div class="mini-value"><span id="gold_usd_sell">116.5</span></div></div>
       </div>
     </div>
-  </div>
 
-  <div class="tap-hint">👆 اضغط على أي سعر للانتقال إلى الحاسبة</div>
-  <div class="about-panel">
-  <div class="about-title">
-    <span class="icon-wrap" style="width:28px;height:28px;border-width:1.5px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
-    من نحن
+  </div> <!-- إغلاق الحاوية rates-grid -->
+  
+  <button class="btn-whats" id="shareRatesBtn">📱 مشاركة الأسعار على واتساب</button>
+</div>
+  
+
+<div class="page" id="pageDownload">
+  <div class="section-label">📥 تحميل ومشاركة التطبيق</div>
+  <div class="dl-buttons">
+    <button class="dl-btn blue" id="installBtn">📥 تحميل التطبيق</button>
+    <button class="dl-btn red" id="shareMainBtn">📤 مشاركة مع صديق</button>
+    <button class="dl-btn green" id="whatsappBtn">💬 مشاركة عبر واتساب</button>
+    <button class="dl-btn navy" id="copyLinkBtn">📋 نسخ الرابط</button>
   </div>
-  <div class="about-content">
-    <p>مرحباً بكم في <strong>حميدو للصرافة</strong> — وجهتكم الموثوقة لأسعار الصرف والعملات في مدينة اعزاز.</p>
-    <p>نقدم لكم <strong>أسعاراً محدّثة لحظياً</strong> لكل من الدولار الأمريكي، الليرة التركية، الليرة السورية، اليورو، والذهب عيار 21.</p>
-    <p>هدفنا أن نكون <strong>الأسرع والأدق</strong> في تقديم أسعار الصرف لعملائنا الكرام.</p>
+  <div class="qr-card">
+    <h3>📷 تحميل التطبيق عبر QR</h3>
+    <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=440x440&margin=10&data=https%3A%2F%2Fsfntysfynty-hash.github.io%2Fazaz%2F" alt="QR">
   </div>
-  <div class="about-features">
-    <div class="about-feature">
-      <div class="about-feature-icon"><span class="icon-wrap" style="width:32px;height:32px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span></div>
-      <div class="about-feature-label">أسعار مباشرة</div>
-    </div>
-    <div class="about-feature">
-      <div class="about-feature-icon"><span class="icon-wrap" style="width:32px;height:32px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></span></div>
-      <div class="about-feature-label">موثوقية عالية</div>
-    </div>
-    <div class="about-feature">
-      <div class="about-feature-icon"><span class="icon-wrap" style="width:32px;height:32px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></div>
-      <div class="about-feature-label">تحديث لحظي</div>
-    </div>
-    <div class="about-feature">
-      <div class="about-feature-icon"><span class="icon-wrap" style="width:32px;height:32px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span></div>
-      <div class="about-feature-label">أفضل الأسعار</div>
-    </div>
-  </div>
-  <div class="about-signature">
-    <div class="about-signature-title">تطوير وإدارة</div>
-    <div class="about-signature-name">شركة حميدو للبرمجة</div>
-    <div class="about-signature-role">عمر عثمان حميدو — المؤسس والمدير</div>
+  <div class="dl-btn-row">
+    <button class="dl-btn navy" id="exportBtn">📤 تصدير نسخة</button>
+    <button class="dl-btn navy" id="importBtn">📥 استيراد نسخة</button>
   </div>
 </div>
-  <div class="contact-panel">
-  <div class="contact-title">
-    <span class="icon-wrap" style="width:26px;height:26px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
-    تواصل معنا
+
+<div class="page" id="pageAbout">
+  <div class="about-card">
+    <h3>🏦 من نحن؟</h3>
+    <p>صرافة حميدو — وجهتكم الموثوقة لأسعار الصرف في مدينة اعزاز والباب. نقدم أسعاراً دقيقة ومحدّثة لحظياً لكل العملات والذهب، مع خدمة سريعة وموثوقة لجميع عملائنا الكرام.</p>
   </div>
-  <div class="contact-info">
-    <strong>📧 البريد الإلكتروني الرسمي</strong>
-    للاستفسارات والاقتراحات
+  <div class="about-card">
+    <h3>✨ ما نقدمه</h3>
+    <ul>
+      <li>أسعار صرف محدّثة لحظياً لكل العملات</li>
+      <li>أسعار ذهب عيار 21 بدقة عالية</li>
+      <li>خدمة تحويلات سريعة وآمنة في اعزاز والباب</li>
+    </ul>
   </div>
-  <a href="mailto:sfntysfynty@gmail.com" class="contact-email">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-    sfntysfynty@gmail.com
-  </a>
-  <div class="contact-buttons">
-    <a href="mailtosfntysfynty@gmail.com?subject=استفسار من موقع حميدو للصرافة&body=السلام عليكم،%0A%0Aأريد الاستفسار عن:" class="contact-btn email-btn">
-      <span class="icon-wrap" style="width:24px;height:24px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg></span>
-      إرسال رسالة
-    </a>
-    <button class="contact-btn copy-email-btn" id="copyEmailBtn">
-      <span class="icon-wrap" style="width:24px;height:24px;border-width:1px"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></span>
-      نسخ البريد
-    </button>
-  </div>
-</div>
-<div class="share-panel">
-  <div class="share-panel-title">📱 شارك التطبيق</div>
-  <div class="share-app-name">حميدو للصرافة</div>
-  <div class="share-app-url"><span class="url-icon">🌐</span>sfntysfynty-hash.github.io/azaz</div>
-  <div class="share-buttons">
-    <button class="share-btn install-btn" id="installBtn"><span>📥</span> تحميل التطبيق</button>
-    <button class="share-btn share-main-btn" id="shareMainBtn"><span>📤</span> مشاركة مع صديق</button>
-    <button class="share-btn whatsapp-btn" id="whatsappBtn"><span>💬</span> مشاركة عبر واتساب</button>
-    <button class="share-btn copy-btn" id="copyLinkBtn"><span>📋</span> نسخ الرابط</button>
-  </div>
-  <div class="share-feedback" id="shareFeedback"></div>
-  <div class="share-install-hint">💡 اضغط "تحميل التطبيق" لتثبيت التطبيق على جوالك</div>
- <button id="shareRatesBtn" class="whatsapp-share-btn">📱 مشاركة الأسعار على واتساب</button> 
-</div>
-  <div style="margin-top:16px;"></div>
-  <div class="action-buttons">
-    <button class="action-btn export-btn" id="exportBtn"><span>📤</span> تصدير نسخة</button>
-    <button class="action-btn import-btn" id="importBtn"><span>📥</span> استيراد نسخة</button>
+  <div class="about-card">
+    <h3>📞 شركة حميدو للصرافة - مواردة</h3>
+    <p style="direction:ltr; text-align:center; color:#3d8be0; font-family:'Courier New',monospace;">sfntysfnty@gmail.com</p>
+    <div class="about-btns" style="grid-template-columns: 1fr;">
+      <a href="mailto:sfntysfnty@gmail.com?subject=استفسار" class="about-btn mail">✉️ إرسال رسالة</a>
+    </div>
+
   </div>
 </div>
 <div class="page" id="pageChart">
-<div class="calc-box">
+  <div class="calc-box">
     <div class="calc-title">📈 اتجاه أسعار العملات</div>
     
     <!-- أزرار اختيار العملة -->
-<div style="position:relative;margin-bottom:12px">
-<div id="chartCurrencyTabs" style="display:flex;gap:6px;overflow-x:auto;padding:4px 20px 4px 4px;scrollbar-width:none">
+    <div style="position:relative;margin-bottom:12px;overflow:hidden">
+      <div id="chartCurrencyTabs" style="display:flex;gap:6px;overflow-x:auto;padding:4px 20px 4px 4px;scrollbar-width:none;flex-wrap:nowrap">
         <button class="chart-curr-btn active" data-curr="d_try" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(212,175,55,.15);border:1.5px solid #d4af37;color:#fff;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🇺🇸→🇹🇷 دولار/تركي</button>
         <button class="chart-curr-btn" data-curr="d_syp" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);color:#b8c8e0;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🇺🇸→🇸🇾 دولار/سوري</button>
         <button class="chart-curr-btn" data-curr="try_syp" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);color:#b8c8e0;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🇹🇷→🇸🇾 تركي/سوري</button>
         <button class="chart-curr-btn" data-curr="eur_usd" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);color:#b8c8e0;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🇪🇺→🇺🇸 يورو/دولار</button>
         <button class="chart-curr-btn" data-curr="gold_syp" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);color:#b8c8e0;font-weight:800;font-size:.75rem;cursor:pointer;font-family:inherit;white-space:nowrap">🥇 ذهب سوري</button>
-    </div>
-       <div id="chartSwipeHint" style="position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:4px;color:#d4af37;font-size:.8rem;font-weight:900;pointer-events:none;text-shadow:0 0 10px rgba(212,175,55,.9);animation:swipeHint 1.5s ease-in-out infinite;z-index:10">
-      <span style="font-size:1.2rem">←</span>
-    </div> 
       </div>
-  <p style="text-align:center;color:#5a7a9a;font-size:.7rem;margin-bottom:8px;font-weight:700">
-    👈 اسحب لترى باقي العملات
-  </p>
-    <div id="chartSwipeHint" style="position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:4px;color:#d4af37;font-size:.8rem;font-weight:900;pointer-events:none;text-shadow:0 0 10px rgba(212,175,55,.9);animation:swipeHint 1.5s ease-in-out infinite;z-index:10">
-    <span style="font-size:1.2rem">←</span>
-  </div>
-</div>
-<p style="text-align:center;color:#5a7a9a;font-size:.7rem;margin-bottom:8px;font-weight:700">
-  👈 اسحب لترى باقي العملات
-</p>
+      <div id="chartSwipeHint" style="position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:4px;color:#d4af37;font-size:.8rem;font-weight:900;pointer-events:none;text-shadow:0 0 10px rgba(212,175,55,.9);animation:swipeHint 1.5s ease-in-out infinite;z-index:10">
+        <span style="font-size:1.2rem">←</span>
+      </div>
+    </div>
+    
+    <p style="text-align:center;color:#5a7a9a;font-size:.7rem;margin-bottom:8px;font-weight:700">
+      👈 اسحب لترى باقي العملات
+    </p>
+
     <div class="price-chart">
       <svg id="priceChartSvg" viewBox="0 0 300 100" preserveAspectRatio="none" style="width:100%;height:180px;display:block">
         <defs>
@@ -738,44 +1239,10 @@ html, body {
       </div>
     </div>
 
-        <div class="chart-note" id="chartNote">📅 يتم تسجيل سعر واحد لكل يوم — سيظهر المنحنى بعد أيام</div>
+    <div class="chart-note" id="chartNote">📅 يتم تسجيل سعر واحد لكل يوم — سيظهر المنحنى بعد أيام</div>
   </div>
 </div>
-</div>
-<div class="page" id="pageInstall">
-  <div class="calc-box">
-    <div class="calc-title">📥 طريقة تحميل التطبيق</div>
 
-    <!-- زر التثبيت المباشر -->
-    <button class="save-btn" id="installAppBtn" style="background:linear-gradient(145deg,#d4af37,#b8941f);color:#0a1930;font-weight:900;margin-bottom:16px">
-      <span>📲</span> ثبّت التطبيق الآن
-    </button>
-
-    <!-- Android -->
-    <div style="background:rgba(5,13,31,.5);border:1.5px solid rgba(34,197,94,.3);border-radius:14px;padding:14px;margin-bottom:12px">
-      <div style="color:#22c55e;font-weight:900;font-size:.9rem;margin-bottom:10px;display:flex;align-items:center;gap:8px">
-        <span>🤖</span> لأجهزة Android
-      </div>
-      <div style="color:#b8c8e0;font-size:.8rem;line-height:1.8">
-        <div style="margin-bottom:8px"><strong style="color:#d4af37">1.</strong> افتح التطبيق على متصفح <strong>Chrome</strong></div>
-        <div style="margin-bottom:8px"><strong style="color:#d4af37">2.</strong> اضغط على النقاط الثلاث <strong>(⋮)</strong> في الأعلى</div>
-        <div style="margin-bottom:8px"><strong style="color:#d4af37">3.</strong> اختر <strong>"تثبيت التطبيق"</strong> أو <strong>"إضافة إلى الشاشة الرئيسية"</strong></div>
-        <div><strong style="color:#d4af37">4.</strong> اضغط <strong>"تثبيت"</strong> ✅</div>
-      </div>
-    </div>
-
-    <!-- iPhone -->
-    <div style="background:rgba(5,13,31,.5);border:1.5px solid rgba(61,139,224,.3);border-radius:14px;padding:14px;margin-bottom:12px">
-      <div style="color:#3d8be0;font-weight:900;font-size:.9rem;margin-bottom:10px;display:flex;align-items:center;gap:8px">
-        <span>🍎</span> لأجهزة iPhone
-      </div>
-      <div style="color:#b8c8e0;font-size:.8rem;line-height:1.8">
-        <div style="margin-bottom:8px"><strong style="color:#d4af37">1.</strong> افتح التطبيق على متصفح <strong>Safari</strong></div>
-        <div style="margin-bottom:8px"><strong style="color:#d4af37">2.</strong> اضغط على زر المشاركة <strong>⤴️</strong> في الأسفل</div>
-        <div style="margin-bottom:8px"><strong style="color:#d4af37">3.</strong> اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong></div>
-        <div><strong style="color:#d4af37">4.</strong> اضغط <strong>"إضافة"</strong> ✅</div>
-      </div>
-    </div>
 
     <!-- نصيحة -->
     <div style="text-align:center;color:#5a7a9a;font-size:.72rem;padding:10px;background:rgba(5,13,31,.4);border-radius:12px;border:1px dashed rgba(212,175,55,.2);line-height:1.5">
@@ -1104,10 +1571,34 @@ function formatNumber(num,dec){if(num===0||isNaN(num)||!isFinite(num))return '0'
 function getTrend(key){if(!prevRates||!prevRates[key]||!rates[key])return 'flat';var prev=prevRates[key].buy;var curr=rates[key].buy;if(curr>prev)return 'up';if(curr<prev)return 'down';return 'flat';}
 function renderTrend(elId,trend){var el=$(elId);if(!el)return;if(trend==='up'){el.className='trend-indicator trend-up';el.textContent='▲';}else if(trend==='down'){el.className='trend-indicator trend-down';el.textContent='▼';}else{el.className='trend-indicator trend-flat';el.textContent='—';}}
 function updateTrends(){['d_try','d_syp','try_syp','eur_usd','gold_syp','gold_usd'].forEach(function(pair){var t=getTrend(pair);renderTrend(pair+'_buy_trend',t);renderTrend(pair+'_sell_trend',t);});}
-function updateRateCards(){$('d_try_buy').textContent=formatNumber(rates.d_try.buy,2);$('d_try_sell').textContent=formatNumber(rates.d_try.sell,2);$('d_syp_buy').textContent=formatNumber(rates.d_syp.buy,0);$('d_syp_sell').textContent=formatNumber(rates.d_syp.sell,0);$('try_syp_buy').textContent=formatNumber(rates.try_syp.buy,2);$('try_syp_sell').textContent=formatNumber(rates.try_syp.sell,2);$('eur_usd_buy').textContent=formatNumber(rates.eur_usd.buy,2);$('eur_usd_sell').textContent=formatNumber(rates.eur_usd.sell,2);$('gold_syp_buy').textContent=formatNumber(rates.gold_syp.buy,0);$('gold_syp_sell').textContent=formatNumber(rates.gold_syp.sell,0);$('gold_usd_buy').textContent=formatNumber(rates.gold_usd.buy,2);$('gold_usd_sell').textContent=formatNumber(rates.gold_usd.sell,2);updateTrends();}
+function updateRateCards(){
+    // دالة مساعدة للتأكد من وجود العنصر قبل التحديث
+    function setText(id, val, dec) {
+        var el = $(id);
+        if (el) el.textContent = formatNumber(val, dec);
+    }
+    
+    setText('d_try_buy', rates.d_try.buy, 2);
+    setText('d_try_sell', rates.d_try.sell, 2);
+    setText('d_syp_buy', rates.d_syp.buy, 0);
+    setText('d_syp_sell', rates.d_syp.sell, 0);
+    setText('try_syp_buy', rates.try_syp.buy, 2);
+    setText('try_syp_sell', rates.try_syp.sell, 2);
+    
+    // هذه العناصر موجودة فقط في صفحة الآلة الحاسبة
+    setText('eur_usd_buy', rates.eur_usd.buy, 2);
+    setText('eur_usd_sell', rates.eur_usd.sell, 2);
+    setText('gold_syp_buy', rates.gold_syp.buy, 0);
+    setText('gold_syp_sell', rates.gold_syp.sell, 0);
+    setText('gold_usd_buy', rates.gold_usd.buy, 2);
+    setText('gold_usd_sell', rates.gold_usd.sell, 2);
+    
+    updateTrends();
+}
 function updateAdminFields(){$('adm_d_try_buy').value=rates.d_try.buy;$('adm_d_try_sell').value=rates.d_try.sell;$('adm_d_syp_buy').value=rates.d_syp.buy;$('adm_d_syp_sell').value=rates.d_syp.sell;$('adm_try_syp_buy').value=rates.try_syp.buy;$('adm_try_syp_sell').value=rates.try_syp.sell;$('adm_eur_usd_buy').value=rates.eur_usd.buy;$('adm_eur_usd_sell').value=rates.eur_usd.sell;$('adm_gold_syp_buy').value=rates.gold_syp.buy;$('adm_gold_syp_sell').value=rates.gold_syp.sell;$('adm_gold_usd_buy').value=rates.gold_usd.buy;$('adm_gold_usd_sell').value=rates.gold_usd.sell;}
 function updateSecurityDisplay(){var sec=adminSecurity;$('currentSecurityDisplay').textContent=sec.length<=4?sec:sec.slice(0,2)+'•••'+sec.slice(-3);}
-function switchTab(name){['tabHome','tabCalc','tabChart','tabInstall'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});['pageHome','pageCalc','pageChart','pageInstall'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});if(name==='calc'){$('tabCalc').classList.add('active');$('pageCalc').classList.add('active');}else if(name==='chart'){$('tabChart').classList.add('active');$('pageChart').classList.add('active');setTimeout(drawChart,100);}else if(name==='install'){$('tabInstall').classList.add('active');$('pageInstall').classList.add('active');}else{$('tabHome').classList.add('active');$('pageHome').classList.add('active');}try{localStorage.setItem(ACTIVE_TAB_KEY,name);}catch(e){}}
+function switchTab(name){['tabHome','tabCalc','tabChart','tabDownload','tabAbout'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});['pageHome','pageCalc','pageChart','pageDownload','pageAbout'].forEach(function(id){var el=$(id);if(el)el.classList.remove('active');});if(name==='calc'){$('tabCalc').classList.add('active');$('pageCalc').classList.add('active');}else if(name==='chart'){$('tabChart').classList.add('active');$('pageChart').classList.add('active');setTimeout(drawChart,100);}else if(name==='download'){$('tabDownload').classList.add('active');$('pageDownload').classList.add('active');}
+else if(name==='about'){$('tabAbout').classList.add('active');$('pageAbout').classList.add('active');}else{$('tabHome').classList.add('active');$('pageHome').classList.add('active');}try{localStorage.setItem(ACTIVE_TAB_KEY,name);}catch(e){}}
 function getUsdValue(amount,currency){switch(currency){case'usd':return amount;case'try':return amount/rates.d_try.buy;case'syp':return amount/rates.d_syp.buy;case'eur':return amount/rates.eur_usd.buy;case'gold_syp':return(amount*rates.gold_syp.buy)/rates.d_syp.buy;case'gold_usd':return amount*rates.gold_usd.buy;default:return amount;}}
 function calculateAll(){var amount=parseFloat($('calcInput').value)||0;var cur=$('calcCurrency').value;var r={};var uBuy=0,uSell=0;if(cur==='usd'){uBuy=amount;uSell=amount;}else if(cur==='try'){uBuy=amount/rates.d_try.sell;uSell=amount/rates.d_try.buy;}else if(cur==='syp'){uBuy=amount/rates.d_syp.sell;uSell=amount/rates.d_syp.buy;}else if(cur==='eur'){uBuy=amount*rates.eur_usd.buy;uSell=amount*rates.eur_usd.sell;}else if(cur==='gold_syp'){uBuy=(amount*rates.gold_syp.buy)/rates.d_syp.sell;uSell=(amount*rates.gold_syp.sell)/rates.d_syp.buy;}else if(cur==='gold_usd'){uBuy=amount*rates.gold_usd.buy;uSell=amount*rates.gold_usd.sell;}
 r.usd_buy=uBuy;r.usd_sell=uSell;r.try_buy=uBuy*rates.d_try.buy;r.try_sell=uSell*rates.d_try.sell;r.syp_buy=uBuy*rates.d_syp.buy;r.syp_sell=uSell*rates.d_syp.sell;r.eur_buy=uBuy/rates.eur_usd.sell;r.eur_sell=uSell/rates.eur_usd.buy;r.gold_syp_buy=r.syp_buy/rates.gold_syp.sell;r.gold_syp_sell=r.syp_sell/rates.gold_syp.buy;r.gold_usd_buy=uBuy/rates.gold_usd.sell;r.gold_usd_sell=uSell/rates.gold_usd.buy;
@@ -1235,7 +1726,10 @@ function init(){loadRatesFromStorage();loadCredentials();loadTheme();loadLastUpd
 $('tabHome').addEventListener('click',function(){switchTab('home');});
 $('tabCalc').addEventListener('click',function(){switchTab('calc');});
 $('tabChart').addEventListener('click',function(){switchTab('chart');});
-$('tabInstall').addEventListener('click',function(){switchTab('install');});
+$('tabDownload').addEventListener('click',function(){switchTab('download');});
+$('tabAbout').addEventListener('click',function(){switchTab('about');});
+$('tabDownload').addEventListener('click',function(){switchTab('download');});
+$('tabAbout').addEventListener('click',function(){switchTab('about');});
 
 $('calcInput').addEventListener('input',calculateAll);
 $('calcCurrency').addEventListener('change',calculateAll);
@@ -1635,6 +2129,136 @@ console.log("✅ Firebase Auth جاهز");
     } else {
         initWhatsAppShare();
     }
+})();
+</script>
+<div id="qrModal" class="qr-modal">
+  <div class="qr-modal-content">
+    <div class="qr-modal-header">
+      <h3>📷 امسح الرمز بكاميرا هاتفك</h3>
+      <button id="qrCloseBtn" class="qr-close-btn">✕</button>
+    </div>
+    
+    <div class="qr-image-wrap">
+      <img id="qrImage" src="" alt="QR Code" />
+    </div>
+    
+    <div class="qr-url-text">sfntysfynty-hash.github.io/azaz</div>
+    
+    <div class="qr-app-name">حميدو للصرافة</div>
+    
+    <div class="qr-instructions">
+      <div class="qr-step">
+        <span class="qr-step-num">1</span>
+        <span>افتح <b>كاميرا هاتفك</b></span>
+      </div>
+      <div class="qr-step">
+        <span class="qr-step-num">2</span>
+        <span>وجّهها نحو <b>الرمز</b></span>
+      </div>
+      <div class="qr-step">
+        <span class="qr-step-num">3</span>
+        <span>افتح الرابط → <b>ثبّت التطبيق</b></span>
+      </div>
+    </div>
+    
+    <div class="qr-hint">💡 التطبيق مجاني — بدون تحميل من المتجر</div>
+  </div>
+</div>
+<script>
+(function() {
+    'use strict';
+    
+    /* ⚙️ رابط موقعك — تأكد أنه صحيح */
+    var SITE_URL = 'https://sfntysfynty-hash.github.io/azaz/';
+    
+    function generateQR() {
+        /* QR API مجاني — بدون مكتبات */
+        var apiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=440x440&margin=10&data=' + encodeURIComponent(SITE_URL);
+        return apiUrl;
+    }
+    
+    function openQrModal() {
+        var modal = document.getElementById('qrModal');
+        var img = document.getElementById('qrImage');
+        if (!modal || !img) return;
+        
+        /* ضع صورة QR */
+        img.src = generateQR();
+        
+        /* افتح النافذة */
+        modal.classList.add('open');
+    }
+    
+    function closeQrModal() {
+        var modal = document.getElementById('qrModal');
+        if (modal) modal.classList.remove('open');
+    }
+    
+    function init() {
+        var showBtn = document.getElementById('showQrBtn');
+        var closeBtn = document.getElementById('qrCloseBtn');
+        var modal = document.getElementById('qrModal');
+        
+        if (showBtn) showBtn.addEventListener('click', openQrModal);
+        if (closeBtn) closeBtn.addEventListener('click', closeQrModal);
+        
+        /* إغلاق عند الضغط خارج النافذة */
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) closeQrModal();
+            });
+        }
+        
+        console.log('✅ زر QR جاهز');
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+  function getVal(id){
+    var el = document.getElementById(id);
+    if(!el) return '—';
+    var t = (el.textContent||'').trim().replace(/,/g,'').replace(/[^\d.]/g,'');
+    return t || '—';
+  }
+  function fmt(v){
+    if(v==='—' || isNaN(Number(v))) return v;
+    return Number(v).toLocaleString('en-US');
+  }
+  function buildRatesMessage(){
+    var d = new Date().toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    var msg = '💰 *أسعار حميدو للصرافة - ' + d + '*\n';
+    msg += '━━━━━━━━━━━━━━\n';
+    msg += '💵 دولار / تركي\n';
+    msg += 'شراء: ' + fmt(getVal('d_try_buy')) + '\n';
+    msg += 'بيع: ' + fmt(getVal('d_try_sell')) + '\n';
+    msg += '━━━━━━━━━━━━━━\n';
+    msg += '💵 دولار / سوري\n';
+    msg += 'شراء: ' + fmt(getVal('d_syp_buy')) + '\n';
+    msg += 'بيع: ' + fmt(getVal('d_syp_sell')) + '\n';
+    msg += '━━━━━━━━━━━━━━\n';
+    msg += '🇹🇷 تركي / سوري\n';
+    msg += 'شراء: ' + fmt(getVal('try_syp_buy')) + '\n';
+    msg += 'بيع: ' + fmt(getVal('try_syp_sell')) + '\n';
+    msg += '━━━━━━━━━━━━━━\n';
+    msg += '🏦 حميدو للصرافة';
+    return msg;
+  }
+  var shareBtn = document.getElementById('shareRatesBtn');
+  if(shareBtn){
+    shareBtn.addEventListener('click', function(){
+      var url = 'https://wa.me/?text=' + encodeURIComponent(buildRatesMessage());
+      window.open(url,'_blank');
+    });
+    console.log('✅ زر واتساب جاهز');
+  }
 })();
 </script>
 </body>
