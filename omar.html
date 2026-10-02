@@ -564,6 +564,11 @@
     .qr-wrap img { width: 150px; height: 150px; }
     .cta-btn { padding: 14px 26px; font-size: 0.95rem; }
   }
+.scroll-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#d4af37,#b8941f);border:2px solid #fff;border-radius:50px;padding:8px 18px;color:#050d1f;font-size:.8rem;font-weight:900;z-index:99;box-shadow:0 4px 15px rgba(212,175,55,.6);display:flex;align-items:center;gap:6px;cursor:pointer;text-decoration:none;animation:floatHint 2s ease-in-out infinite;white-space:nowrap;transition:opacity .4s,visibility .4s}
+.scroll-hint.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.scroll-hint .arr{font-size:1rem;animation:bounceArrow 1.2s ease-in-out infinite}
+@keyframes floatHint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
+@keyframes bounceArrow{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 </style>
 </head>
 <body>
@@ -597,10 +602,13 @@
       <span class="badge">💻 مطوّر تطبيقات ومواقع</span>
       <span class="badge">📱 تطبيقات أندرويد</span>
     </div>
-    <a href="https://sfntysfynty-hash.github.io/azaz/" class="cta-btn" target="_blank" rel="noopener">
+        <a href="https://sfntysfynty-hash.github.io/azaz/" class="cta-btn" target="_blank" rel="noopener">
       <span>📥</span>
       <span>تحميل تطبيق حميدو للصرافة</span>
     </a>
+
+    
+
   </div>
 </section>
 
@@ -613,6 +621,10 @@
   </div>
 </section>
 
+<!-- ⬇️ زر ثابت في الأسفل للنزول (يختفي تلقائياً عند القسم الأخير) -->
+<a href="#app" class="scroll-hint" id="scrollHintBtn">
+  <span>⬇️ مرر للأسفل للدخول للتطبيق</span>
+</a>
 <!-- ═══════════════════ قسم الخدمات البرمجية ═══════════════════ -->
 <section id="services" class="container">
   <h2>خدمات عمر عثمان حميدو البرمجية - تطوير التطبيقات والمواقع</h2>
@@ -695,7 +707,7 @@
 
 <section id="app" class="container">
   <div class="app-section">
-    <h2>حمّل تطبيق حميدو للصرافة الآن - من تطوير عمر عثمان حميدو</h2>
+      <div style="text-align:center;margin-bottom:15px;font-size:1rem;font-weight:900;color:#d4af37;text-shadow:0 0 15px rgba(212,175,55,.6)">⬇️ مرحباً بك — أنت الآن في قسم تحميل التطبيق ⬇️</div>  <h2>حمّل تطبيق حميدو للصرافة الآن - من تطوير عمر عثمان حميدو</h2>
     <p>
       تطبيق <strong>حميدو للصرافة</strong> هو تطبيق مجاني بالكامل لمتابعة أسعار الصرف والذهب في سوريا، من تطوير <strong>عمر عثمان حميدو</strong>. امسح رمز QR أو اضغط على الرابط أدناه لتحميل التطبيق مباشرة على هاتفك.
     </p>
@@ -719,4 +731,29 @@
       <span>افتح تطبيق حميدو للصرافة الآن</span>
     </a>
   </div>
-</secti
+</section>
+
+<!-- ⬇️ سكربت إخفاء الزر العائم عند الوصول لقسم التطبيق -->
+<script>
+  window.addEventListener('load', function() {
+    var scrollHint = document.getElementById('scrollHintBtn');
+    var appSection = document.getElementById('app');
+    if (!scrollHint || !appSection) return;
+
+    function checkScroll() {
+      var appTop = appSection.offsetTop;
+      var scrollPos = window.scrollY + window.innerHeight;
+      if (scrollPos >= appTop + 200) {
+        scrollHint.classList.add('hidden');
+      } else {
+        scrollHint.classList.remove('hidden');
+      }
+    }
+
+    window.addEventListener('scroll', checkScroll);
+    checkScroll();
+  });
+</script>
+
+</body>
+</html>
