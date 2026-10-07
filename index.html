@@ -2,6 +2,41 @@
 <html lang="ar" dir="rtl" data-theme="dark">
 <meta name="msvalidate.01" content="22B71177C7FD39E3E73BE1F6A21F1245" />
 <head>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   🔄 نظام التحديث التلقائي للصفحة
+   غيّر الرقم في CURRENT_VERSION عند كل تحديث كبير
+   ═══════════════════════════════════════════════════════════ */
+(function() {
+  // يقرأ وقت آخر تحديث من Firebase ويستخدمه كرقم نسخة
+var CURRENT_VERSION = localStorage.getItem('hamido_last_update') || 'initial';
+  var STORED_VERSION = localStorage.getItem('hamido_page_version');
+  
+  if (STORED_VERSION !== CURRENT_VERSION) {
+    console.log('🔄 جاري تحديث التطبيق...');
+    
+    // 1. امسح كل الكاشات
+    if ('caches' in window) {
+      caches.keys().then(function(keys) {
+        return Promise.all(
+          keys.map(function(key) {
+            console.log('🗑️ حذف كاش:', key);
+            return caches.delete(key);
+          })
+        );
+      });
+    }
+    
+    // 2. سجّل النسخة الجديدة
+    localStorage.setItem('hamido_page_version', CURRENT_VERSION);
+    
+    // 3. أعد تحميل الصفحة بعد ثانية
+    setTimeout(function() {
+      window.location.reload(true);
+    }, 1000);
+  }
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0a0a0a">
@@ -1609,7 +1644,106 @@ sv('res_usd_buy',r.usd_buy,2);sv('res_usd_sell',r.usd_sell,2);sv('res_try_buy',r
 return r;}
 function getCurrencyLabel(cur){var labels={usd:'🇺🇸 دولار أمريكي',try:'🇹🇷 ليرة تركية',syp:'🇸🇾 ليرة سورية',eur:'🇪🇺 يورو',gold_syp:'🥇 غرام ذهب سوري',gold_usd:'🥇 غرام ذهب دولار'};return labels[cur]||cur;}
 function clearCalc(){$('calcInput').value='';['usd','try','syp','eur','gold_syp','gold_usd'].forEach(function(k){['buy','sell'].forEach(function(t){var el=$('res_'+k+'_'+t);if(el)el.textContent='-';});});$('calcInput').focus();}
-function applyNewRates(){if(!isAdmin)return;var newRates={};var keys=['d_try_buy','d_try_sell','d_syp_buy','d_syp_sell','try_syp_buy','try_syp_sell','eur_usd_buy','eur_usd_sell','gold_syp_buy','gold_syp_sell','gold_usd_buy','gold_usd_sell'];for(var i=0;i<keys.length;i++){var val=parseFloat($('adm_'+keys[i]).value);if(isNaN(val)||val<=0){alert('الرجاء إدخال جميع الأسعار بشكل صحيح');return;}newRates[keys[i]]=val;}savePrevRates();rates.d_try.buy=newRates.d_try_buy;rates.d_try.sell=newRates.d_try_sell;rates.d_syp.buy=newRates.d_syp_buy;rates.d_syp.sell=newRates.d_syp_sell;rates.try_syp.buy=newRates.try_syp_buy;rates.try_syp.sell=newRates.try_syp_sell;rates.eur_usd.buy=newRates.eur_usd_buy;rates.eur_usd.sell=newRates.eur_usd_sell;rates.gold_syp.buy=newRates.gold_syp_buy;rates.gold_syp.sell=newRates.gold_syp_sell;rates.gold_usd.buy=newRates.gold_usd_buy;rates.gold_usd.sell=newRates.gold_usd_sell;saveRatesToStorage();saveLastUpdate();updateRateCards();calculateAll();saveChartHistory();if(firebaseReady&&dbRef){dbRef.set(rates).then(function(){$('saveFeedback').textContent='✅ تم الحفظ والنشر لجميع الزوار';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);try{if(typeof sendRatesNotification==='function')sendRatesNotification(rates);}catch(err){console.warn('Notification failed (silent):',err);}}).catch(function(e){console.warn('Firebase save failed:',e);$('saveFeedback').textContent='⚠️ تم الحفظ محلياً فقط';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);});}else{$('saveFeedback').textContent='✅ تم الحفظ محلياً';$('saveFeedback').classList.add('show');setTimeout(function(){$('saveFeedback').classList.remove('show');$('saveFeedback').textContent='✅ تم تحديث الأسعار';},2500);}}
+ 
+  function applyNewRates(){
+  if(!isAdmin) return;
+  
+  // ═══════════════════════════════════════════════════════
+  // 1. جمع القيم من لوحة التحكم
+  // ═══════════════════════════════════════════════════════
+  var newRates = {};
+  var keys = [
+    'd_try_buy', 'd_try_sell',
+    'd_syp_buy', 'd_syp_sell',
+    'try_syp_buy', 'try_syp_sell',
+    'eur_usd_buy', 'eur_usd_sell',
+    'gold_syp_buy', 'gold_syp_sell',
+    'gold_usd_buy', 'gold_usd_sell'
+  ];
+  
+  for(var i = 0; i < keys.length; i++){
+    var val = parseFloat($('adm_' + keys[i]).value);
+    if(isNaN(val) || val <= 0){
+      alert('الرجاء إدخال جميع الأسعار بشكل صحيح');
+      return;
+    }
+    newRates[keys[i]] = val;
+  }
+  
+  // ═══════════════════════════════════════════════════════
+  // 2. حفظ الأسعار في الكائن rates
+  // ═══════════════════════════════════════════════════════
+  savePrevRates();
+  rates.d_try.buy = newRates.d_try_buy;
+  rates.d_try.sell = newRates.d_try_sell;
+  rates.d_syp.buy = newRates.d_syp_buy;
+  rates.d_syp.sell = newRates.d_syp_sell;
+  rates.try_syp.buy = newRates.try_syp_buy;
+  rates.try_syp.sell = newRates.try_syp_sell;
+  rates.eur_usd.buy = newRates.eur_usd_buy;
+  rates.eur_usd.sell = newRates.eur_usd_sell;
+  rates.gold_syp.buy = newRates.gold_syp_buy;
+  rates.gold_syp.sell = newRates.gold_syp_sell;
+  rates.gold_usd.buy = newRates.gold_usd_buy;
+  rates.gold_usd.sell = newRates.gold_usd_sell;
+  
+  // ═══════════════════════════════════════════════════════
+  // 3. حفظ محلياً وتحديث الواجهة
+  // ═══════════════════════════════════════════════════════
+  saveRatesToStorage();
+  saveLastUpdate();
+  updateRateCards();
+  calculateAll();
+  saveChartHistory();
+  
+  // ═══════════════════════════════════════════════════════
+  // 4. حفظ في Firebase (ونشر للجميع)
+  // ═══════════════════════════════════════════════════════
+  if(firebaseReady && dbRef){
+    dbRef.set(rates).then(function(){
+      // 🔥 حفظ وقت التحديث في Firebase
+      firebase.database().ref('lastUpdate').set(Date.now())
+        .then(function(){
+          console.log('✅ تم تسجيل وقت التحديث في Firebase');
+        })
+        .catch(function(err){
+          console.warn('⚠️ فشل تسجيل وقت التحديث:', err);
+        });
+      
+      // عرض رسالة نجاح
+      $('saveFeedback').textContent = '✅ تم الحفظ والنشر لجميع الزوار';
+      $('saveFeedback').classList.add('show');
+      setTimeout(function(){
+        $('saveFeedback').classList.remove('show');
+        $('saveFeedback').textContent = '✅ تم تحديث الأسعار';
+      }, 2500);
+      
+      // إرسال إشعار
+      try{
+        if(typeof sendRatesNotification === 'function') sendRatesNotification(rates);
+      }catch(err){
+        console.warn('Notification failed (silent):', err);
+      }
+      
+    }).catch(function(e){
+      console.warn('Firebase save failed:', e);
+      $('saveFeedback').textContent = '⚠️ تم الحفظ محلياً فقط';
+      $('saveFeedback').classList.add('show');
+      setTimeout(function(){
+        $('saveFeedback').classList.remove('show');
+        $('saveFeedback').textContent = '✅ تم تحديث الأسعار';
+      }, 2500);
+    });
+  } else {
+    $('saveFeedback').textContent = '✅ تم الحفظ محلياً';
+    $('saveFeedback').classList.add('show');
+    setTimeout(function(){
+      $('saveFeedback').classList.remove('show');
+      $('saveFeedback').textContent = '✅ تم تحديث الأسعار';
+    }, 2500);
+  }
+}
+
 function exportBackup(){try{var backup={version:12,exportedAt:new Date().toISOString(),rates:rates,prevRates:prevRates,lastUpdate:localStorage.getItem(LAST_UPDATE_KEY),credentials:{password:adminPassword,pin:adminPin,security:adminSecurity},theme:localStorage.getItem(THEME_KEY)};var dataStr=JSON.stringify(backup,null,2);var blob=new Blob([dataStr],{type:'application/json'});var url=URL.createObjectURL(blob);var now=new Date();var filename='hamido-backup-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+'.json';var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);alert('✅ تم تصدير النسخة الاحتياطية');}catch(e){alert('❌ حدث خطأ');}}
 function importBackup(file){if(!file)return;var reader=new FileReader();reader.onload=function(e){try{var data=JSON.parse(e.target.result);if(!data||!data.rates)throw new Error('ملف غير صالح');if(!confirm('سيتم استبدال جميع البيانات. متابعة؟'))return;for(var pair in DEFAULT_RATES){if(data.rates[pair]){rates[pair]={buy:data.rates[pair].buy,sell:data.rates[pair].sell};}}if(data.prevRates)prevRates=data.prevRates;if(data.credentials){if(data.credentials.password){adminPassword=data.credentials.password;localStorage.setItem(PASSWORD_KEY,adminPassword);}if(data.credentials.pin){adminPin=data.credentials.pin;localStorage.setItem(PIN_KEY,adminPin);}if(data.credentials.security){adminSecurity=data.credentials.security;localStorage.setItem(SECURITY_KEY,adminSecurity);}}if(data.theme){document.documentElement.setAttribute('data-theme',data.theme);$('themeToggle').textContent=data.theme==='dark'?'🌙':'☀️';localStorage.setItem(THEME_KEY,data.theme);}saveRatesToStorage();if(prevRates)localStorage.setItem(PREV_RATES_KEY,JSON.stringify(prevRates));if(data.lastUpdate){localStorage.setItem(LAST_UPDATE_KEY,data.lastUpdate);$('statusText').textContent='آخر تحديث: '+data.lastUpdate;}updateRateCards();updateAdminFields();updateSecurityDisplay();calculateAll();alert('✅ تم استيراد النسخة');}catch(err){alert('❌ فشل: '+err.message);}};reader.readAsText(file);}
 function printReceipt(){var amount=parseFloat($('calcInput').value)||0;if(amount===0){alert('الرجاء إدخال مبلغ');return;}var currency=$('calcCurrency').value;var results=calculateAll();var now=new Date();var dateStr=now.toLocaleDateString('ar-EG',{year:'numeric',month:'2-digit',day:'2-digit'});var timeStr=now.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});var receiptNum='HMD-'+Date.now().toString().slice(-8);$('rcptDate').textContent=dateStr;$('rcptTime').textContent=timeStr;$('rcptNumber').textContent=receiptNum;$('rcptBase').textContent=getCurrencyLabel(currency);$('rcptAmount').textContent=formatNumber(amount,2);var html='';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇺🇸 دولار:</span><strong>'+formatNumber(results.usd_buy,2)+' $</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇹🇷 ليرة تركية:</span><strong>'+formatNumber(results.try_buy,2)+' ₺</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇸🇾 ليرة سورية:</span><strong>'+formatNumber(results.syp_buy,0)+' £</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🇪🇺 يورو:</span><strong>'+formatNumber(results.eur_buy,2)+' €</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #999;"><span>🥇 ذهب سوري:</span><strong>'+formatNumber(results.gold_syp_buy,3)+' غرام</strong></div>';html+='<div style="display:flex;justify-content:space-between;padding:6px 0;"><span>🥇 ذهب دولار:</span><strong>'+formatNumber(results.gold_usd_buy,3)+' غرام</strong></div>';$('rcptResults').innerHTML=html;$('receipt').style.display='block';setTimeout(function(){window.print();setTimeout(function(){$('receipt').style.display='none';},500);},100);}
@@ -2210,7 +2344,7 @@ console.log("✅ Firebase Auth جاهز");
             });
         }
         
-        console.log('✅ زر QR جاهز');
+               console.log('✅ زر QR جاهز');
     }
     
     if (document.readyState === 'loading') {
@@ -2219,9 +2353,10 @@ console.log("✅ Firebase Auth جاهز");
         init();
     }
 })();
-</script>
 
-</script>
+</script> 
+
+
 </body>
 </html>
 

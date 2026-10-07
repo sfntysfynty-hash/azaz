@@ -1,8 +1,8 @@
 // ============================================================
 // Service Worker - نظام التحديث التلقائي
 // ============================================================
-const today = new Date();
-const CACHE_VERSION = 'hamido-v' + today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+// استخدم الوقت الفعلي بالمللي ثانية — كل رفعة = نسخة جديدة
+const CACHE_VERSION = 'hamido-v' + Date.now();
 const CACHE_NAME = 'hamido-cache-' + CACHE_VERSION;
 
 // عند تثبيت Service Worker جديد
@@ -76,4 +76,20 @@ self.addEventListener('fetch', function(e) {
         return caches.match(e.request);
       })
   );
+});
+// ═══════════════════════════════════════════════════════════
+// طرد الكاش القديم عند كل تحديث
+// ═══════════════════════════════════════════════════════════
+self.addEventListener('install', function(event) {
+  self.skipWaiting();
+  // احذف كل الكاشات القديمة
+  caches.keys().then(function(keys) {
+    return Promise.all(
+      keys.filter(function(key) {
+        return key !== CACHE_NAME;
+      }).map(function(key) {
+        return caches.delete(key);
+      })
+    );
+  });
 });
