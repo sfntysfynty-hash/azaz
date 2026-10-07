@@ -1,15 +1,11 @@
 // ═══════════════════════════════════════════════════════════
 // Service Worker - HAMIDO EXCHANGE
-// يقرأ وقت التحديث من Firebase ويمسح الكاش تلقائياً
 // ═══════════════════════════════════════════════════════════
 
-// استخدم وقت التثبيت الحقيقي
-const CACHE_VERSION = 'hamido-v' + Date.now();
+const CACHE_VERSION = 'v1';  // ← غيّرها يدوياً عند كل تحديث كبير
 const CACHE_NAME = 'hamido-cache-' + CACHE_VERSION;
 
-// ═══════════════════════════════════════════════════════════
-// تثبيت Service Worker جديد
-// ═══════════════════════════════════════════════════════════
+// عند التثبيت - فعّل SW الجديد فوراً واحذف القديم
 self.addEventListener('install', function(event) {
   self.skipWaiting();
   event.waitUntil(
@@ -26,9 +22,7 @@ self.addEventListener('install', function(event) {
   );
 });
 
-// ═══════════════════════════════════════════════════════════
-// تنشيط Service Worker
-// ═══════════════════════════════════════════════════════════
+// عند التنشيط - سيطر على كل الصفحات المفتوحة
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keys) {
@@ -45,21 +39,15 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-// ═══════════════════════════════════════════════════════════
-// استقبال الرسائل
-// ═══════════════════════════════════════════════════════════
+// استقبال رسائل من الصفحة
 self.addEventListener('message', function(e) {
   if (e.data === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
 
-// ═══════════════════════════════════════════════════════════
-// استراتيجية Fetch - Network First (شبكة أولاً)
-// 🔥 مهم: لا تخزّن index.html أبداً لضمان التحديث الفوري
-// ═══════════════════════════════════════════════════════════
+// استراتيجية Fetch - Network First
 self.addEventListener('fetch', function(event) {
-  // تجاهل الطلبات غير GET
   if (event.request.method !== 'GET') return;
   
   var url = event.request.url;
@@ -74,13 +62,16 @@ self.addEventListener('fetch', function(event) {
     return;
   }
   
-  // 🔥 مهم جداً: لا تخزّن index.html أو الصفحة الرئيسية
+  // ⚠️ مهم: لا تخزّن index.html أو الصفحة الرئيسية
   if (url.indexOf('index.html') > -1 || 
       url.endsWith('/azaz/') || 
       url.endsWith('/azaz') ||
       url.endsWith('/')) {
-    // اجلب مباشرة من الشبكة (بدون كاش)
-    event.respondWith(fetch(event.request));
+    event.respondWith(
+      fetch(event.request).catch(function() {
+        return caches.match(event.request);
+      })
+    );
     return;
   }
   

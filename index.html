@@ -3,59 +3,47 @@
 <meta name="msvalidate.01" content="22B71177C7FD39E3E73BE1F6A21F1245" />
 <head>
 <script>
-/* ═══════════════════════════════════════════════════════════
-   🔄 نظام التحديث التلقائي للصفحة
-   غيّر الرقم في CURRENT_VERSION عند كل تحديث كبير
-   ═══════════════════════════════════════════════════════════ */
 (function() {
-  // ═══════════════════════════════════════════════════════════
-  // 🔄 نظام التحديث التلقائي - يقرأ وقت التحديث من Firebase
-  // ═══════════════════════════════════════════════════════════
   var STORAGE_KEY = 'hamido_page_version';
   var STORED_VERSION = localStorage.getItem(STORAGE_KEY);
-  
-  // اقرأ وقت آخر تحديث من Firebase
-  fetch('https://azaz-exchange-db410-default-rtdb.firebaseio.com/lastUpdate.json')
-    .then(function(response) { return response.json(); })
-    .then(function(lastUpdate) {
-      if (!lastUpdate) return; // لا يوجد تحديث بعد
-      
-      var currentVersion = String(lastUpdate);
-      
-      if (STORED_VERSION !== currentVersion) {
-        console.log('🔄 تحديث جديد من Firebase:', currentVersion);
-        console.log('📦 النسخة الحالية:', STORED_VERSION);
-        
-        // 1. امسح كل الكاشات
+  var FIREBASE_URL = 'https://azaz-exchange-db410-default-rtdb.firebaseio.com/lastUpdate.json';
+
+  async function fetchVersionSafely() {
+    try {
+      var response = await fetch(FIREBASE_URL);
+      if (!response.ok) return null;
+      var contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) return null;
+      return await response.json();
+    } catch (err) {
+      return null;
+    }
+  }
+
+  fetchVersionSafely().then(function(lastUpdate) {
+    if (!lastUpdate) return;
+    var currentVersion = String(lastUpdate);
+    if (STORED_VERSION !== currentVersion) {
+      var clearCacheAndReload = function() {
         if ('caches' in window) {
           caches.keys().then(function(keys) {
-            return Promise.all(
-              keys.map(function(key) {
-                console.log('🗑️ حذف كاش:', key);
-                return caches.delete(key);
-              })
-            );
+            return Promise.all(keys.map(function(k){ return caches.delete(k); }));
           }).then(function() {
-            // 2. سجّل النسخة الجديدة
             localStorage.setItem(STORAGE_KEY, currentVersion);
-            // 3. أعد تحميل الصفحة بعد 800 مللي ثانية
-            setTimeout(function() {
-              window.location.reload(true);
-            }, 800);
+            setTimeout(function() { window.location.reload(true); }, 800);
           });
         } else {
           localStorage.setItem(STORAGE_KEY, currentVersion);
-          setTimeout(function() {
-            window.location.reload(true);
-          }, 800);
+          setTimeout(function() { window.location.reload(true); }, 800);
         }
-      }
-    })
-    .catch(function(err) {
-      console.warn('⚠️ تعذّر الاتصال بـ Firebase:', err);
-    });
+      };
+      clearCacheAndReload();
+    }
+  });
 })();
+</script>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0a0a0a">
 <link rel="manifest" href="manifest.json">
@@ -1070,9 +1058,7 @@ html, body {
   </div>
   <div class="splash-loading-text">جاري التحميل...</div>
 </div>
-</div>
-</div>
-<div class="app-container">
+<div class="app-container">  
 <div class="gold-particles" aria-hidden="true">
   <span class="particle p1"></span>
   <span class="particle p2"></span>
@@ -2159,7 +2145,7 @@ setTimeout(function() {
 window.sessionAdmin = false;
 console.log("✅ Firebase Auth جاهز");
 </script>
-</script>
+
 <script>
 /* ✅ معالج أزرار الإدارة — يحل مشكلة الدخول */
 (function(){
