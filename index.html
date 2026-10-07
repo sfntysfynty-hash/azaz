@@ -8,35 +8,53 @@
    غيّر الرقم في CURRENT_VERSION عند كل تحديث كبير
    ═══════════════════════════════════════════════════════════ */
 (function() {
-  // يقرأ وقت آخر تحديث من Firebase ويستخدمه كرقم نسخة
-var CURRENT_VERSION = localStorage.getItem('hamido_last_update') || 'initial';
-  var STORED_VERSION = localStorage.getItem('hamido_page_version');
+  // ═══════════════════════════════════════════════════════════
+  // 🔄 نظام التحديث التلقائي - يقرأ وقت التحديث من Firebase
+  // ═══════════════════════════════════════════════════════════
+  var STORAGE_KEY = 'hamido_page_version';
+  var STORED_VERSION = localStorage.getItem(STORAGE_KEY);
   
-  if (STORED_VERSION !== CURRENT_VERSION) {
-    console.log('🔄 جاري تحديث التطبيق...');
-    
-    // 1. امسح كل الكاشات
-    if ('caches' in window) {
-      caches.keys().then(function(keys) {
-        return Promise.all(
-          keys.map(function(key) {
-            console.log('🗑️ حذف كاش:', key);
-            return caches.delete(key);
-          })
-        );
-      });
-    }
-    
-    // 2. سجّل النسخة الجديدة
-    localStorage.setItem('hamido_page_version', CURRENT_VERSION);
-    
-    // 3. أعد تحميل الصفحة بعد ثانية
-    setTimeout(function() {
-      window.location.reload(true);
-    }, 1000);
-  }
+  // اقرأ وقت آخر تحديث من Firebase
+  fetch('https://azaz-exchange-db410-default-rtdb.firebaseio.com/lastUpdate.json')
+    .then(function(response) { return response.json(); })
+    .then(function(lastUpdate) {
+      if (!lastUpdate) return; // لا يوجد تحديث بعد
+      
+      var currentVersion = String(lastUpdate);
+      
+      if (STORED_VERSION !== currentVersion) {
+        console.log('🔄 تحديث جديد من Firebase:', currentVersion);
+        console.log('📦 النسخة الحالية:', STORED_VERSION);
+        
+        // 1. امسح كل الكاشات
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            return Promise.all(
+              keys.map(function(key) {
+                console.log('🗑️ حذف كاش:', key);
+                return caches.delete(key);
+              })
+            );
+          }).then(function() {
+            // 2. سجّل النسخة الجديدة
+            localStorage.setItem(STORAGE_KEY, currentVersion);
+            // 3. أعد تحميل الصفحة بعد 800 مللي ثانية
+            setTimeout(function() {
+              window.location.reload(true);
+            }, 800);
+          });
+        } else {
+          localStorage.setItem(STORAGE_KEY, currentVersion);
+          setTimeout(function() {
+            window.location.reload(true);
+          }, 800);
+        }
+      }
+    })
+    .catch(function(err) {
+      console.warn('⚠️ تعذّر الاتصال بـ Firebase:', err);
+    });
 })();
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0a0a0a">
