@@ -1,18 +1,18 @@
-// ============================================================
-// Service Worker - نظام التحديث التلقائي
-// ============================================================
-// استخدم الوقت الفعلي بالمللي ثانية — كل رفعة = نسخة جديدة
+// ═══════════════════════════════════════════════════════════
+// Service Worker - HAMIDO EXCHANGE
+// يقرأ وقت التحديث من Firebase ويمسح الكاش تلقائياً
+// ═══════════════════════════════════════════════════════════
+
+// استخدم وقت التثبيت الحقيقي
 const CACHE_VERSION = 'hamido-v' + Date.now();
 const CACHE_NAME = 'hamido-cache-' + CACHE_VERSION;
 
-// عند تثبيت Service Worker جديد
-self.addEventListener('install', function(e) {
-  self.skipWaiting(); // فعّل SW الجديد فوراً
-});
-
-// عند تنشيط Service Worker
-self.addEventListener('activate', function(e) {
-  e.waitUntil(
+// ═══════════════════════════════════════════════════════════
+// تثبيت Service Worker جديد
+// ═══════════════════════════════════════════════════════════
+self.addEventListener('install', function(event) {
+  self.skipWaiting();
+  event.waitUntil(
     caches.keys().then(function(keys) {
       return Promise.all(
         keys.map(function(key) {
@@ -22,74 +22,82 @@ self.addEventListener('activate', function(e) {
           }
         })
       );
-    }).then(function() {
-      return self.clients.claim(); // سيطر على العملاء فوراً
     })
   );
 });
 
-// إخطار جميع الصفحات المفتوحة بالتحديث
-function notifyClients() {
-  self.clients.matchAll({ type: 'window' }).then(function(clients) {
-    clients.forEach(function(client) {
-      client.postMessage({ type: 'NEW_VERSION' });
-    });
-  });
-}
+// ═══════════════════════════════════════════════════════════
+// تنشيط Service Worker
+// ═══════════════════════════════════════════════════════════
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(keys) {
+      return Promise.all(
+        keys.map(function(key) {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    }).then(function() {
+      return self.clients.claim();
+    })
+  );
+});
 
-// عند استقبال رسالة
+// ═══════════════════════════════════════════════════════════
+// استقبال الرسائل
+// ═══════════════════════════════════════════════════════════
 self.addEventListener('message', function(e) {
   if (e.data === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
 
+// ═══════════════════════════════════════════════════════════
 // استراتيجية Fetch - Network First (شبكة أولاً)
-self.addEventListener('fetch', function(e) {
+// 🔥 مهم: لا تخزّن index.html أبداً لضمان التحديث الفوري
+// ═══════════════════════════════════════════════════════════
+self.addEventListener('fetch', function(event) {
   // تجاهل الطلبات غير GET
-  if (e.request.method !== 'GET') return;
+  if (event.request.method !== 'GET') return;
   
-  // تجاهل الطلبات من Firebase و Google
-  var url = e.request.url;
+  var url = event.request.url;
+  
+  // تجاهل Firebase و Google
   if (url.indexOf('firebase') > -1 || 
       url.indexOf('googleapis') > -1 ||
       url.indexOf('gstatic') > -1 ||
       url.indexOf('unpkg') > -1 ||
-      url.indexOf('jsdelivr') > -1) {
+      url.indexOf('jsdelivr') > -1 ||
+      url.indexOf('qrserver') > -1) {
     return;
   }
   
-  e.respondWith(
-    fetch(e.request)
+  // 🔥 مهم جداً: لا تخزّن index.html أو الصفحة الرئيسية
+  if (url.indexOf('index.html') > -1 || 
+      url.endsWith('/azaz/') || 
+      url.endsWith('/azaz') ||
+      url.endsWith('/')) {
+    // اجلب مباشرة من الشبكة (بدون كاش)
+    event.respondWith(fetch(event.request));
+    return;
+  }
+  
+  // للباقي: Network First
+  event.respondWith(
+    fetch(event.request)
       .then(function(response) {
-        // خزّن نسخة جديدة من الصفحة
         if (response && response.status === 200) {
           var responseClone = response.clone();
           caches.open(CACHE_NAME).then(function(cache) {
-            cache.put(e.request, responseClone);
+            cache.put(event.request, responseClone);
           });
         }
         return response;
       })
       .catch(function() {
-        // إذا فشل الاتصال، استخدم الكاش
-        return caches.match(e.request);
+        return caches.match(event.request);
       })
   );
-});
-// ═══════════════════════════════════════════════════════════
-// طرد الكاش القديم عند كل تحديث
-// ═══════════════════════════════════════════════════════════
-self.addEventListener('install', function(event) {
-  self.skipWaiting();
-  // احذف كل الكاشات القديمة
-  caches.keys().then(function(keys) {
-    return Promise.all(
-      keys.filter(function(key) {
-        return key !== CACHE_NAME;
-      }).map(function(key) {
-        return caches.delete(key);
-      })
-    );
-  });
 });
