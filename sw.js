@@ -2,7 +2,7 @@
 // Service Worker - HAMIDO EXCHANGE
 // ═══════════════════════════════════════════════════════════
 
-const CACHE_VERSION = 'v1';  // ← غيّرها يدوياً عند كل تحديث كبير
+const CACHE_VERSION = 'v4';  // ← غيّرها يدوياً عند كل تحديث كبير
 const CACHE_NAME = 'hamido-cache-' + CACHE_VERSION;
 
 // عند التثبيت - فعّل SW الجديد فوراً واحذف القديم

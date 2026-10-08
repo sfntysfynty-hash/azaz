@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
+<script>
 <meta name="msvalidate.01" content="22B71177C7FD39E3E73BE1F6A21F1245" />
 <head>
-<script>
 (function() {
   var STORAGE_KEY = 'hamido_page_version';
   var STORED_VERSION = localStorage.getItem(STORAGE_KEY);
@@ -220,8 +220,26 @@ input[type="number"],.num,.rate-value,.res-value,.stat-value{font-family:'Inter'
 .action-btn{background:var(--bg-panel);border:1.5px solid var(--border-main);color:var(--text-sub);font-weight:800;font-size:.82rem;padding:13px 10px;border-radius:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px}
 .action-btn.export-btn{color:#4da6ff;border-color:rgba(77,166,255,.4)}
 .action-btn.import-btn{color:#a78bfa;border-color:rgba(167,139,250,.4)}
-.admin-panel{background:var(--grad-admin);border-radius:26px;padding:0 16px;border:1.5px solid var(--brand-blue);box-shadow:0 0 30px rgba(30,91,168,.4);max-height:0;overflow:hidden;opacity:0;transition:max-height .8s ease,opacity .4s ease,padding .4s ease,margin-top .4s ease;position:relative;z-index:2}
-.admin-panel.open{max-height:4000px;opacity:1;padding:18px 16px;margin-top:8px}
+.admin-panel{
+  background:var(--grad-admin);
+  border-radius:26px;
+  padding:18px 16px;
+  border:1.5px solid var(--brand-blue);
+  box-shadow:0 0 30px rgba(30,91,168,.4);
+  position:relative;
+  z-index:100;             /* ← رفع z-index */
+  margin-top:8px;
+  display:none;
+  pointer-events:auto;     /* ← ضمان قابلية النقر */
+}
+
+.admin-panel.open{
+  display:block;
+}
+
+.admin-panel * {           /* ← كل العناصر الداخلية */
+  pointer-events:auto;
+}
 .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-main)}
 .admin-title{color:var(--brand-blue-light);font-size:.9rem;font-weight:800;display:flex;align-items:center;gap:8px}
 .admin-title::before{content:'';width:8px;height:8px;background:var(--brand-blue-light);border-radius:50%;box-shadow:0 0 12px var(--brand-blue-light)}
@@ -1075,8 +1093,8 @@ html, body {
   </div>
 </div>
 <div class="header">
-  <div class="brand-block" id="logoClickArea">
-    <div class="logo-letter" id="azazLogo">A</div>
+<div class="brand-block" id="logoClickArea" onclick="openAdminPanel()">
+<div class="logo-letter" id="azazLogo" onclick="openAdminPanel()">A</div>
     <div class="brand-text">
       <span class="brand-name-ar">حميدو للصرافة</span>
       <span class="brand-name-en">HAMIDO EXCHANGE</span>
@@ -1085,7 +1103,7 @@ html, body {
   <div class="header-controls">
 <button class="icon-btn" id="themeToggle" title="تبديل الوضع"><span class="icon-wrap" style="width:28px;height:28px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span></span></button>
 <button class="notify-icon-btn" id="notifyToggleBtn" title="تفعيل الإشعارات"><span class="icon-wrap" style="width:28px;height:28px"></span><span class="icon-wrap" style="width:28px;height:28px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M8.7 3A6 6 0 0 1 18 8a21.3 21.3 0 0 0 .6 5"/><path d="M17 17H3s3-2 3-9a4.67 4.67 0 0 1 .3-1.7"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><line x1="2" x2="22" y1="2" y2="22"/></svg></span></button>
-<div class="admin-badge" id="adminBadge"><span class="icon-wrap" style="width:24px;height:24px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span> ادارة</div>
+<div class="admin-badge" id="adminBadge" onclick="openAdminPanel()"><span class="icon-wrap" style="width:24px;height:24px"><svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span> ادارة</div>
   </div>
 </div>
 
@@ -1501,6 +1519,7 @@ html, body {
 
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
 <script>
 /* ============================================================
@@ -1520,7 +1539,9 @@ function sendRatesNotification(rates) {
         console.warn("⚠️ الإشعارات غير مدعومة في هذه البيئة");
         return;
     }
-    if (window.Notification.permission !== "granted") {
+    // ✅ فحص آمن
+    if (typeof window.Notification === 'undefined') return;
+    if (!window.Notification || window.Notification.permission !== "granted") {
         console.warn("⚠️ لم يتم منح إذن الإشعارات");
         return;
     }
@@ -1594,8 +1615,53 @@ var adminSecurity=DEFAULT_SECURITY;
 var firebaseConfig={apiKey:"AIzaSyAk6Y1lsTvFuG5QoVKc_fiL199P92C4C6I",authDomain:"azaz-exchange-db410.firebaseapp.com",databaseURL:"https://azaz-exchange-db410-default-rtdb.firebaseio.com",projectId:"azaz-exchange-db410",storageBucket:"azaz-exchange-db410.firebasestorage.app",messagingSenderId:"358926283407",appId:"1:358926283407:web:ad1b9f75a7c539d972b6fa"};
 var firebaseReady=false;
 var dbRef=null;
-try{firebase.initializeApp(firebaseConfig);dbRef=firebase.database().ref('rates');firebaseReady=true;console.log('✅ Firebase جاهز');}catch(e){console.warn('❌ Firebase init failed:',e);firebaseReady=false;}
+var fbAuth=null;
 
+// ✅ تهيئة Firebase بشكل آمن
+try {
+  if (typeof firebase !== 'undefined') {
+    firebase.initializeApp(firebaseConfig);
+    dbRef = firebase.database().ref('rates');
+    fbAuth = firebase.auth();
+    firebaseReady = true;
+    console.log('✅ Firebase جاهز');
+  } else {
+    console.warn('⚠️ Firebase SDK غير محمَّل (سيعمل التطبيق بميزات محدودة)');
+  }
+} catch(e) {
+  console.warn('❌ Firebase init failed:', e);
+  firebaseReady = false;
+}
+
+// ✅ دوال Auth آمنة
+window.__signIn = function(email, password) {
+  if (!fbAuth) return Promise.reject(new Error('Firebase غير متاح'));
+  return fbAuth.signInWithEmailAndPassword(email, password);
+};
+
+window.__signOut = function() {
+  if (!fbAuth) return Promise.resolve();
+  return fbAuth.signOut();
+};
+
+// ✅ مراقبة حالة الدخول (بشكل آمن)
+if (fbAuth) {
+  fbAuth.onAuthStateChanged(function(user) {
+    if (user) {
+      console.log("✅ الأدمن مسجل (Auth v9):", user.email);
+      window.__isAdminUser = true;
+      if (window.__setAdmin) window.__setAdmin(true);
+    } else {
+      console.log("⚠️ غير مسجل (Auth v9)");
+      window.__isAdminUser = false;
+      window.sessionAdmin = false;
+      if (window.__setAdmin) window.__setAdmin(false);
+    }
+  });
+  console.log("✅ Firebase Auth v9 جاهز");
+} else {
+  console.warn("⚠️ Firebase Auth غير متاح");
+}
 
 function loadRatesFromStorage(){try{var saved=localStorage.getItem(RATES_KEY);if(saved){var data=JSON.parse(saved);for(var pair in DEFAULT_RATES){if(data[pair]&&typeof data[pair].buy==='number'&&typeof data[pair].sell==='number'){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};}}}var prev=localStorage.getItem(PREV_RATES_KEY);if(prev)prevRates=JSON.parse(prev);}catch(e){}}
 function loadRatesFromFirebase(callback){if(!firebaseReady||!dbRef){if(callback)callback();return;}dbRef.once('value').then(function(snap){var data=snap.val();if(data){for(var pair in DEFAULT_RATES){if(data[pair]&&typeof data[pair].buy==='number'&&typeof data[pair].sell==='number'){rates[pair]={buy:data[pair].buy,sell:data[pair].sell};}}saveRatesToStorage();if(callback)callback();}else{dbRef.set(rates).catch(function(e){console.warn(e);});if(callback)callback();}}).catch(function(e){console.warn('Firebase read error:',e);if(callback)callback();});}
@@ -1878,7 +1944,24 @@ document.querySelectorAll('.chart-tab').forEach(function(tab){tab.addEventListen
 
 var enBtn=$('enableNotifyBtn');if(enBtn)enBtn.addEventListener('click',requestNotify);
 var disBtn=$('dismissNotifyBtn');if(disBtn)disBtn.addEventListener('click',dismissNotify);
-var notifBtn=$('notifyToggleBtn');if(notifBtn)notifBtn.addEventListener('click',function(){if(window.Notification.permission==='granted'){if(confirm('الإشعارات مفعّلة. هل تريد إيقافها؟')){localStorage.removeItem(NOTIFY_KEY);updateNotifyIcon();}}else{requestNotify();}});
+var notifBtn=$('notifyToggleBtn');
+if(notifBtn){
+  notifBtn.addEventListener('click',function(){
+    // ✅ فحص آمن
+    if(typeof window.Notification === 'undefined'){
+      alert('متصفحك لا يدعم الإشعارات');
+      return;
+    }
+    if(window.Notification && window.Notification.permission === 'granted'){
+      if(confirm('الإشعارات مفعّلة. هل تريد إيقافها؟')){
+        localStorage.removeItem(NOTIFY_KEY);
+        updateNotifyIcon();
+      }
+    } else {
+      requestNotify();
+    }
+  });
+}
 setTimeout(showNotifyPrompt,2000);
 setTimeout(updateNotifyIcon,500);
 $('installBtn').addEventListener('click',installApp);
@@ -1924,26 +2007,9 @@ if (typeof setupChartTabs === 'function') setupChartTabs();
    ============================================================ */
   /* تحميل Eruda عند دخول الأدمن فقط */
 function loadEruda() {
-  if (window.__erudaLoaded) return;
-  if (typeof eruda !== 'undefined') {
-    eruda.init();
-    window.__erudaLoaded = true;
-    return;
-  }
-  var s = document.createElement('script');
-  s.src = 'https://cdn.jsdelivr.net/npm/eruda';
-  s.onload = function() {
-    if (typeof eruda !== 'undefined') {
-      eruda.init();
-      window.__erudaLoaded = true;
-      console.log('✅ Eruda محمَّل (وضع الأدمن)');
-    }
-  };
-  s.onerror = function() {
-    console.warn('⚠️ فشل تحميل Eruda');
-  };
-  document.head.appendChild(s);
-} 
+  // ✅ تم تعطيل Eruda لأنه يحجب النقرات عن اللوحة
+  return;
+}
 function dismissNotify() {
   var prompt = document.getElementById('notifyPrompt');
   if (prompt) prompt.classList.remove('show');
@@ -2094,107 +2160,8 @@ setTimeout(function(){
 
 })();
 </script>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const fbConfig = {
-  apiKey: "AIzaSyAk6Y1lsTvFuG5QoVKc_fiL199P92C4C6I",
-  authDomain: "azaz-exchange-db410.firebaseapp.com",
-  databaseURL: "https://azaz-exchange-db410-default-rtdb.firebaseio.com",
-  projectId: "azaz-exchange-db410",
-  storageBucket: "azaz-exchange-db410.firebasestorage.app",
-  messagingSenderId: "358926283407",
-  appId: "1:358926283407:web:ad1b9f75a7c539d972b6fa"
-};
 
-const fbApp = initializeApp(fbConfig);
-const fbAuth = getAuth(fbApp);
-
-/* اجعلها متاحة عالمياً لاستخدام tryLogin */
-/* ⚠️ استخدم دالة مساعدة صحيحة */
-window.__signIn = function(email, password) {
-  return signInWithEmailAndPassword(fbAuth, email, password);
-};
-window.__fbAuth = fbAuth;
-
-/* إذا كان المستخدم مسجل — اجعل isAdmin = true */
-window.__isAdminUser = false;
-onAuthStateChanged(fbAuth, function(user) {
-  if (user) {
-    console.log("✅ الأدمن مسجل:", user.email);
-    window.__isAdminUser = true;
-    if (window.__setAdmin) window.__setAdmin(true);
-  } else {
-    console.log("⚠️ غير مسجل");
-    window.__isAdminUser = false;
-    if (window.__setAdmin) window.__setAdmin(false);
-  }
-});
-
-/* ⚠️ لا تفتح اللوحة تلقائياً — فقط عند الضغط على زر الإدارة */
-/* فقط احذف #admin من الرابط إذا كان موجوداً */
-setTimeout(function() {
-  if (window.location.hash === '#admin') {
-    if (history.replaceState) {
-      history.replaceState(null, null, window.location.pathname + window.location.search);
-    }
-  }
-}, 500);
-/* ⚠️ جلسة مؤقتة — تنتهي عند إعادة تحميل الصفحة */
-window.sessionAdmin = false;
-console.log("✅ Firebase Auth جاهز");
-</script>
-
-<script>
-/* ✅ معالج أزرار الإدارة — يحل مشكلة الدخول */
-(function(){
-  function handleAdminClick(e){
-    if(e){e.preventDefault();e.stopImmediatePropagation();}
-    console.log("🖱️ زر الإدارة");
-    console.log("👤 isAdminUser:", window.__isAdminUser);
-    
- if(window.sessionAdmin){   
-      /* مسجل → افتح اللوحة مباشرة */
-      var panel = document.getElementById('adminPanel');
-      if(panel){
-        panel.classList.add('open');
-        if(typeof updateAdminFields === 'function') updateAdminFields();
-        if(typeof updateSecurityDisplay === 'function') updateSecurityDisplay();
-        if(typeof startStatsTracking === 'function') startStatsTracking();
-      }
-      console.log("✅ لوحة الأدمن مفتوحة");
-    } else {
-      /* غير مسجل → افتح نافذة الدخول */
-      var modal = document.getElementById('passwordModal');
-      if(modal){
-        modal.classList.add('open');
-        var loginSection = document.getElementById('loginSection');
-        var recoverSection = document.getElementById('recoverSection');
-        if(loginSection) loginSection.style.display = 'block';
-        if(recoverSection) recoverSection.classList.remove('visible');
-      }
-      console.log("🔐 نافذة الدخول مفتوحة");
-    }
-  }
-  
-  /* انتظر حتى تحميل الصفحة */
-  setTimeout(function(){
-    var ids = ['adminBadge', 'azazLogo', 'logoClickArea'];
-    for(var i = 0; i < ids.length; i++){
-      var el = document.getElementById(ids[i]);
-      if(el){
-        /* أزل كل المستمعين القديمة */
-        var clone = el.cloneNode(true);
-        el.parentNode.replaceChild(clone, el);
-        /* أضف المستمع الجديد */
-        clone.addEventListener('click', handleAdminClick, true);
-        console.log("✅ تم ربط:", ids[i]);
-      }
-    }
-  }, 2000);
-})();
-</script>
 <script>
 /* ============================================================
    📱 زر مشاركة الأسعار على واتساب
@@ -2360,7 +2327,55 @@ console.log("✅ Firebase Auth جاهز");
 
 </script> 
 
+<script>
+/* ✅ دالة عالمية مضمونة لفتح نافذة الدخول أو اللوحة */
+function openAdminPanel(e){
+  if(e && e.preventDefault) e.preventDefault();
+  if(e && e.stopPropagation) e.stopPropagation();
+  
+  console.log("🖱️ openAdminPanel — sessionAdmin:", window.sessionAdmin);
+  
+  // فحص auth
+  var currentUser = null;
+  try {
+    if (typeof firebase !== 'undefined' && firebase.auth) {
+      currentUser = firebase.auth().currentUser;
+    }
+  } catch(err) {}
+  
+  var isLoggedIn = window.sessionAdmin || !!currentUser;
+  
+  if(isLoggedIn){
+    // افتح اللوحة
+    var panel = document.getElementById('adminPanel');
+    if(panel){
+      panel.classList.add('open');
+      if(typeof updateAdminFields === 'function') updateAdminFields();
+      if(typeof updateSecurityDisplay === 'function') updateSecurityDisplay();
+      if(typeof startStatsTracking === 'function') startStatsTracking();
+      console.log("✅ لوحة الأدمن مفتوحة");
+    }
+  } else {
+    // افتح نافذة الدخول
+    var modal = document.getElementById('passwordModal');
+    if(modal){
+      modal.classList.add('open');
+      var loginSection = document.getElementById('loginSection');
+      var recoverSection = document.getElementById('recoverSection');
+      if(loginSection) loginSection.style.display = 'block';
+      if(recoverSection) recoverSection.classList.remove('visible');
+      console.log("🔐 نافذة الدخول مفتوحة");
+    } else {
+      console.error("❌ passwordModal غير موجود");
+    }
+  }
+  return false;
+}
 
+// اجعلها متاحة عالمياً
+window.openAdminPanel = openAdminPanel;
+console.log('✅ openAdminPanel جاهزة');
+</script>
 </body>
 </html>
 
